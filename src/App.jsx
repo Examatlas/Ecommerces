@@ -14,9 +14,9 @@ import { AuthProvider } from "./components/User_Components/Auth/AuthContext";
 import BookDetail from "./components/User_Components/Book/BookDetail";
 
 // admin section
-import AddBook from "./Components/Admin_Components/AddBook";
-import Books from "./Components/Admin_Components/Books";
-import OrderReceive from "./Components/Admin_Components/OrderReceive";
+import AddBook from "./components/Admin_Components/AddBook";
+import Books from "./components/Admin_Components/Books";
+import OrderReceive from "./components/Admin_Components/OrderReceive";
 import EditBook from "./components/Admin_Components/EditBook";
 import Login from "./components/Admin_Components/Login";
 
