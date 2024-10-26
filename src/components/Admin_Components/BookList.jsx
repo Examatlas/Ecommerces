@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 // import api from '../../Api/ApiConfig';
 
+
 import API_BASE_URL from './Config';
 
 const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
@@ -52,6 +53,7 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
   };
 
   return (
+
     <div>
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -108,7 +110,10 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
       </div>
       <Toaster />
     </div>
-  );
-};
+    
+  )
+  
+}
+
 
 export default BookList;

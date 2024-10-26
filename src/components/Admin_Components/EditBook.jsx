@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
-
+import DashboardLayoutBasic from './DashboardLayoutBasic';
 import BookFormvalidationSchema from './BookFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
@@ -181,7 +181,7 @@ const EditBook = () => {
 
 
     return (
-        // <DashboardLayoutBasic>
+        <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
                     <h1 className='text-4xl my-4 ml-16'>Update Book</h1>
@@ -360,7 +360,7 @@ const EditBook = () => {
                     </div>
                 </div>
             </div>
-      
+      </DashboardLayoutBasic>
 
     );
 }

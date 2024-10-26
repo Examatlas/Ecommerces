@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import DashboardLayoutBasic from '../DashboardLayoutBasic';
+import DashboardLayoutBasic from './DashboardLayoutBasic';
 import { Link, useNavigate } from 'react-router-dom';
 
 //icons
@@ -25,9 +25,9 @@ const Books = () => {
 
   return (
     <>
-      {/* <DashboardLayoutBasic> */}
+      <DashboardLayoutBasic>
         <div className="w-full">
-          <div className="border-b w-[98%] mx-auto mt-6">
+          <div className="border-b w-[98%] mx-auto ">
             <p className="text-left px-1 py-1 hover:bg-gray-100 w-fit cursor-pointer rounded flex justify-center items-center font-semibold"
               onClick={goBack}>
               <IoIosArrowBack className="text-lg" /> Back
@@ -74,8 +74,9 @@ const Books = () => {
         <div className="w-[90%] mx-auto my-4">
           <BookList searchTerm={searchTerm} />  
         </div>
-      
+        </DashboardLayoutBasic>
     </>
+    
   );
 };
 

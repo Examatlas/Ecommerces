@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import DashboardLayoutBasic from '../DashboardLayoutBasic';
+import DashboardLayoutBasic from './DashboardLayoutBasic';
 // import api from '../../Api/ApiConfig';
 import axios from 'axios';
 import API_BASE_URL from '../Admin_Components/Config';
@@ -29,24 +29,24 @@ const OrderReceive = () => {
 
   if (loading) {
     return (
-      // <DashboardLayoutBasic>
+      <DashboardLayoutBasic>
         <p className="text-center text-xl font-medium text-gray-500 animate-pulse">
           Loading orders...
         </p>
-      // </DashboardLayoutBasic>
+       </DashboardLayoutBasic>
     );
   }
 
   if (error) {
     return (
-      // <DashboardLayoutBasic>
+      <DashboardLayoutBasic>
         <p className="text-red-500 text-center">Error: {error}</p>
-      // </DashboardLayoutBasic>
+       </DashboardLayoutBasic>
     );
   }
 
   return (
-    // <DashboardLayoutBasic>
+    <DashboardLayoutBasic>
       <div className="w-[1000px] mx-auto p-6">
         <h2 className="text-4xl font-bold text-center text-gray-900 mb-8">
           Orders Received
@@ -154,7 +154,7 @@ const OrderReceive = () => {
           </div>
         )}
       </div>
-    // </DashboardLayoutBasic>
+   </DashboardLayoutBasic>
   );
 };
 

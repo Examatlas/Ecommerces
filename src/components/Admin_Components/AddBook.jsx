@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import DashboardLayoutBasic from './DashboardLayoutBasic';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
@@ -147,7 +147,7 @@ const AddBook = () => {
     };
 
     return (
-        // <DashboardLayoutBasic>
+        <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
                     <h1 className='text-4xl my-4 ml-16'>Add Book</h1>
@@ -342,7 +342,7 @@ const AddBook = () => {
                     </div>
                 </div>
             </div>
-       
+       </DashboardLayoutBasic>
     );
 }
 
