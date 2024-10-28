@@ -59,14 +59,11 @@ const Header = () => {
 
     return (
         <>
-
             <div className="bg-blue-100 flex justify-between w-[100vw] z-10 fixed top-0 px-10 lg:px-[5rem] py-4">
-                <img
-                    // src="https://examatlas.com/assets/images/logo.png"
-                    src={ex2}
-                    alt="Example Image"
-                    className=" w-36 h-14"
-                />
+                <p
+                    className=" w-36 h-14 font-bold text-3xl whitespace-nowrap"
+                > Crown 
+                    </p>
                 <div
                     className={`${toggleMenu ? "top-20 lg:top-0" : "-top-[100vh] lg:top-0"
                         } fixed lg:relative flex lg:flex-row justify-center lg:justify-between items-center left-0 w-[100vw] lg:w-fit mr-5 h-[90vh] lg:h-auto bg-blue-100 font-semibold duration-500`}
@@ -82,11 +79,12 @@ const Header = () => {
                             HOME
                         </Link>
 
-                        Best Selllers
-
-                        <Link
+                        <Link  to={"/blog"}
+                            className={`${pathname === "/blog" ? "text-blue-400 font-bold" : ""
+                                }  text-lg lg:text-sm cursor-pointer`}
+                           
                         >
-                            New Arrivals
+                           BLOG
                         </Link>
 
                         <Link
@@ -97,13 +95,10 @@ const Header = () => {
                         <Link
 
                         >
-
                             Gifting
                         </Link>
 
                         <Link
-
-
                         >
                             Brand Store
                         </Link>

@@ -31,6 +31,8 @@ import Subject from "./components/Admin_Components/Master/Subject";
 import Blog from "./components/Admin_Components/Blog/Blog"
 import AddBlog from "./components/Admin_Components/Blog/AddBlog"
 import EditBlog from "./components/Admin_Components/Blog/EditBlog";
+import UserBlog from "./components/User_Components/Blog/UserBlog";
+import BlogData from "./components/User_Components/Blog/BlogData";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -62,6 +64,8 @@ function App() {
             <Route path="/bookdetail/:id" element={<BookDetail />} />
             {/* <Route path="/" element={<Book />} /> */}
             <Route path="/user" element={<Book />} />
+            <Route path="/blog" element={<UserBlog/>}/>
+            <Route path="/blogdata/:id" element={<BlogData/>}/>
             <Route path="/ecommerce/wishlist" element={<Wishlist />} />
             <Route path="/ecommerce/cart" element={<Cart />} />
             <Route path="/billingForm" element={<BillingForm />} />

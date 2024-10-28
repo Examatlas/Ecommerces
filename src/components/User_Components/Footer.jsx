@@ -13,12 +13,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-6xl">
           <div>
             {/* <h1 className="text-3xl font-bold text-white">ExamAtlas</h1> */}
-            <img
+            {/* <img
               src={ex2}
               alt="Example Image"
               className=" w-36 h-14"
-            />
-            <h3 className="text-xl font-bold mt-4">ExamAtlas Pvt. Ltd.</h3>
+            /> */}
+            <h3 className="text-2xl font-bold mt-10">Crown Publications</h3>
             <p>
               2nd Floor, Plot No. 4, Crown Publication,
               <br /> Ranchi,
@@ -27,7 +27,7 @@ const Footer = () => {
             <p>
               Email:{" "}
               <a href="mailto:support@ExamAtlas.com" className="text-blue-400">
-                support@ExamAtlas.com
+                support@Crown.com
               </a>
             </p>
             <p>Toll Free: 1800 203 0577</p>
