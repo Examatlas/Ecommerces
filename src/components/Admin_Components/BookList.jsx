@@ -2,15 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-// import API_BASE_URL from '../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-// import api from '../../Api/ApiConfig';
-
-
 import API_BASE_URL from './Config';
 
-const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
+const BookList = ({ searchTerm }) => { 
   const [bookData, setBookData] = useState([]);
 
   // Fetch all books
@@ -53,7 +49,6 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
   };
 
   return (
-
     <div>
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -63,9 +58,7 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
               <th scope="col" className="px-6 py-3">Tags</th>
 
               <th scope='col' className='px-6 py-3'>Images</th>
-              <th scope="col" className="px-6 py-3">Action</th>
-
-            
+              <th scope="col" className="px-6 py-3">Action</th>  
             </tr>
           </thead>
           <tbody>
@@ -112,8 +105,6 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
     </div>
     
   )
-  
 }
-
-
 export default BookList;
+

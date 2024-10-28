@@ -20,7 +20,6 @@ import OrderReceive from "./components/Admin_Components/OrderReceive";
 import EditBook from "./components/Admin_Components/EditBook";
 import Login from "./components/Admin_Components/Login";
 
-
 // Component that uses `useLocation`
 import { useLocation } from "react-router-dom";
 // import Drawer from "./components/Admin_Components/Drawer";
@@ -61,7 +60,7 @@ function App() {
             <Route path="/paymentsuccess" element={<PaymentSuccess />} />
             <Route path="/OrderHistory" element={<OrderHistory />} />
             <Route path="/bookdetail/:id" element={<BookDetail />} />
-            <Route path="/" element={<Book />} />
+            {/* <Route path="/" element={<Book />} /> */}
             <Route path="/user" element={<Book />} />
             <Route path="/ecommerce/wishlist" element={<Wishlist />} />
             <Route path="/ecommerce/cart" element={<Cart />} />
