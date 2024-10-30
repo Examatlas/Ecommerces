@@ -33,6 +33,11 @@ import AddBlog from "./components/Admin_Components/Blog/AddBlog"
 import EditBlog from "./components/Admin_Components/Blog/EditBlog";
 import UserBlog from "./components/User_Components/Blog/UserBlog";
 import BlogData from "./components/User_Components/Blog/BlogData";
+import ExamBook from "./components/User_Components/Book/ExamBook";
+import Exam from "./components/Admin_Components/Exam/Exam";
+import AddExam from "./components/Admin_Components/Exam/AddExam";
+import ExamList from "./components/Admin_Components/Exam/ExamList";
+import EditExam from "./components/Admin_Components/Exam/EditExam";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -62,6 +67,7 @@ function App() {
             <Route path="/paymentsuccess" element={<PaymentSuccess />} />
             <Route path="/OrderHistory" element={<OrderHistory />} />
             <Route path="/bookdetail/:id" element={<BookDetail />} />
+            <Route path="/books/:examName" element={<ExamBook/>}/>
             {/* <Route path="/" element={<Book />} /> */}
             <Route path="/user" element={<Book />} />
             <Route path="/blog" element={<UserBlog/>}/>
@@ -82,6 +88,11 @@ function App() {
             {/* <Route path="/admin/drawer" element={<Drawer/>} /> */}
             <Route path="/admin/subschool" element={<SubSchools/>} />
             <Route path="/admin/dashboard" element={<Dashboard/>} />
+            <Route path="/admin/Exam" element={<Exam/>}/>
+            <Route path="/ECommerce/addExam" element={<AddExam/>}/>
+            <Route path="/admin/Exam" element={<ExamList/>}/>
+            <Route path="/ECommerce/editExam/:id" element={<EditExam/>}/>
+
             <Route path="/Master/MasterCategory/Category" element={<Category/>} />
             <Route path="/Master/MasterCategory/Sub-Category" element={<SubCategory/>} />
             <Route path="/Master/Subject" element={<Subject/>} />

@@ -12,11 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import API_BASE_URL from './Config';
 import axios from 'axios';
 
-
 const AddBook = () => {
 
     const [inputValue, setInputValue] = useState('');
-
     const [imagePreviews, setImagePreviews] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageValidationError, setImageValidationError] = useState('');
@@ -166,7 +164,7 @@ const AddBook = () => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                                {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                                {formik?.errors?.title && <p className='text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
                             {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -180,7 +178,6 @@ const AddBook = () => {
                                     value={formik.values.keyword}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-
                                 {formik?.errors?.keyword && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.keyword}</p>}
                             </div>
 
@@ -307,7 +304,6 @@ const AddBook = () => {
                             </div>
 {/* image */}
 
-
                             <div className='flex flex-col'>
                                 <label htmlFor="image" className='text-start text-xl'>Upload Images</label>
                                 <input
@@ -334,9 +330,6 @@ const AddBook = () => {
 
                                 {formik?.errors?.image && <p className='text-sm text-red-500'>{formik?.errors?.image}</p>}
                             </div>
-
-
-
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
                         </form>
                     </div>

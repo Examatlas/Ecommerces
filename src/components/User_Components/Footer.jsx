@@ -4,7 +4,7 @@ import { TiSocialFacebook } from "react-icons/ti";
 import { RxTwitterLogo } from "react-icons/rx";
 import { RiYoutubeLine } from "react-icons/ri";
 import { FaLinkedinIn } from "react-icons/fa6";
-import ex2 from "./images/ex2.png"
+// import ex2 from "./images/ex2.png"
 
 const Footer = () => {
   return (

@@ -39,7 +39,7 @@ const OrderHistory = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center">Loading...</div>; // Show loading state
+    return <div className="text-center mt-[200px] mb-[200px] text-3xl font-bold ">Loading...</div>; // Show loading state
   }
 
   if (error) {

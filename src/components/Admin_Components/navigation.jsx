@@ -87,11 +87,11 @@ const NAVIGATION = [
   title: 'ECommerce',
   icon: < DashboardIcon />,
   children: [
-    // {
-    //   segment: 'EBooks',
-    //   title: 'EBooks',
-    //   icon: <DescriptionIcon />,
-    // },
+    {
+      segment: 'Exam',
+      title: 'Exam',
+      icon: <DescriptionIcon />,
+    },
     {
       segment: 'book',
       title: 'Books',

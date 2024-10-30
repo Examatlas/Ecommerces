@@ -87,20 +87,22 @@ const Header = () => {
                            BLOG
                         </Link>
 
-                        <Link
+                        <Link  to={"/OrderHistory"}
+                            className={`${pathname === "/OrderHistory" ? "text-blue-400 font-bold" : ""
+                                }  text-lg lg:text-sm cursor-pointer`}
                         >
-                            YT Educators
+                            MY ORDER
                         </Link>
 
                         <Link
 
                         >
-                            Gifting
+                            GIFTING
                         </Link>
 
                         <Link
                         >
-                            Brand Store
+                            BRAND STORE
                         </Link>
 
 

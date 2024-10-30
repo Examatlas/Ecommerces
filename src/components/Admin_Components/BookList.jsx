@@ -103,7 +103,6 @@ const BookList = ({ searchTerm }) => {
       </div>
       <Toaster />
     </div>
-    
   )
 }
 export default BookList;
