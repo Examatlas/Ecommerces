@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../Config';
 
-const ExamList = ({ searchTerm }) => {  // Destructure props correctly
+const ExamList = ({ searchTerm }) => {
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -15,7 +15,7 @@ const ExamList = ({ searchTerm }) => {  // Destructure props correctly
     const fetchExams = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/exam/all`);
-        setExams(response.data.exams || []);  // Default to an empty array if no exams
+        setExams(response.data.exams || []);
       } catch (error) {
         console.error('Error fetching exams:', error);
         setError('Failed to fetch exams. Please try again later.');
@@ -28,7 +28,7 @@ const ExamList = ({ searchTerm }) => {  // Destructure props correctly
     fetchExams();
   }, []);
 
-  const deleteBook = async (id) => {
+  const deleteExam = async (id) => {
     try {
       await axios.delete(`${API_BASE_URL}/exam/delete/${id}`);
       toast.success('Exam deleted successfully');
@@ -39,7 +39,6 @@ const ExamList = ({ searchTerm }) => {  // Destructure props correctly
     }
   };
 
-  // Filter exams based on the search term
   const filteredExams = exams.filter((exam) =>
     exam.examName?.toLowerCase().includes(searchTerm?.toLowerCase() || '')
   );
@@ -56,20 +55,20 @@ const ExamList = ({ searchTerm }) => {  // Destructure props correctly
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">Exam Name</th>
-                <th scope="col" className="px-6 py-3">Images</th>
+                <th scope="col" className="px-20 py-3">Image</th>
                 <th scope="col" className="px-6 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredExams.map((exam) => (
+              {filteredExams.reverse().map((exam) => (
                 <tr key={exam._id} className="border-b dark:border-gray-700">
                   <td className="px-6 py-4">{exam.examName || 'N/A'}</td>
                   <td className="px-6 py-4">
-                    {exam.image ? (
+                    {exam.images && exam.images.length > 0 ? (
                       <img
-                        src={exam.image}
+                        src={exam.images[0].url}
                         alt={exam.examName}
-                        className="h-20 w-20 object-cover rounded"
+                        className="h-20 w-30 object-cover rounded"
                       />
                     ) : (
                       'No Image'
@@ -85,7 +84,7 @@ const ExamList = ({ searchTerm }) => {  // Destructure props correctly
                       </button>
                     </Link>
                     <button
-                      onClick={() => deleteBook(exam._id)}
+                      onClick={() => deleteExam(exam._id)}
                       className="px-2 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md mx-1"
                       title="Delete"
                     >

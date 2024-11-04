@@ -11,26 +11,29 @@ import toast from 'react-hot-toast';
 import API_BASE_URL from './Config';
 import { useNavigate, useParams } from 'react-router-dom';
 
-
 const EditBook = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [imageValidationError, setImageValidationError] = useState('');
 
-    // console.log(inputValue);
 
     const [bookData, setBookData] = useState({
+
         title: '',
         keyword: '',
         content: '',
-        price: '',
-        sellPrice:'',
-        // shippingCharge:'',
         author: '',
         category: '',
+        price: '',
+        sellPrice: '',
         tags: [],
-        image: null,
+        examName: '',
+        height: '',
+        width: '',
+        weight: '',
+        isbn: '',
+        image: [],
     });
 
     const navigate = useNavigate();
@@ -102,7 +105,6 @@ const EditBook = () => {
     ];
 
 
-
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         const validImages = [];
@@ -117,21 +119,23 @@ const EditBook = () => {
 
                 img.onload = () => {
                     if (img.width === 300 && img.height === 300) {
-                        validImages.push(file);  // Push valid image to array
-                        validPreviews.push(event.target.result);  // Push preview URL
-                        formik.setFieldValue('image', validImages);  // Update Formik field with valid images
-                        setImageValidationError('');  // Clear previous error
+                        validImages.push(file);  
+                        validPreviews.push(event.target.result); 
+                        formik.setFieldValue('image', validImages);  
+                        setImageValidationError('');  
                     } else {
                         setImageValidationError('Each image must be 300x300 pixels.');
                     }
 
-                    setImagePreviews(validPreviews);  // Update state with valid previews
+                    setImagePreviews(validPreviews);  
                 };
             };
 
             reader.readAsDataURL(file);
         });
     };
+
+
 
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
@@ -145,11 +149,15 @@ const EditBook = () => {
             content: bookData?.content,
             author: bookData?.author,
             category: bookData?.category,
-            // shippingCharge:bookData?.shippingCharge,
             price: bookData?.price,
             sellPrice: bookData?.sellPrice,
             tags: bookData?.tags || [],
-            image: null,
+            examName : bookData?.examName,
+            height : bookData?.height,
+            width : bookData?.width,
+            weight : bookData?.weight,
+            isbn : bookData?.isbn,
+            image: "",
         },
         validationSchema: BookFormvalidationSchema,
 
@@ -162,9 +170,15 @@ const EditBook = () => {
                     author: values?.author,
                     category: values?.category,
                     price: values?.price,
-                    // shippingCharge:values?.shippingCharge,
                     sellPrice: values?.sellPrice,
                     tags: values?.tags,
+                    height : values?.height,
+                    width  : values?.width,
+                    weight : values?.weight,
+                    isbn : values?.isbn,
+                    image : values?.image,
+                    examName:values?.examName
+
                 });
                 if (res?.data?.status === true) {
                     toast.success(res?.data?.message);
@@ -178,6 +192,38 @@ const EditBook = () => {
             }
         },
     });
+
+    
+    const [categories, setCategories] = useState([]); // Category data
+    const [exams, setExams] = useState([]); 
+
+    useEffect(() => {
+
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/category/getCategory`); 
+                setCategories(Array.isArray(response.data.data) ? response.data.data : []);
+            } catch (error) {
+                console.error("Error fetching categories", error);
+                setCategories([]);
+            }
+        };
+
+        // Fetch exams when the component mounts
+        const fetchExams = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/exam/all`); 
+                setExams(Array.isArray(response.data.exams) ? response.data.exams : []);
+            } catch (error) {
+                console.error("Error fetching exams", error);
+                setExams([]);
+            }
+        };
+
+        fetchCategories();
+        fetchExams();
+    }, []);
+
 
 
     return (
@@ -269,21 +315,107 @@ const EditBook = () => {
                             </div>
 
 
-                            {/* category */}
-                            <div className='flex my-4 flex-col justify-start '>
+                          
+                            {/* Category Dropdown */}
+                            <div className='flex flex-col'>
                                 <label htmlFor="category" className='text-start text-xl'>Category</label>
-                                <input
-                                    type="category"
-                                    placeholder='category'
+                                <select
                                     name='category'
                                     id="category"
-                                    onChange={formik?.handleChange}
+                                    onChange={formik.handleChange}
                                     value={formik.values.category}
+                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
+                                >
+                                    <option value="" disabled>Select a category</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category.categoryName}>
+                                            {category.categoryName}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formik.errors.category && <p className='text-sm text-red-500 text-left'>{formik.errors.category}</p>}
+                            </div>
+
+                            {/* Exam Name Dropdown */}
+                            <div className='flex flex-col'>
+                                <label htmlFor="examName" className='text-start text-xl mt-5'>Exam Name</label>
+                                <select
+                                    name='examName'
+                                    id="examName"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.examName}
+                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
+                                >
+                                    <option value="" disabled>Select an exam</option>
+                                    {exams.map((exam) => (
+                                        <option key={exam._id} value={exam.examName}>
+                                            {exam.examName}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formik.errors.examName && <p className='text-sm text-red-500 text-left'>{formik.errors.examName}</p>}
+                            </div>
+
+                            {/* Height */}
+                            <div className='flex flex-col justify-start mt-5 '>
+                                <label htmlFor="height" className='text-start text-xl'>Height</label>
+                                <input
+                                    type="text"
+                                    placeholder='Height'
+                                    name='height'
+                                    id="height"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.height}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-
-                                {formik?.errors?.category && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.category}</p>}
+                                {formik?.errors?.height && <p className='text-sm text-red-500 text-left'>{formik?.errors?.height}</p>}
                             </div>
+
+                            {/* Width */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="width" className='text-start text-xl'>Width</label>
+                                <input
+                                    type="text"
+                                    placeholder='Width'
+                                    name='width'
+                                    id="width"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.width}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.width && <p className='text-sm text-red-500 text-left'>{formik?.errors?.width}</p>}
+                            </div>
+
+                            {/* Weight */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="weight" className='text-start text-xl'>Weight</label>
+                                <input
+                                    type="text"
+                                    placeholder='Weight'
+                                    name='weight'
+                                    id="weight"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.weight}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.weight && <p className='text-sm text-red-500 text-left'>{formik?.errors?.weight}</p>}
+                            </div>
+
+                            {/* ISBN */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="isbn" className='text-start text-xl'>ISBN</label>
+                                <input
+                                    type="text"
+                                    placeholder='ISBN'
+                                    name='isbn'
+                                    id="isbn"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.isbn}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.isbn && <p className='text-sm text-red-500 text-left'>{formik?.errors?.isbn}</p>}
+                            </div>
+
 
                             {/* editor */}
                             <div className='flex flex-col justify-start my-4'>
@@ -334,13 +466,11 @@ const EditBook = () => {
                                     name="image"
                                     id="image"
                                     accept="image/*"
-                                    multiple  // Allow multiple image uploads
+                                    multiple  
                                     onChange={handleImageChange}
                                     className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  {/* Show validation error */}
-
-                                {/* Display image previews */}
+                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  
                                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>
                                     {
                                         imagePreviews?.length > 0 && imagePreviews.map((preview, index) => (

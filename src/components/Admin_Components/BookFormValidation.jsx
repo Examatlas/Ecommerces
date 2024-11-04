@@ -11,6 +11,21 @@ const BookFormvalidationSchema = Yup.object().shape({
   category: Yup.string()
     .required('Category is required'),
 
+  examName: Yup.string()
+    .required('exam is required'),
+
+  height: Yup.string()
+    .required('height is required'),
+    
+  width: Yup.string()
+      .required('width is required'), 
+  
+  weight: Yup.string()
+        .required('weight is required'), 
+        
+  isbn: Yup.string()
+          .required('isbn is required'),
+
   keyword: Yup.string()
     .min(5, 'Keyword must be at least 5 characters')
     // .max(100, 'Title must be 100 characters or less')

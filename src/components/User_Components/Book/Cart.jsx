@@ -95,11 +95,16 @@ const Cart = () => {
             cartItems.map(({ _id: itemId, bookId, quantity }) => (
               bookId ? (
                 <div key={itemId} className="flex items-center justify-between bg-white rounded shadow-lg p-4 border">
-                  <img
+                  {/* <img
                     src={bookId.imageUrl || "https://via.placeholder.com/100"}
                     alt={bookId.title || "No Title Available"}
                     className="h-20 w-20 object-cover rounded"
-                  />
+                  /> */}
+                     {bookId.images && bookId.images.length > 0 ? (
+                <img src={bookId.images[0].url} alt={bookId.title} className="h-20 w-20 object-cover rounded"/>
+            ) : (
+                <p>No image available</p>
+            )}
                   <div className="flex-grow ml-4">
                     <h2 className="text-lg font-bold">{bookId.title || "Untitled Book"}</h2>
                     <p className="text-gray-600">Price: ₹ {bookId.sellPrice?.toFixed(2) || "0.00"}</p>

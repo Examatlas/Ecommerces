@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayoutBasic from './DashboardLayoutBasic';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
@@ -76,73 +76,101 @@ const AddBook = () => {
     const formik = useFormik({
         initialValues: {
             title: '',
-            keyword: "",
-            content: "",
-            author: "",
-            category: "",
-            price: "",
-            sellPrice: "",
-            // shippingCharge:"",
+            keyword: '',
+            content: '',
+            author: '',
+            category: '',
+            price: '',
+            sellPrice: '',
             tags: [],
-            image: null,
+            examName: '',
+            height: '',
+            width: '',
+            weight: '',
+            isbn: '',
+            image: [],
         },
         validationSchema: BookFormvalidationSchema,
         onSubmit: async (values) => {
             try {
-                // const res = await axios.post(`${API_BASE_URL}/api/book/createBook`, {
-                const res = await axios.post(`${API_BASE_URL}/book/createBook`, {
-                    title: values?.title,
-                    keyword: values?.keyword,
-                    content: values?.content,
-                    author: values?.author,
-                    category: values?.category,
-                    price: values?.price,
-                    sellPrice: values?.sellPrice,
-                    // shippingCharge:values?.shippingCharge,
-                    tags: values?.tags
+                const formData = new FormData();
+                formData.append('title', values.title);
+                formData.append('keyword', values.keyword);
+                formData.append('content', values.content);
+                formData.append('author', values.author);
+                formData.append('category', values.category);
+                formData.append('price', values.price);
+                formData.append('sellPrice', values.sellPrice);
+                formData.append('examName', values.examName);
+                formData.append('height', values.height);
+                formData.append('width', values.width);
+                formData.append('weight', values.weight);
+                formData.append('isbn', values.isbn);
+                values.tags.forEach(tag => formData.append('tags', tag));
+                values.image.forEach(file => formData.append('images', file)); // Ensure key matches backend
+
+                const res = await axios.post(`${API_BASE_URL}/book/createBook`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                 });
-                if (res?.data?.status === true) {
+
+                if (res?.data?.status) {
                     toast.success(res?.data?.message);
                     setTimeout(() => {
                         navigate("/admin/book");
                     }, 3000);
                 }
             } catch (error) {
-                toast.error(error?.message);
-                console.log("Error occured during blog submit", error);
+                toast.error(error?.response?.data?.message || "Error occurred during submission");
+                console.error("Error creating book:", error);
             }
         },
     });
 
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const validImages = [];
-        const validPreviews = [];
 
-        files.forEach((file) => {
-            const reader = new FileReader();
+    const handleImageChange = (event) => {
+        const files = Array.from(event.target.files);
+        formik.setFieldValue("image", files);
 
-            reader.onload = (event) => {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = () => {
-                    if (img.width === 300 && img.height === 300) {
-                        validImages.push(file);  // Push valid image to array
-                        validPreviews.push(event.target.result);  // Push preview URL
-                        formik.setFieldValue('image', validImages);  // Update Formik field with valid images
-                        setImageValidationError('');  // Clear previous error
-                    } else {
-                        setImageValidationError('Each image must be 300x300 pixels.');
-                    }
-
-                    setImagePreviews(validPreviews);  // Update state with valid previews
-                };
-            };
-
-            reader.readAsDataURL(file);
-        });
+        // Preview images
+        const previewUrls = files.map(file => URL.createObjectURL(file));
+        setImagePreviews(previewUrls);
     };
+
+
+
+    const [categories, setCategories] = useState([]); // Category data
+    const [exams, setExams] = useState([]); // Exam data
+
+    useEffect(() => {
+        // Fetch categories when the component mounts
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/category/getCategory`); // Replace with category API endpoint
+                setCategories(Array.isArray(response.data.data) ? response.data.data : []);
+            } catch (error) {
+                console.error("Error fetching categories", error);
+                setCategories([]);
+            }
+        };
+
+        // Fetch exams when the component mounts
+        const fetchExams = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/exam/all`); // Replace with exam API endpoint
+                // Access the exams array within the response
+                setExams(Array.isArray(response.data.exams) ? response.data.exams : []);
+            } catch (error) {
+                console.error("Error fetching exams", error);
+                setExams([]);
+            }
+        };
+
+        fetchCategories();
+        fetchExams();
+    }, []);
+
 
     return (
         <DashboardLayoutBasic>
@@ -214,21 +242,6 @@ const AddBook = () => {
                             </div>
 
 
-                         
-                            {/* <div className='flex flex-col justify-start '>
-                                <label htmlFor="shippingCharge" className='text-start text-xl'>shippingCharge</label>
-                                <input
-                                    type="text"
-                                    placeholder='shippingCharge'
-                                    name='shippingCharge'
-                                    id="shippingCharge"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.shippingCharge}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {console.log(formik.errors, "error  is ")}  {formik?.errors?.shippingCharge && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.shippingCharge}</p>}
-                            </div> */}
-
                             {/* author */}
                             <div className='flex my-4 flex-col justify-start '>
                                 <label htmlFor="author" className='text-start text-xl'>Author</label>
@@ -246,21 +259,107 @@ const AddBook = () => {
                             </div>
 
 
-                            {/* category */}
-                            <div className='flex my-4 flex-col justify-start '>
+
+                            {/* Category Dropdown */}
+                            <div className='flex flex-col'>
                                 <label htmlFor="category" className='text-start text-xl'>Category</label>
-                                <input
-                                    type="text"
-                                    placeholder='category'
+                                <select
                                     name='category'
                                     id="category"
-                                    onChange={formik?.handleChange}
+                                    onChange={formik.handleChange}
                                     value={formik.values.category}
+                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
+                                >
+                                    <option value="" disabled>Select a category</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category.categoryName}>
+                                            {category.categoryName}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formik.errors.category && <p className='text-sm text-red-500 text-left'>{formik.errors.category}</p>}
+                            </div>
+
+                            {/* Exam Name Dropdown */}
+                            <div className='flex flex-col'>
+                                <label htmlFor="examName" className='text-start text-xl mt-5'>Exam Name</label>
+                                <select
+                                    name='examName'
+                                    id="examName"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.examName}
+                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
+                                >
+                                    <option value="" disabled>Select an exam</option>
+                                    {exams.map((exam) => (
+                                        <option key={exam._id} value={exam.examName}>
+                                            {exam.examName}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formik.errors.examName && <p className='text-sm text-red-500 text-left'>{formik.errors.examName}</p>}
+                            </div>
+
+                            {/* Height */}
+                            <div className='flex flex-col justify-start mt-5 '>
+                                <label htmlFor="height" className='text-start text-xl'>Height</label>
+                                <input
+                                    type="text"
+                                    placeholder='Height'
+                                    name='height'
+                                    id="height"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.height}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-
-                                {formik?.errors?.category && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.category}</p>}
+                                {formik?.errors?.height && <p className='text-sm text-red-500 text-left'>{formik?.errors?.height}</p>}
                             </div>
+
+                            {/* Width */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="width" className='text-start text-xl'>Width</label>
+                                <input
+                                    type="text"
+                                    placeholder='Width'
+                                    name='width'
+                                    id="width"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.width}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.width && <p className='text-sm text-red-500 text-left'>{formik?.errors?.width}</p>}
+                            </div>
+
+                            {/* Weight */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="weight" className='text-start text-xl'>Weight</label>
+                                <input
+                                    type="text"
+                                    placeholder='Weight'
+                                    name='weight'
+                                    id="weight"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.weight}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.weight && <p className='text-sm text-red-500 text-left'>{formik?.errors?.weight}</p>}
+                            </div>
+
+                            {/* ISBN */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="isbn" className='text-start text-xl'>ISBN</label>
+                                <input
+                                    type="text"
+                                    placeholder='ISBN'
+                                    name='isbn'
+                                    id="isbn"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.isbn}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.isbn && <p className='text-sm text-red-500 text-left'>{formik?.errors?.isbn}</p>}
+                            </div>
+
 
                             {/* editor */}
                             <div className='flex flex-col justify-start my-4'>
@@ -281,7 +380,7 @@ const AddBook = () => {
                             {/* tags */}
                             <div className='mb-4 flex flex-col'>
                                 {/* display tags */}
-                                <div className='flex gap-2'>
+                                <div className='flex gap-2 mt-5'>
                                     {formik.values.tags.map((tag, index) => (
                                         <div key={index} style={{ marginBottom: '8px' }}
                                             className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
@@ -302,43 +401,42 @@ const AddBook = () => {
                                 />
                                 {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
                             </div>
-{/* image */}
+                            {/* image */}
 
-                            <div className='flex flex-col'>
-                                <label htmlFor="image" className='text-start text-xl'>Upload Images</label>
-                                <input
-                                    type="file"
-                                    name="image"
-                                    id="image"
-                                    accept="image/*"
-                                    multiple  // Allow multiple image uploads
-                                    onChange={handleImageChange}
-                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {/* {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  Show validation error */}
+                            <div className='flex flex-col justify-start my-4'>
+                            <label htmlFor="content" className='text-start text-xl'>Upload Images</label>
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                    className="border p-2 w-full"
+                />
+                {formik.touched.image && formik.errors.image ? <div className="text-red-500">{formik.errors.image}</div> : null}
+            </div>
 
-                                {/* Display image previews */}
-                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>
-                                    {
-                                        imagePreviews?.length > 0 && imagePreviews.map((preview, index) => (
-                                            <div key={index} className='w-full h-[150px]'>
-                                                <img src={preview} alt={`Preview ${index + 1}`} className='w-full h-full object-cover' />
-                                            </div>
-                                        ))
-                                    }
-                                </div>
+            {imagePreviews.length > 0 && (
+                <div className="mt-4">
+                    <div className="flex space-x-2">
+                        {imagePreviews.map((url, index) => (
+                            <img key={index} src={url} alt={`preview ${index}`} className="h-20 w-20 object-cover" />
+                        ))}
+                    </div>
+                </div>
+            )}
 
-                                {formik?.errors?.image && <p className='text-sm text-red-500'>{formik?.errors?.image}</p>}
-                            </div>
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
                         </form>
                     </div>
                 </div>
             </div>
-       </DashboardLayoutBasic>
+        </DashboardLayoutBasic>
     );
 }
 
 export default AddBook;
+
+
 
 

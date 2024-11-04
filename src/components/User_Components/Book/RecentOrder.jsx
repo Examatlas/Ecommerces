@@ -89,6 +89,13 @@ const RecentOrder = () => {
                       <span className="font-semibold">Title: {item.bookId.title}</span>
                       <span><strong>Quantity:</strong> {item.quantity}</span>
                     </div>
+                    {/* <div className="flex flex-col items-end">
+                    {item.bookId.images && item.bookId.images.length > 0 ? (
+                <img src={item.bookId.images[0].url} alt={item.bookId.title} className="h-20 w-20 object-cover rounded"/>
+            ) : (
+                <p>No image available</p>
+            )}
+                    </div> */}
                     <div className="flex flex-col items-end">
                       <span><strong>Price:</strong> ₹{item.bookId.price}</span>
                       <span><strong>Sell Price:</strong> ₹{item.bookId.sellPrice}</span>

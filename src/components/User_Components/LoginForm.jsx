@@ -4,7 +4,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 // import API_BASE_URL from "../config";
 import { useNavigate } from "react-router-dom";
-// import api from "../Components/Api/Api_config";
 import API_BASE_URL from "../User_Components/Config";
 
 const LoginForm = ({ onClose ,onLoginSuccess}) => {

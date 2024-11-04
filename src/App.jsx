@@ -68,7 +68,7 @@ function App() {
             <Route path="/OrderHistory" element={<OrderHistory />} />
             <Route path="/bookdetail/:id" element={<BookDetail />} />
             <Route path="/books/:examName" element={<ExamBook/>}/>
-            {/* <Route path="/" element={<Book />} /> */}
+            <Route path="/" element={<Book />} />
             <Route path="/user" element={<Book />} />
             <Route path="/blog" element={<UserBlog/>}/>
             <Route path="/blogdata/:id" element={<BlogData/>}/>

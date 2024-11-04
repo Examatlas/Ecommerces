@@ -8,19 +8,19 @@ import { useNavigate } from "react-router-dom";
 const UserBlog = () => {
 
   const navigate = useNavigate()
-  const [blogData, setBlogData] = useState([]); 
+  const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch all blogs
   const fetchAllBlogs = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/blog/getAllBlogs`);
-      console.log("Fetched Blogs:", response.data); 
-      setBlogData(response?.data?.data || []); 
+      console.log("Fetched Blogs:", response.data);
+      setBlogData(response?.data?.data || []);
     } catch (error) {
       console.error("Error when fetching blogs:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -54,9 +54,9 @@ const UserBlog = () => {
     );
   }
 
-const handleBoxClick = (id) =>{
+  const handleBoxClick = (id) => {
     navigate(`/blogdata/${id}`)
-}
+  }
 
   return (
     <>
@@ -64,13 +64,13 @@ const handleBoxClick = (id) =>{
         <div className="lg:w-[850px] px-2 xl:pl-44" >
           <h1 className="text-3xl text-blue-700 font-extrabold">Latest Blogs</h1>
           <img
-            src={blogData[0].image || "https://via.placeholder.com/900x380"}
+            src={blogData[0].images[0].url}
+            alt={blogData.title}
             className="rounded-lg mt-10 lg:w-[900px] h-[5rem] xl:h-[380px] object-cover"
-            alt="Latest Blog"
           />
           <p className="mt-7 text-gray-800 text-xl font-extrabold">{blogData[0].title}</p>
           <p className="mt-5 text-gray-700 font-semibold">{blogData[0].keyword}</p>
-          
+
         </div>
 
         <div className="flex flex-col my-4 px-4 md:pl-16">
@@ -78,7 +78,7 @@ const handleBoxClick = (id) =>{
 
           {blogData.slice(1).map((item, index) => (
             <div key={item._id} className="pt-7" >
-              <div className="flex"  onClick={() =>handleBoxClick(item._id)}>
+              <div className="flex" onClick={() => handleBoxClick(item._id)}>
                 <p className="text-gray-800 font-bold">
                   {item.title}
                   <br />
@@ -86,10 +86,12 @@ const handleBoxClick = (id) =>{
                   <span className="text-gray-600 font-normal">{item.keyword}</span>
                 </p>
                 <img
-                  src={item.image || "https://via.placeholder.com/200x112"}
+                  src={item.images[0].url}
+                  alt={item.title}
                   className="w-[200px] object-cover h-[112px] ml-3 rounded-lg"
-                  alt="Trending Blog"
+
                 />
+
               </div>
               {index < blogData.length - 2 && (
                 <hr className="lg:w-[520px] border-gray-300 mt-4" />

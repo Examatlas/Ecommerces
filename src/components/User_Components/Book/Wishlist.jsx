@@ -71,12 +71,13 @@ const Wishlist = () => {
               {/* Check if bookId exists before rendering */}
               {wishlistItem.bookId ? (
                 <>
-                  <div className="h-48 mb-4 flex justify-center items-center bg-gray-200">
-                    <img
-                      src={wishlistItem.bookId.imageUrl || "https://via.placeholder.com/150"}
-                      alt={wishlistItem.bookId.title}
-                      className="object-contain h-full"
-                    />
+                  <div className="h-40 mb-4 flex justify-center items-center bg-gray-200">
+                    
+                       {wishlistItem.bookId.images && wishlistItem.bookId.images.length > 0 ? (
+                <img src={wishlistItem.bookId.images[0].url} alt={wishlistItem.bookId.title} />
+            ) : (
+                <p>No image available</p>
+            )}
                   </div>
 
                   <div className="px-6 py-4 flex flex-col flex-grow">
@@ -89,14 +90,14 @@ const Wishlist = () => {
                     </p>
                     <div className="flex gap-4 mt-4">
                       <button
-                        className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition"
-                        onClick={() => handleRemoveFromWishlist(wishlistItem._id)} // Using the item's unique _id for removal
+                        className="bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600 transition"
+                        onClick={() => handleRemoveFromWishlist(wishlistItem._id)} 
                       >
                         Remove from Wishlist
                       </button>
                       <button
-                        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
-                        onClick={() => handleAddToCart(wishlistItem.bookId._id)} // Assuming bookId has a unique ID
+                        className="bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600 transition"
+                        onClick={() => handleAddToCart(wishlistItem.bookId._id)}
                       >
                         Add to Cart
                       </button>

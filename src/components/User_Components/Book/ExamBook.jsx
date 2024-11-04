@@ -14,8 +14,8 @@ const ExamBook = () => {
   const getBooksByExamName = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/exam/books/${examName}`);
-      console.log("Response:", response.data); 
-      setBooks(response.data.books); 
+      console.log("Response:", response.data);
+      setBooks(response.data.books);
     } catch (error) {
       console.error("Error fetching books:", error);
     } finally {
@@ -24,16 +24,16 @@ const ExamBook = () => {
   };
 
   useEffect(() => {
-    console.log("Exam Name:", examName); 
+    console.log("Exam Name:", examName);
     getBooksByExamName();
   }, [examName]);
 
-const userId =  localStorage.getItem("user_userId")
+  const userId = localStorage.getItem("user_userId")
 
   const addToCart = async (bookId) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/cart/add`, { bookId  , userId });
-      toast.success("Book added to cart!"); 
+      const response = await axios.post(`${API_BASE_URL}/cart/add`, { bookId, userId });
+      toast.success("Book added to cart!");
       navigate("/ecommerce/cart")
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -47,7 +47,7 @@ const userId =  localStorage.getItem("user_userId")
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
-  const handleBoxClicks = (bookId) =>{
+  const handleBoxClicks = (bookId) => {
     navigate(`/bookdetail/${bookId}`)
   }
 
@@ -58,20 +58,22 @@ const userId =  localStorage.getItem("user_userId")
       </h1>
 
       {books.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  ml-40 mx-36 my-10 " > 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  ml-40 mx-36 my-10 " >
           {books.map((book) => (
             <div
               key={book._id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col w-full max-w-xs mb-10" 
+              className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col w-full max-w-xs mb-10"
               onClick={() => handleBoxClicks(book._id)}
             >
-            
+
               <div className="h-48 bg-gray-200">
-                <img
-                  src={book.image || "https://via.placeholder.com/150"}
-                  alt={book.title}
-                  className="h-full w-full object-cover"
-                />
+               
+
+                {book.images && book.images.length > 0 ? (
+                  <img src={book.images[0].url} alt={book.title} className="h-full w-full object-cover" />
+                ) : (
+                  <p>No image available</p>
+                )}
               </div>
 
               {/* Content Section */}
@@ -88,7 +90,7 @@ const userId =  localStorage.getItem("user_userId")
                 <p className="text-gray-500 mb-1">
                   <strong>Exam:</strong> {book.examName}
                 </p>
-                <p className="text-gray-700 mb-3">{book.content}</p>
+                {/* <p className="text-gray-700 mb-3">{book.content}</p> */}
 
                 {/* Tags Section */}
                 <div className="flex flex-wrap gap-2 mb-4">

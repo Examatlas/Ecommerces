@@ -56,26 +56,32 @@ const BookList = ({ searchTerm }) => {
             <tr>
               <th scope="col" className="px-6 py-3">Title</th>
               <th scope="col" className="px-6 py-3">Tags</th>
-
-              <th scope='col' className='px-6 py-3'>Images</th>
+              <th scope="col" className="px-6 py-3">Images</th>
               <th scope="col" className="px-6 py-3">Action</th>  
             </tr>
           </thead>
           <tbody>
             {filteredBooks.length > 0 ? (
-              filteredBooks.map((item, index) => (
+              filteredBooks.reverse().map((item, index) => (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                   <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item?.title}
                   </th>
                   <td className="px-6 py-4">
                     {item?.tags?.map((tag, index) => (
-                      <span key={index}>{tag}, </span>
+                      <span key={index}>{tag}{index < item.tags.length - 1 ? ', ' : ''}</span>
                     ))}
                   </td>
-                  <td>
-                  {item?.images?.map((image, index) => (
-                      <span key={index}>{image}, </span>
+                  <td className="px-6 py-4">
+                    {item?.images?.map((image, index) => (
+                      <span key={index}>
+                        {image.url ? (
+                          <img src={image.url} alt={`Book ${index}`} className="w-10 h-10 inline-block" />
+                        ) : (
+                          <span>{image.filename}</span>
+                        )}
+                        {index < item.images.length - 1 ? ', ' : ''}
+                      </span>
                     ))}
                   </td>
                   <td className="px-6 py-4">
@@ -95,7 +101,7 @@ const BookList = ({ searchTerm }) => {
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center py-4">No books found</td>
+                <td colSpan="4" className="text-center py-4">No books found</td>
               </tr>
             )}
           </tbody>
@@ -105,5 +111,5 @@ const BookList = ({ searchTerm }) => {
     </div>
   )
 }
-export default BookList;
 
+export default BookList;

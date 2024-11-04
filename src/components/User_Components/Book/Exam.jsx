@@ -64,11 +64,16 @@ const Exam = () => {
             className="border rounded-lg shadow-md p-4 flex flex-col items-center w-[350px]"
             onClick={() => handleExamClick(exam.examName)}
           >
-            <img
+            {/* <img
               src={exam.image}
               alt={exam.name}
               className="w-full h-48 object-cover rounded-t-md"
-            />
+            /> */}
+             <img
+                        src={exam.images[0].url}
+                        alt={exam.examName}
+                        className="w-full h-48 object-cover rounded-t-md"
+                      />
             <h2 className="mt-4 text-xl font-semibold">{exam.examName}</h2>
           </div>
         ))}

@@ -10,6 +10,7 @@ function BookDetails() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [wishlist, setWishlist] = useState([]);
+  const [mainImage, setMainImage] = useState(""); // State for the main image
 
   const navigate = useNavigate()
 
@@ -18,6 +19,9 @@ function BookDetails() {
       try {
         const response = await axios.get(`${API_BASE_URL}/book/getBookById/${id}`);
         setBook(response.data.book); // Correctly access the nested book object
+        if (response.data.book.images.length > 0) {
+          setMainImage(response.data.book.images[0].url); // Set the first image as the main image
+        }
       } catch (error) {
         console.error('Error fetching book data:', error);
       } finally {
@@ -27,8 +31,8 @@ function BookDetails() {
 
     fetchBook();
   }, [id]);
- 
-  const bookId = id 
+
+  const bookId = id
   const userId = localStorage.getItem("user_userId")
   const toggleWishlist = async (id) => {
     if (!id) return;
@@ -59,7 +63,6 @@ function BookDetails() {
     }
   };
 
-
   const handleBuyNow = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/cart/add', {
@@ -68,8 +71,8 @@ function BookDetails() {
       });
 
       if (response.status === 200) {
-        toast.success('Item added to cart successfully You can buy now !');
-        navigate("/ecommerce/cart")
+        toast.success('Item added to cart successfully! You can buy now!');
+        navigate("/ecommerce/cart");
       }
     } catch (error) {
       toast.error('Failed to add item to cart.');
@@ -77,21 +80,34 @@ function BookDetails() {
     }
   };
 
-
-
   if (loading) return <p>Loading...</p>;
   if (!book) return <p>Book not found!</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 ">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="flex w-3/4 bg-white shadow-lg rounded-lg overflow-hidden mt-[80px]">
         {/* Left Column - Book Image */}
-        <div className="w-1/3 p-4">
-          <img
-            src={`https://via.placeholder.com/300x400?text=${book.title}`} // Replace with the actual image URL if available
-            alt={book.title}
-            className="w-80 p-5 pl-5 h-auto object-cover"
-          />
+        <div className="w-1/3 p-4 flex flex-col items-center">
+          {book.images && book.images.length > 0 ? (
+            <>
+              {/* Main Image */}
+              <img src={mainImage} alt={book.title} className="mb-4" />
+              {/* Thumbnails */}
+              <div className="flex space-x-2">
+                {book.images.map((image) => (
+                  <img
+                    key={image._id}
+                    src={image.url}
+                    alt={book.title}
+                    className="w-16 h-20 object-cover cursor-pointer rounded border"
+                    onClick={() => setMainImage(image.url)} // Update main image on click
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <p>No image available</p>
+          )}
         </div>
 
         {/* Center Column - Book Details */}
@@ -108,10 +124,10 @@ function BookDetails() {
             <div className="flex items-center space-x-4 mb-4">
               <span className="text-xl font-semibold">Price: ₹{book.sellPrice} &nbsp;<strike>₹{book.price}</strike></span>
               {book.price > 0 && (
-                    <span className="text-green-600 ml-2">
-                      ({Math.round(((book.price - book.sellPrice) / book.price) * 100)}% OFF)
-                    </span>
-                  )}
+                <span className="text-green-600 ml-2">
+                  ({Math.round(((book.price - book.sellPrice) / book.price) * 100)}% OFF)
+                </span>
+              )}
             </div>
 
             <p className="text-gray-500 mb-2">
@@ -138,12 +154,12 @@ function BookDetails() {
         <div className="w-1/4 p-6 border-l flex flex-col justify-between">
           <div>
             <button className="w-full bg-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-600"
-             onClick={handleBuyNow}
-             >
+              onClick={handleBuyNow}
+            >
               Buy Now
             </button>
             <button className="w-full mt-4 bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400"
-            onClick={() => toggleWishlist(id)}
+              onClick={() => toggleWishlist(id)}
             >
               Add to Wishlist
             </button>
@@ -160,6 +176,3 @@ function BookDetails() {
 }
 
 export default BookDetails;
-
-
-

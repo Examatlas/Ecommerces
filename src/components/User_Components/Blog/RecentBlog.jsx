@@ -4,7 +4,7 @@ import API_BASE_URL from "../Config";
 import { useNavigate } from "react-router-dom";
 
 const RecentBlog = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [blogData, setBlogData] = useState([]);
 
   // Fetch all blogs
@@ -22,9 +22,9 @@ const RecentBlog = () => {
     fetchAllBlogs();
   }, []);
 
-  const handleBoxClick = (id) =>{
+  const handleBoxClick = (id) => {
     navigate(`/blogdata/${id}`)
-}
+  }
 
   return (
     <div className="flex flex-col xl:flex-row mb-20">
@@ -35,7 +35,7 @@ const RecentBlog = () => {
 
         {blogData.map((item, index) => (
           <div key={item._id} className="pt-7">
-            <div className="flex"  onClick={() =>handleBoxClick(item._id)}>
+            <div className="flex" onClick={() => handleBoxClick(item._id)}>
               <p className="text-gray-800 font-bold">
                 {item.title}
                 <br />
@@ -45,11 +45,9 @@ const RecentBlog = () => {
                 </span>
               </p>
               <img
-                src={
-                  item.image || "https://via.placeholder.com/200x112"
-                } // Fallback to a placeholder if no image is provided
-                className="w-[200px] object-cover h-[112px] ml-9 rounded-lg"
+                src={item.images[0].url}
                 alt={item.title}
+                 className="w-[200px] object-cover h-[112px] ml-3 rounded-lg"
               />
             </div>
             {index < blogData.length - 1 && (

@@ -25,7 +25,7 @@ const PaymentSuccess = () => {
                 {/* <p className='text-xl text-blue-900 font-semibold mb-5'>Track your order</p> */}
                 {/* <OrderTrack /> */}
 
-                <RecentOrder />
+                <RecentOrder/>
             </div>
         </>
     );

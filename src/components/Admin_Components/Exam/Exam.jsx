@@ -9,7 +9,7 @@ import ExamList from './ExamList';
 // import BookList from './BookList';
 
 const Exam = () => {
-  const [searchTerm, setSearchTerm] = useState('');  // Add searchTerm state
+  const [searchTerm, setSearchTerm] = useState(''); 
   const navigate = useNavigate();
 
   const goBack = () => {

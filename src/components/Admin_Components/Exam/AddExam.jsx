@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import DashboardLayoutBasic from '../DashboardLayoutBasic';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast'; 
+import { toast } from 'react-hot-toast'; 
 import axios from 'axios';
 import API_BASE_URL from '../Config';
-import { examFormValidation } from './ExamFormValidation'; // Validation Schema
+import { examFormValidation } from './ExamFormValidation'; 
 
 const AddExam = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -19,23 +19,27 @@ const AddExam = () => {
     },
     validationSchema: examFormValidation,
     onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append('examName', values.examName);
+
+      // Append image if it exists
+      if (values.image) {
+        formData.append('images', values.image);
+      }
+
       try {
-        console.log("Form submitted:", values); // Debugging line
-        const res = await axios.post(`${API_BASE_URL}/exam/createexam`, {
-          examName: values.examName,
-          
+        const res = await axios.post(`${API_BASE_URL}/exam/createexam`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
         toast.success('Exam added successfully!');
-        navigate("/admin/Exam")
-
-        // if (res?.data?.status === true) {
-        //   toast.success('Exam added successfully!');
-        // }
+        navigate("/admin/Exam");
       } catch (error) {
         console.error('Error adding exam:', error);
         toast.error('Failed to add exam');
       } finally {
-        formik.setSubmitting(false); // Ensure this line is added
+        formik.setSubmitting(false); 
       }
     },
   });
@@ -49,12 +53,12 @@ const AddExam = () => {
         img.src = event.target.result;
 
         img.onload = () => {
-          if (img.width <= 500 && img.height <= 500) {
+          if (img.width <= 1500 && img.height <= 1500) {
             setImagePreviews([event.target.result]);
             formik.setFieldValue('image', file);
             setImageValidationError('');
           } else {
-            setImageValidationError('Image must be 500x500 pixels or smaller.');
+            setImageValidationError('Image must be 1500x1500 pixels or smaller.');
           }
         };
       };
@@ -67,7 +71,7 @@ const AddExam = () => {
       <div className="min-h-screen p-10">
         <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-center mb-6">Add New Exam</h1>
-          <form onSubmit={formik.handleSubmit}  method ="post" className="space-y-6">
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="examName" className="block text-lg font-medium mb-2">
                 Exam Name
@@ -93,7 +97,7 @@ const AddExam = () => {
               </label>
               <input
                 id="image"
-                name="file"
+                name="image"
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
@@ -123,7 +127,6 @@ const AddExam = () => {
             </button>
           </form>
         </div>
-      
       </div>
     </DashboardLayoutBasic>
   );
