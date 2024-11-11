@@ -3,9 +3,8 @@ import DashboardLayoutBasic from '../DashboardLayoutBasic';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
-
 import BlogFormvalidationSchema from './BlogFormValidation';
-//icons
+// icons
 import { RxCross2 } from "react-icons/rx";
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,70 +12,69 @@ import API_BASE_URL from '../Config';
 import axios from 'axios';
 
 const EditBlog = () => {
-    const [imagePreview, setImagePreview] = useState(null);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [images, setImages] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    // console.log(inputValue);
-    
     const [blogData, setBlogData] = useState({
         title: '',
-        keyword:'',
+        keyword: '',
         content: '',
         tags: [],
-        image: null,
+        images: [],
     });
-    
-    const navigate=useNavigate();
-    const {id}=useParams();
 
-    //fetch blog By id
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    // Fetch blog by ID
     const fetchBlogById = async (blogId) => {
         try {
-            const responce = await axios.get(`${API_BASE_URL}/blog/getBlogById/${blogId}`);
-            setBlogData(responce?.data?.blog);
-            formik.setFieldValue('tags',responce?.data?.blog?.tags);
+            const response = await axios.get(`${API_BASE_URL}/blog/getBlogById/${blogId}`);
+            const blog = response?.data?.blog;
+            setBlogData(blog);
+            formik.setFieldValue('tags', blog?.tags);
+
+            if (blog.images?.length > 0) {
+                setImages(blog.images);
+                formik.setFieldValue('images', blog.images.map((image) => image.url));
+                setImagePreviews(blog.images.map((image) => image.url));
+            }
         } catch (error) {
-            console.log("Error when fetching blogs", error);
+            console.log("Error fetching blog data:", error);
         }
     };
 
     useEffect(() => {
         fetchBlogById(id);
-    }, []);
+    }, [id]);
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
         ['link', 'image', 'video', 'formula'],
-
         [{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
         [{ 'script': 'sub' }, { 'script': 'super' }],
         [{ 'indent': '-1' }, { 'indent': '+1' }],
         [{ 'direction': 'rtl' }],
-
         [{ 'size': ['small', false, 'large', 'huge'] }],
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
         [{ 'color': [] }, { 'background': [] }],
         [{ 'font': [] }],
         [{ 'align': [] }],
-
         ['clean']
     ];
 
     const modules = {
-        toolbar: true,
         toolbar: toolbarOptions,
     };
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputValue.trim() !== '') {
-            formik.setFieldValue('tags', [
-                ...formik.values.tags,
-                inputValue
-            ]);
-            setInputValue(''); 
-            event.preventDefault(); 
+            formik.setFieldValue('tags', [...formik.values.tags, inputValue]);
+            setInputValue('');
+            event.preventDefault();
         }
     };
 
@@ -85,167 +83,175 @@ const EditBlog = () => {
         formik.setFieldValue('tags', newTags);
     };
 
-    const formats = [
-        'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike',
-        'blockquote', 'list', 'bullet', 'link', 'image', 'video', 'code-block',
-        'color', 'background', 'align', 'indent'
-    ];
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+        const previews = files.map((file) => URL.createObjectURL(file));
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            formik.setFieldValue('image', file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        // Set selected images and previews
+        setSelectedImages((prev) => [...prev, ...files]);
+        setImagePreviews((prev) => [...prev, ...previews]);
+        formik.setFieldValue('images', [...formik.values.images, ...files]);
     };
+
+    const handleRemoveImage = (index) => {
+        const newPreviews = imagePreviews.filter((_, i) => i !== index);
+        const newImages = selectedImages.filter((_, i) => i !== index);
+
+        setImagePreviews(newPreviews);
+        setSelectedImages(newImages);
+        formik.setFieldValue('images', newImages);
+    };
+
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
     };
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues:{
+        initialValues: {
             title: blogData?.title,
-            keyword:blogData?.keyword,
+            keyword: blogData?.keyword,
             content: blogData?.content,
-            tags: blogData?.tags||[],
-            image: null,
+            tags: blogData?.tags || [],
+            images: [],
         },
         validationSchema: BlogFormvalidationSchema,
-        onSubmit: async(values) => {
+        onSubmit: async (values) => {
+            const formData = new FormData();
+            formData.append('title', values.title);
+            formData.append('keyword', values.keyword);
+            formData.append('content', values.content);
+            formData.append('tags', values.tags);
+
+            values.images.forEach((image) => formData.append('images', image));
+
             try {
-                const res=await axios.put(`${API_BASE_URL}/blog/updateBlog/${id}`,{
-                    title:values?.title,
-                    keyword:values?.keyword,
-                    content:values?.content,
-                    tags:values?.tags ,
+                const response = await axios.put(`${API_BASE_URL}/blog/updateBlog/${id}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
                 });
-                if(res?.data?.status===true){
-                    toast.success(res?.data?.message);
-                    setTimeout(() => {
-                        navigate("/admin/blog");
-                    }, 3000);
+
+                if (response?.data?.status) {
+                    toast.success(response?.data?.message);
+                    setTimeout(() => navigate("/admin/blog"), 3000);
                 }
             } catch (error) {
                 toast.error(error?.message);
-                console.log("Error occured during blog submit",error);
+                console.error("Error occurred during blog submit:", error);
             }
         },
     });
 
-
     return (
         <DashboardLayoutBasic>
-            <div className='  min-h-[100vh]'>
+            <div className='min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
                     <h1 className='text-4xl my-4'>Update Blog</h1>
-                    <div>
-                        <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
-{/* Title */}
-                            <div className='flex flex-col justify-start '>
-                                <label htmlFor="title" className='text-start text-xl'>Title</label>
-                                <input
-                                    type="text"
-                                    placeholder='Title'
-                                    name='title'
-                                    id="title"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.title}
-                                    // value={blogData?.title}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
+                    <form onSubmit={formik.handleSubmit} className='w-[90%] mx-auto'>
+                        {/* Title */}
+                        <div className='flex flex-col justify-start'>
+                            <label htmlFor="title" className='text-start text-xl'>Title</label>
+                            <input
+                                type="text"
+                                placeholder='Title'
+                                name='title'
+                                id="title"
+                                onChange={formik.handleChange}
+                                value={formik.values.title}
+                                className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                            />
+                            {formik.errors.title && <p className='text-sm text-red-500'>{formik.errors.title}</p>}
+                        </div>
 
-                                {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
-                            </div>
-{/* Keyword */}
-                            <div className='flex my-4 flex-col justify-start '>
-                                <label htmlFor="keyword" className='text-start text-xl'>Keyword</label>
-                                <input
-                                    type="keyword"
-                                    placeholder='Keyword'
-                                    name='keyword'
-                                    id="keyword"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.keyword}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
+                        {/* Keyword */}
+                        <div className='flex my-4 flex-col justify-start'>
+                            <label htmlFor="keyword" className='text-start text-xl'>Keyword</label>
+                            <input
+                                type="text"
+                                placeholder='Keyword'
+                                name='keyword'
+                                id="keyword"
+                                onChange={formik.handleChange}
+                                value={formik.values.keyword}
+                                className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                            />
+                            {formik.errors.keyword && <p className='text-sm text-red-500'>{formik.errors.keyword}</p>}
+                        </div>
 
-                                {formik?.errors?.keyword && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.keyword}</p>}
+                        {/* Editor */}
+                        <div className='flex flex-col justify-start my-4'>
+                            <label htmlFor="content" className='text-start text-xl'>Content</label>
+                            <ReactQuill
+                                id='content'
+                                name="content"
+                                theme="snow"
+                                value={formik.values.content}
+                                modules={modules}
+                                onChange={handleDescriptionChange}
+                                className='text-3xl h-[20rem] rounded-md'
+                            />
+                            {formik.errors.content && <p className='text-sm text-red-500'>{formik.errors.content}</p>}
+                        </div>
+
+                        {/* Tags */}
+                        <div className='mb-4 flex flex-col'>
+                            {/* Display tags */}
+                            <div className='flex gap-2 mt-28'>
+                                {formik.values.tags?.map((tag, index) => (
+                                    <div key={index} className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
+                                        <strong>{tag}</strong>
+                                        <RxCross2 onClick={() => handleRemoveTag(index)} className='cursor-pointer'/>
+                                    </div>
+                                ))}
                             </div>
-{/* editor */}
-                            <div className='flex flex-col justify-start my-4'>
-                                <label htmlFor="content" className='text-start text-xl'>Content</label>
-                                <ReactQuill
-                                    id='content'
-                                    name="content"
-                                    theme="snow"
-                                    value={formik.values.content}
-                                    modules={modules}
-                                    formats={formats}
-                                    onChange={handleDescriptionChange}
-                                    className='text-3xl h-[20rem] rounded-md'
-                                />
-                                <p className='mt-56 md:mt-24'></p>
-                                {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
-                            </div>
-{/* tags */}
-                            <div className='mb-4 flex flex-col'>
-                                 {/* display tags */}
-                                 <div className='flex gap-2'>
-                                    {formik?.values?.tags && formik?.values?.tags?.map((tag, index) => (
-                                        <div key={index} style={{ marginBottom: '8px' }} 
-                                        className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
-                                            <strong >{tag}</strong>
-                                            <RxCross2 onClick={() => handleRemoveTag(index)} className=' cursor-pointer'/>
-                                        </div>
-                                    ))}
+                            <label htmlFor="tags" className='text-start text-xl mt-3'>Tags</label>
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={handleKeyPress}
+                                className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                placeholder='Press enter to add a tag'
+                            />
+                            {formik.errors.tags && <p className='text-sm text-red-500'>{formik.errors.tags}</p>}
+                        </div>
+
+                        {/* Images */}
+                        <div className="flex flex-wrap gap-4">
+                            {imagePreviews.map((preview, index) => (
+                                <div key={index} className="relative">
+                                    <img src={preview} alt="Image Preview" className="w-32 h-32 object-cover rounded-md" />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveImage(index)}
+                                        className="absolute top-0 right-0 text-red-500"
+                                    >
+                                        <RxCross2 size={20} />
+                                    </button>
                                 </div>
-                                <label htmlFor="tags" className='text-start text-xl'>Tags</label>
-                                <input
-                                    type="text"
-                                    id='tags'
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
-                                    onKeyDown={handleKeyPress}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                    placeholder="Enter a tag and press Enter"
-                                />
-                                {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
-                            </div>
-{/* images */}
-                            <div className='flex flex-col'>
-                                <label htmlFor="image" className='text-start text-xl'>Upload Image</label>
-                                <input type="file"
-                                    name="image"
-                                    id="image"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg '
-                                />
-                                {formik?.errors?.image && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.image}</p>}
+                            ))}
+                            <input
+                                type="file"
+                                onChange={handleImageChange}
+                                accept="image/*"
+                                multiple
+                                className="mt-2"
+                            />
+                        </div>
 
-                                <p className='text-red-500 text-xs text-start leading-3 my-2'>Width : 1200px and Height : 400px</p>
-                                <div className='w-[99%] mx-auto md:mx-0 sm:w-[100%] lg:w-[600px] h-[300px] border border-gray-400'>
-                                    {
-                                        imagePreview &&
-                                        <img src={imagePreview} alt="Preview" className='w-[100%] h-[300px]' />
-                                    }
-                                </div>
-                            </div>
-
-                            <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
-                        </form>
-                    </div>
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={formik.isSubmitting}
+                            className='w-full mt-8 py-3 text-lg bg-blue-500 hover:bg-blue-600 text-white rounded-md'
+                        >
+                            {formik.isSubmitting ? 'Updating...' : 'Update Blog'}
+                        </button>
+                    </form>
                 </div>
             </div>
         </DashboardLayoutBasic>
-
     );
-}
+};
 
 export default EditBlog;
 

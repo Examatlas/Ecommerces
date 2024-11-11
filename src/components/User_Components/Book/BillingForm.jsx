@@ -72,6 +72,7 @@ const BillingForm = () => {
 
         if (response.status === 201) {
           toast.success("Billing details submitted successfully!");
+          window.location.reload();
 
           // Extract billingDetailId from the response
           const billingDetailId = response.data.savedBillingDetail._id;

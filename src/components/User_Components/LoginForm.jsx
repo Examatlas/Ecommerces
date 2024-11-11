@@ -42,6 +42,7 @@ console.log(response.data)
     onLoginSuccess();
 
     toast.success(response.data.message);
+    window.location.reload();
 
     setFormData({
       mobile:"",

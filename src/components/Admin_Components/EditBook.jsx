@@ -15,11 +15,10 @@ const EditBook = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [images, setImages] = useState([]); 
     const [imageValidationError, setImageValidationError] = useState('');
 
-
     const [bookData, setBookData] = useState({
-
         title: '',
         keyword: '',
         content: '',
@@ -33,18 +32,25 @@ const EditBook = () => {
         width: '',
         weight: '',
         isbn: '',
-        image: [],
+        images: [],
     });
 
     const navigate = useNavigate();
     const id = useParams();
     
-    //fetch blog By id
     const fetchBlogById = async (id) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/book/getBookById/${id}`);
             setBookData(response?.data?.book);
+            const book = response.data.book;
             formik.setFieldValue('tags', response?.data?.book?.tags);
+
+            if (book.images && book.images.length > 0) {
+                setImages(book.images);  
+                formik.setFieldValue('image', book.images[0].url);
+                setImagePreviews(book.images.map(image => image.url));  
+            }
+
         } catch (error) {
             console.log("Error when fetching books", error);
         }
@@ -104,38 +110,42 @@ const EditBook = () => {
         'color', 'background', 'align', 'indent'
     ];
 
-
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const validImages = [];
-        const validPreviews = [];
+        const files = Array.from(e.target.files);  
+        const newImages = files.map(file => file);  
+        setImages(prevImages => [...prevImages, ...newImages]);
 
-        files.forEach((file) => {
-            const reader = new FileReader();
+        const previews = files.map(file => URL.createObjectURL(file));
+        setImagePreviews(prevPreviews => [...prevPreviews, ...previews]);
 
-            reader.onload = (event) => {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = () => {
-                    if (img.width === 300 && img.height === 300) {
-                        validImages.push(file);  
-                        validPreviews.push(event.target.result); 
-                        formik.setFieldValue('image', validImages);  
-                        setImageValidationError('');  
-                    } else {
-                        setImageValidationError('Each image must be 300x300 pixels.');
-                    }
-
-                    setImagePreviews(validPreviews);  
-                };
-            };
-
-            reader.readAsDataURL(file);
-        });
+        formik.setFieldValue('image', files);  
     };
 
+// const handleRemoveImage = async (index) => {
+//     const imageUrl = imagePreviews[index];  // Get the URL or image ID
 
+//     try {
+//         const response = await axios.delete(`${API_BASE_URL}/image/delete`, {
+//             data: { imageUrl } 
+//         });
+//         if (response.status === 200) {
+    
+//             setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
+//         }
+//     } catch (error) {
+//         console.error('Error removing image:', error);
+//     }
+// };
+
+
+const handleRemoveImage = (index) => {
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    const newImages = selectedImages.filter((_, i) => i !== index);
+
+    setImagePreviews(newPreviews);
+    setSelectedImages(newImages);
+    formik.setFieldValue('images', newImages);
+};
 
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
@@ -157,31 +167,38 @@ const EditBook = () => {
             width : bookData?.width,
             weight : bookData?.weight,
             isbn : bookData?.isbn,
-            image: "",
+            images : [],
         },
         validationSchema: BookFormvalidationSchema,
 
         onSubmit: async (values) => {
-            try {
-                const res = await axios.put(`${API_BASE_URL}/book/updateBook/${id.id}`, {
-                    title: values?.title,
-                    keyword: values?.keyword,
-                    content: values?.content,
-                    author: values?.author,
-                    category: values?.category,
-                    price: values?.price,
-                    sellPrice: values?.sellPrice,
-                    tags: values?.tags,
-                    height : values?.height,
-                    width  : values?.width,
-                    weight : values?.weight,
-                    isbn : values?.isbn,
-                    image : values?.image,
-                    examName:values?.examName
+            const formData = new FormData()
+            formData.append('title', values.title);
+            formData.append('keyword', values.keyword);
+            formData.append('content', values.content);
+            formData.append('author', values.author);
+            formData.append('category', values.category);
+            formData.append('price', values.price);
+            formData.append('sellPrice', values.sellPrice);
+            formData.append('tags', values.tags);
+            formData.append('height', values.height);
+            formData.append('width', values.width);
+            formData.append('isbn', values.isbn);
+            formData.append('examName', values.examName);
+            values.images.forEach((image) => formData.append('images', image));
 
-                });
-                if (res?.data?.status === true) {
-                    toast.success(res?.data?.message);
+            if (images.length > 0) {
+                images.forEach(image => formData.append('images', image)); 
+            }
+
+            try {
+                const response  = await axios.put(`${API_BASE_URL}/book/updateBook/${id.id}`,formData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }); 
+                if (response?.data?.status === true) {
+                    toast.success(response?.data?.message);
                     setTimeout(() => {
                         navigate("/admin/book");
                     }, 3000);
@@ -194,7 +211,7 @@ const EditBook = () => {
     });
 
     
-    const [categories, setCategories] = useState([]); // Category data
+    const [categories, setCategories] = useState([]); 
     const [exams, setExams] = useState([]); 
 
     useEffect(() => {
@@ -224,8 +241,6 @@ const EditBook = () => {
         fetchExams();
     }, []);
 
-
-
     return (
         <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
@@ -243,11 +258,10 @@ const EditBook = () => {
                                     id="title"
                                     onChange={formik?.handleChange}
                                     value={formik.values.title}
-                                    // value={blogData?.title}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                                {console.log(formik.errors, "error is ")}{formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                            {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
                             {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -313,8 +327,6 @@ const EditBook = () => {
 
                                 {formik?.errors?.author && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.author}</p>}
                             </div>
-
-
                           
                             {/* Category Dropdown */}
                             <div className='flex flex-col'>
@@ -433,6 +445,8 @@ const EditBook = () => {
                                 <p className='mt-56 md:mt-24'></p>
                                 {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
                             </div>
+
+                            
                             {/* tags */}
                             <div className='mb-4 flex flex-col'>
                                 {/* display tags */}
@@ -457,33 +471,47 @@ const EditBook = () => {
                                 />
                                 {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
                             </div>
-                            {/* images */}
 
-                            <div className='flex flex-col'>
-                                <label htmlFor="image" className='text-start text-xl'>Upload Images</label>
-                                <input
-                                    type="file"
-                                    name="image"
-                                    id="image"
-                                    accept="image/*"
-                                    multiple  
-                                    onChange={handleImageChange}
-                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  
-                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>
-                                    {
-                                        imagePreviews?.length > 0 && imagePreviews.map((preview, index) => (
-                                            <div key={index} className='w-full h-[150px]'>
-                                                <img src={preview} alt={`Preview ${index + 1}`} className='w-full h-full object-cover' />
-                                            </div>
-                                        ))
-                                    }
+                        {/* Image Upload */}
+                        <div className="my-4">
+                            <label htmlFor="image" className="text-start text-xl">
+                                Upload Image
+                            </label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                multiple
+                                className="block w-full text-lg border border-gray-500 rounded-md my-1 outline-blue-400"
+                            />
+                            {formik.errors.images && (
+                                <p className="text-sm text-red-500">{formik.errors.images}</p>
+                            )}
+
+                       
+                            {imagePreviews.length > 0 && (
+                                <div className="mt-2 flex flex-wrap gap-4">
+                                    {imagePreviews.map((image, index) => (
+                                        <div key={index} className="relative">
+                                            <img
+                                                src={image}
+                                                alt={`Preview ${index}`}
+                                                className="w-32 h-32 object-cover rounded-md"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveImage(index)}
+                                                className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
-
-                                {formik?.errors?.image && <p className='text-sm text-red-500'>{formik?.errors?.image}</p>}
-                            </div>
-
+                            )}
+                        </div>
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
                         </form>
@@ -491,9 +519,10 @@ const EditBook = () => {
                 </div>
             </div>
       </DashboardLayoutBasic>
-
     );
 }
 
 export default EditBook;
+
+
 

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import DashboardLayoutBasic from './DashboardLayoutBasic';
 import { Link, useNavigate } from 'react-router-dom';
 
-//icons
 import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import BookList from './BookList';
 
 const Books = () => {
-  const [searchTerm, setSearchTerm] = useState('');  // Add searchTerm state
+  const [searchTerm, setSearchTerm] = useState('');  
   const navigate = useNavigate();
 
   const goBack = () => {
