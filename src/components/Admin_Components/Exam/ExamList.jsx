@@ -5,17 +5,22 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../Config';
+import Pagination from '../utils/Pagination';
 
 const ExamList = ({ searchTerm }) => {
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const[page,setpage]=useState(1);
+  const [totalPages,setTotalPages]=useState();
 
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/exam/all`);
+        const response = await axios.get(`${API_BASE_URL}/exam/all?page=${page}&per_page=10);`);
         setExams(response.data.exams || []);
+        setTotalPages(response?.data?.pagination?.totalPages);
+        setpage(response?.data?.pagination?.currentPage);
       } catch (error) {
         console.error('Error fetching exams:', error);
         setError('Failed to fetch exams. Please try again later.');
@@ -26,7 +31,11 @@ const ExamList = ({ searchTerm }) => {
     };
 
     fetchExams();
-  }, []);
+  }, [page]);
+
+  const handlePageChange = (pageNumber) => {
+    setpage(pageNumber);
+  };
 
   const deleteExam = async (id) => {
     try {
@@ -95,7 +104,13 @@ const ExamList = ({ searchTerm }) => {
               ))}
             </tbody>
           </table>
+          <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
         </div>
+        
       )}
       <Toaster />
     </div>

@@ -14,6 +14,9 @@ const BookFormvalidationSchema = Yup.object().shape({
   examName: Yup.string()
     .required('exam is required'),
 
+  subject : Yup.string()
+     .required("subject is required"),
+
   height: Yup.string()
     .required('height is required'),
     

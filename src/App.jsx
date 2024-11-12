@@ -38,6 +38,10 @@ import Exam from "./components/Admin_Components/Exam/Exam";
 import AddExam from "./components/Admin_Components/Exam/AddExam";
 import ExamList from "./components/Admin_Components/Exam/ExamList";
 import EditExam from "./components/Admin_Components/Exam/EditExam";
+import CreateBanner from "./components/Admin_Components/Banner/createBanner";
+import Banner2 from "./components/Admin_Components/Banner/Banner2";
+import Banner3 from "./components/Admin_Components/Banner/Banner3";
+
 
 function Layout({ children }) {
   const location = useLocation();
@@ -78,6 +82,9 @@ function App() {
 
             {/* Admin section */}
             <Route path="/admin" element={<Login />} />
+            <Route path="/admin/banner" element={<CreateBanner/>}/>
+            <Route path="/admin/banner2" element={<Banner2/>}/>
+            <Route path="/admin/banner3" element={<Banner3/>}/>
             <Route path="/admin/blog" element={<Blog/>} />
             <Route path="/admin/add-blog" element={<AddBlog/>} />
             <Route path="/admin/edit-blog/:id" element={<EditBlog/>} />

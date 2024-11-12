@@ -59,6 +59,34 @@ const NAVIGATION = [
 },
 
 
+ // banner section
+ {
+  segment: 'admin',
+  title: 'Images',
+  icon: <GridViewIcon/>,
+  children: [
+   
+    {
+      segment: 'banner',
+      title: 'Banner 1',
+      icon: <ImBlog />,
+    },
+    
+    {
+      segment: 'banner2',
+      title: 'Banner 2',
+      icon: <ImBlog />,
+    },
+    
+    {
+      segment: 'banner3',
+      title: 'Banner 3',
+      icon: <ImBlog />,
+    },
+  
+  ]
+},
+
 
 
   

@@ -6,13 +6,13 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useNavigate } from 'react-router-dom';
 import NAVIGATION from "./navigation"; // Ensure NAVIGATION is correctly imported
 import { DemoPageContent } from "./Drawer";
-
+// import logos from "../User_Components/images/logos.png"
 
 const demoTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: "data-toolpad-color-scheme",
   },
-  colorSchemes: { light: true, dark: true },
+  // colorSchemes: { light: true, dark: true },
   breakpoints: {
     values: {
       xs: 0,

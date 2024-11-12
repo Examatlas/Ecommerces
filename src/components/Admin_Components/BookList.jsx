@@ -6,14 +6,18 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from './Config';
 
+
 const BookList = ({ searchTerm }) => { 
   const [bookData, setBookData] = useState([]);
+  const[page,setpage]=useState(1);
+  const [totalPages,setTotalPages]=useState();
 
   // Fetch all books
   const fetchAllBooks = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/book/getAllBooks`);
       setBookData(response?.data?.books);
+    
     } catch (error) {
       console.log("Error when fetching books", error);
     }
@@ -27,6 +31,10 @@ const BookList = ({ searchTerm }) => {
   const filteredBooks = bookData.filter(book => 
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handlePageChange = (pageNumber) => {
+    setpage(pageNumber);
+  };
 
   // Delete book
   const deleteBook = async (bookId) => {
@@ -106,6 +114,7 @@ const BookList = ({ searchTerm }) => {
             )}
           </tbody>
         </table>
+        
       </div>
       <Toaster />
     </div>

@@ -28,6 +28,7 @@ const EditBook = () => {
         sellPrice: '',
         tags: [],
         examName: '',
+        subject : "",
         height: '',
         width: '',
         weight: '',
@@ -161,6 +162,7 @@ const handleRemoveImage = (index) => {
             category: bookData?.category,
             price: bookData?.price,
             sellPrice: bookData?.sellPrice,
+            subject: bookData?.subject,
             tags: bookData?.tags || [],
             examName : bookData?.examName,
             height : bookData?.height,
@@ -180,6 +182,7 @@ const handleRemoveImage = (index) => {
             formData.append('category', values.category);
             formData.append('price', values.price);
             formData.append('sellPrice', values.sellPrice);
+            formData.append('subject', values.subject);
             formData.append('tags', values.tags);
             formData.append('height', values.height);
             formData.append('width', values.width);
@@ -213,6 +216,7 @@ const handleRemoveImage = (index) => {
     
     const [categories, setCategories] = useState([]); 
     const [exams, setExams] = useState([]); 
+    const [subjects , setSubjects] = useState([])
 
     useEffect(() => {
 
@@ -237,8 +241,19 @@ const handleRemoveImage = (index) => {
             }
         };
 
+        const fetchSubjects = async () =>{
+            try{
+                const response = await axios.get(`${API_BASE_URL}/subject/getSubject`);
+                setSubjects(Array.isArray(response.data.data) ? response.data.data : []);
+            }catch(error){
+                console.error("error fetching subjects " , error);
+                setSubjects([]);
+            }
+        }
+
         fetchCategories();
         fetchExams();
+        fetchSubjects();
     }, []);
 
     return (
@@ -347,6 +362,27 @@ const handleRemoveImage = (index) => {
                                 </select>
                                 {formik.errors.category && <p className='text-sm text-red-500 text-left'>{formik.errors.category}</p>}
                             </div>
+
+
+                            <div className='flex flex-col'>
+                                <label htmlFor="subject" className='text-start text-xl mt-5'>Subject</label>
+                                <select
+                                    name='subject'
+                                    id="subject"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.subject}
+                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
+                                >
+                                    <option value="" disabled>Select a subject</option>
+                                    {subjects.map((subject) => (
+                                        <option key={subject._id} value={subject.title}>
+                                            {subject.title}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formik.errors.subject && <p className='text-sm text-red-500 text-left'>{formik.errors.subject}</p>}
+                            </div>
+
 
                             {/* Exam Name Dropdown */}
                             <div className='flex flex-col'>

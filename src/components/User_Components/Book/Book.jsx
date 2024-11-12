@@ -7,6 +7,12 @@ import Exam from "./Exam";
 import API_BASE_URL from "../Config"
 import axios from "axios";
 import Banner from "./Banner";
+import logos from "../images/logos.png";
+import pic6 from "../images/pic6.png";
+import pic3 from "../images/pic3.png";
+import SecondBanner from "./SecondBanner";
+import ThirdBanner from "./ThirdBanner";
+
 
 const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -133,10 +139,8 @@ const Book = () => {
 
         
         <div className="flex-shrink-0">
-          <img src={ex3} className="w-[120px] ml-20 h-auto" alt="Example Image" />
+          <img src={logos} className=" w-20 ml-20" alt="Example Image" />
         </div>
-
-
 
         <h1 className="font-semibold text-3xl italic ml-80 ">The Infinite Universe of Literary Wonders and Enchantments</h1>
 
@@ -337,10 +341,10 @@ const Book = () => {
       </div>
 
       {/* banner */}
-      <div>
-        <img src="" className="border border-gray-500 mt-1 w-[1470px] h-[300px] m-5 ml-14" />
-      </div>
-
+      {/* <div>
+        <img src={pic6} className="shadow-md mt-1 w-[1470px] h-[300px] m-5 ml-14" />
+      </div> */}
+      <SecondBanner/>
 
       {/* top exam preparation */}
       <div>
@@ -349,9 +353,10 @@ const Book = () => {
       </div>
 
       {/* banner */}
-      <div>
-        <img src="" className="border border-gray-500  w-[1470px] h-[300px] m-5 ml-14 mt-10" />
-      </div>
+      {/* <div>
+        <img src={pic3} className="shadow-md w-[1470px] h-[300px] m-5 ml-14 mt-10" />
+      </div> */}
+      <ThirdBanner/>
 
 
     </>
