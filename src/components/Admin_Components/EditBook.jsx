@@ -84,7 +84,7 @@ const EditBook = () => {
     ];
 
     const modules = {
-        toolbar: true,
+        // toolbar: true,
         toolbar: toolbarOptions,
 
     };

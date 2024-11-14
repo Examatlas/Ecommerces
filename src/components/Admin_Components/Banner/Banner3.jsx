@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast"; // Assuming you want to use react-hot-toast for notifications
+import { toast } from "react-hot-toast"; 
 import DashboardLayoutBasic from "../DashboardLayoutBasic";
 import API_BASE_URL from "../Config";
 
 const Banner3 = () => {
-  const [image, setImage] = useState(null); // State for the uploaded image
-  const [loading, setLoading] = useState(false); // State for loading indicator
+  const [image, setImage] = useState(null); 
+  const [loading, setLoading] = useState(false); 
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

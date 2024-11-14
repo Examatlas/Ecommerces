@@ -43,7 +43,7 @@ const AddBook = () => {
     ];
 
     const modules = {
-        toolbar: true,
+        // toolbar: true,
         toolbar: toolbarOptions,
     };
 

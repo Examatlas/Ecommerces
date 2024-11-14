@@ -20,7 +20,7 @@ export const toolbarOptions = [
 ];
 
 export const modules = {
-    toolbar: true,
+    // toolbar: true,
     toolbar: toolbarOptions,
 
 };
