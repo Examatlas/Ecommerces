@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import API_BASE_URL from './Config';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 const EditBook = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
@@ -122,31 +123,25 @@ const EditBook = () => {
         formik.setFieldValue('image', files);  
     };
 
-// const handleRemoveImage = async (index) => {
-//     const imageUrl = imagePreviews[index];  // Get the URL or image ID
-
-//     try {
-//         const response = await axios.delete(`${API_BASE_URL}/image/delete`, {
-//             data: { imageUrl } 
-//         });
-//         if (response.status === 200) {
     
-//             setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
-//         }
-//     } catch (error) {
-//         console.error('Error removing image:', error);
-//     }
-// };
 
-
-const handleRemoveImage = (index) => {
-    const newPreviews = imagePreviews.filter((_, i) => i !== index);
-    const newImages = selectedImages.filter((_, i) => i !== index);
-
-    setImagePreviews(newPreviews);
-    setSelectedImages(newImages);
-    formik.setFieldValue('images', newImages);
-};
+const handleRemoveImage = async (index) => {
+    const imageUrl = imagePreviews[index];
+    const filename = imageUrl.split('/').pop();  // Extract filename from URL
+  
+    try {
+      // Send delete request to the backend
+      const response = await axios.delete(`${API_BASE_URL}/book/deleteImage/${filename}`);
+  
+      if (response.status === 200) {
+        // Remove the image from the preview state if delete was successful
+        setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
+      }
+    } catch (error) {
+      console.error('Error removing image:', error);
+    }
+  };
+  
 
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);

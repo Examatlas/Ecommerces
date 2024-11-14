@@ -1,31 +1,12 @@
-# runtime: nodejs18
+runtime: nodejs18
 
-# env: standard
-
-# handlers:
-#   - url: /
-#     static_files: dist/index.html
-#     upload: dist/index.html
-
-#   - url: /
-#     static_dir: dist
-
-
-
-runtime: nodejs16
-
-env_variables:
-  NODE_ENV: 'production'
-
-instance_class: F2
+env: standard
 
 handlers:
-  - url: /admin
-    static_dir: ./admin_component
-  - url: /user
-    static_dir: ./user_component
-  - url: /.* 
-    static_files: build/index.html
-    upload: build/index.html
-  - url: /.* 
-    static_dir: build
+  - url: /
+    static_files: dist/index.html
+    upload: dist/index.html
+
+  - url: /
+    static_dir: dist
+
