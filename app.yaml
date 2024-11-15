@@ -1,16 +1,16 @@
 runtime: nodejs18
-
 env: standard
 
 handlers:
-  - url: /
+  # Serve the index.html for all routes
+  - url: /.*  # This handles all routes, including /admin, /about, etc.
     static_files: dist/index.html
     upload: dist/index.html
 
-  - url: /.*
-    static_files: dist/index.html
-    upload: dist/index.html
+  # Serve static files (CSS, JS, images) for all other requests
+  - url: /static
+    static_dir: dist/static
 
-  - url: /
-    static_dir: dist
+  # - url: /
+  #   static_dir: dist
 
