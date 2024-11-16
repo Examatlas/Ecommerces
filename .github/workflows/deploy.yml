@@ -4,8 +4,23 @@ on:
   push:
     branches:
       - main # Trigger deployment when code is pushed to the 'main' branch
+env:
+    CI: true
 
 jobs:
+build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with: 
+            node-version: '22' # Replace with your Node.js version
   deploy:
     runs-on: ubuntu-latest
 
@@ -25,6 +40,11 @@ jobs:
         run: |
           npm install
           npm run build
+        env: 
+            NODE_ENV: production
+            REACT_APP_BACKEND_BASE_URL: 'https://ecommerce-backend.crownpublications.in/api'
+            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
 
       # Step 4: Deploy the build to the server
       - name: Deploy to Ubuntu server
