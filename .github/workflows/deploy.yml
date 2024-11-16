@@ -1,0 +1,51 @@
+name: Deploy React Vite App Ecommerces
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment when code is pushed to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22' # Replace with your Node.js version
+
+      # Step 3: Install dependencies and build the React Vite app
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      # Step 4: Deploy the build to the server
+      - name: Deploy to Ubuntu server
+        env:
+            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    #       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    #       HOST: ${{ secrets.HOST }}
+    #       USER: ${{ secrets.USER }}
+        run: |
+          # Create SSH key for authentication
+        #   mkdir -p ~/.ssh 
+        #   echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        #   chmod 600 ~/.ssh/id_rsa
+
+          # Copy the build folder to the server
+        #   rsync -avz --delete dist/ $USER@$HOST:/var/www/react-vite-app/
+
+          # Restart the application using PM2
+        #  ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+        #     cd /var/www/react-vite-app
+        #     pm2 delete react-vite-app || true # Stop any existing instance
+        #     pm2 serve /var/www/react-vite-app 3000 --name "react-vite-app" --spa
+        #     pm2 save
+        #   EOF
