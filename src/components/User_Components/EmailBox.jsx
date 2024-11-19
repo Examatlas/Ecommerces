@@ -19,7 +19,7 @@ const EmailBox = () => {
             try {
                 setLoading(true);
                 const response = await axios.post(
-                    "http://localhost:5000/api/user/forgotpassword", 
+                    `${API_BASE_URL}/user/forgotpassword`, 
                     { email }
                 );
 
