@@ -141,7 +141,7 @@ const BillingForm = () => {
       description: "A Book Store",
       image: ex2,
       order_id: order.id,
-      callback_url: `${import.meta.env.VITE_BACKEND_BASE_URL}`+'/payment/paymentverification',
+      callback_url: `${API_BASE_URL}/payment/paymentverification`,
       prefill: {
         name: "Crown Publication",
         email: "crownclassesrnc@gmail.com",
