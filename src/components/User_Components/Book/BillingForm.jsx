@@ -137,13 +137,13 @@ const BillingForm = () => {
       key : REACT_APP_RAZORPAY_API_KEY ,
       amount: order.amount,
       currency: "INR",
-      name: "ExamAtlas",
+      name: "Crown Publication",
       description: "A Book Store",
       image: ex2,
       order_id: order.id,
-      callback_url: "http://localhost:5000/api/payment/paymentverification",
+      callback_url: `${import.meta.env.VITE_BACKEND_BASE_URL}`+'/payment/paymentverification',
       prefill: {
-        name: "ExamAtlas",
+        name: "Crown Publication",
         email: "crownclassesrnc@gmail.com",
         contact: "6205435760"
       },
