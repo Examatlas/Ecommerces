@@ -47,7 +47,7 @@ import TermsAndConditions from "./components/User_Components/Footer/Condition";
 import PrivacyPolicy from "./components/User_Components/Footer/PrivacyPolicy ";
 import CancellationPolicy from "./components/User_Components/Footer/CancellationPolicy ";
 import ShipmentProcessing from "./components/User_Components/Footer/Shipment";
-import CreateBanner from "./components/Admin_Components/Banner/createBanner";
+import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
 
 
 
