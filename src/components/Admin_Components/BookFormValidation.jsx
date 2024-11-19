@@ -11,17 +11,17 @@ const BookFormvalidationSchema = Yup.object().shape({
   category: Yup.string()
     .required('Category is required'),
 
-  examName: Yup.string()
-    .required('exam is required'),
+  // examName: Yup.string()
+  //   .required('exam is required'),
 
   subject : Yup.string()
      .required("subject is required"),
 
-  height: Yup.string()
-    .required('height is required'),
+  // height: Yup.string()
+  //   .required('height is required'),
     
-  width: Yup.string()
-      .required('width is required'), 
+  dimension: Yup.string()
+      .required('dimension is required'), 
   
   weight: Yup.string()
         .required('weight is required'), 

@@ -13,6 +13,7 @@ function AddCategoryModal({fetchAllCategory}) {
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
 
+  
     const handleCategoryChange = (e) => setCategoryName(e.target.value);
     const handleDescriptionChange = (e) => setDescription(e.target.value);
 

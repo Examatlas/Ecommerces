@@ -133,3 +133,148 @@ const ExamBook = () => {
 };
 
 export default ExamBook;
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { toast } from "react-hot-toast";
+// import API_BASE_URL from "../Config";
+
+// const ExamBook = () => {
+//   const { categoryName } = useParams(); // Get category name from route params
+//   console.log(categoryName,"dsfsdfsdf")
+//   const [books, setBooks] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
+
+//   const userId = localStorage.getItem("user_userId"); // Retrieve user ID from localStorage
+
+//   // Fetch books based on category name
+//   const getBooksByCategoryName = async () => {
+//     try {
+//       const response = await axios.get(
+//         `${API_BASE_URL}/category/books/${categoryName}`
+//       );
+//       setBooks(response.data.books || []); // Set the books array
+//     } catch (error) {
+//       console.error("Error fetching books:", error);
+//       toast.error("Failed to fetch books. Please try again later.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Add book to cart
+//   const addToCart = async (bookId) => {
+//     try {
+//       await axios.post(`${API_BASE_URL}/cart/add`, { bookId, userId });
+//       toast.success("Book added to cart!");
+//       navigate("/ecommerce/cart");
+//     } catch (error) {
+//       console.error("Error adding to cart:", error);
+//       toast.error("Failed to add book to cart. Please try again.");
+//     }
+//   };
+
+//   // Navigate to book detail page
+//   const handleBoxClicks = (bookId) => {
+//     navigate(`/bookdetail/${bookId}`);
+//   };
+
+//   useEffect(() => {
+//     getBooksByCategoryName();
+//   }, [categoryName]);
+
+//   if (loading) {
+//     return <p className="text-center mt-10 text-xl text-blue-700">Loading...</p>;
+//   }
+
+//   return (
+//     <div className="p-6 min-h-screen">
+//       <h1 className="text-4xl font-bold text-center mb-8 text-blue-700 mt-20">
+//         Books in {categoryName}
+//       </h1>
+
+//       {books.length > 0 ? (
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10">
+//           {books.map((book) => (
+//             <div
+//               key={book._id}
+//               className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col w-full"
+//               onClick={() => handleBoxClicks(book._id)}
+//             >
+//               {/* Book Image */}
+//               <div className="h-48 bg-gray-200">
+//                 {book.images && book.images.length > 0 ? (
+//                   <img
+//                     src={book.images[0].url}
+//                     alt={book.title}
+//                     className="h-full w-full object-cover"
+//                   />
+//                 ) : (
+//                   <p className="text-center text-gray-400">No image available</p>
+//                 )}
+//               </div>
+
+//               {/* Book Details */}
+//               <div className="p-4 flex flex-col flex-grow">
+//                 <h2 className="text-xl font-semibold mb-1 text-blue-600">
+//                   {book.title}
+//                 </h2>
+//                 <p className="text-gray-600 text-sm mb-2">
+//                   Author: <span className="font-medium">{book.author}</span>
+//                 </p>
+//                 <p className="text-gray-500 mb-1">
+//                   <strong>Category:</strong> {book.category}
+//                 </p>
+
+//                 {/* Tags */}
+//                 <div className="flex flex-wrap gap-2 mb-4">
+//                   {book.tags.map((tag, index) => (
+//                     <span
+//                       key={index}
+//                       className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm"
+//                     >
+//                       {tag}
+//                     </span>
+//                   ))}
+//                 </div>
+
+//                 {/* Pricing and Buy Now */}
+//                 <div className="flex justify-between items-center mt-auto">
+//                   <div>
+//                     <p className="text-lg font-semibold text-green-600">
+//                       ₹{book.sellPrice}{" "}
+//                       <span className="line-through text-red-400">
+//                         ₹{book.price}
+//                       </span>
+//                     </p>
+//                   </div>
+//                   <button
+//                     className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
+//                     onClick={(e) => {
+//                       e.stopPropagation(); // Prevents triggering `handleBoxClicks`
+//                       addToCart(book._id);
+//                     }}
+//                   >
+//                     Buy Now
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       ) : (
+//         <p className="text-center text-gray-600 mt-8">
+//           No books found for {categoryName}.
+//         </p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ExamBook;
+
+

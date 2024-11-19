@@ -93,14 +93,20 @@ const EditBlog = () => {
         formik.setFieldValue('images', [...formik.values.images, ...files]);
     };
 
-    const handleRemoveImage = (index) => {
-        const newPreviews = imagePreviews.filter((_, i) => i !== index);
-        const newImages = selectedImages.filter((_, i) => i !== index);
+    const handleRemoveImage = async (index) => {
+        const imageUrl = imagePreviews[index];
+        const filename = imageUrl.split('/').pop();  
+        try {
+            const response = await axios.delete(`${API_BASE_URL}/blog/deleteImage/${filename}`);
 
-        setImagePreviews(newPreviews);
-        setSelectedImages(newImages);
-        formik.setFieldValue('images', newImages);
+            if (response.status === 200) {
+                setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
+            }
+        } catch (error) {
+            console.error('Error removing image:', error);
+        }
     };
+
 
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
@@ -199,7 +205,7 @@ const EditBlog = () => {
                                 {formik.values.tags?.map((tag, index) => (
                                     <div key={index} className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
                                         <strong>{tag}</strong>
-                                        <RxCross2 onClick={() => handleRemoveTag(index)} className='cursor-pointer'/>
+                                        <RxCross2 onClick={() => handleRemoveTag(index)} className='cursor-pointer' />
                                     </div>
                                 ))}
                             </div>
