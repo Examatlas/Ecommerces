@@ -31,7 +31,7 @@ const EditBook = () => {
       
         subject : "",
         // height: '',
-        dimension : '',
+        dimension: { length: '', breadth: '', height: '' },
         weight: '',
         isbn: '',
         images: [],
@@ -179,7 +179,10 @@ const handleRemoveImage = async (index) => {
             formData.append('subject', values.subject);
             formData.append('tags', values.tags);
             
-            formData.append('dimension', values.dimension);
+            formData.append(
+                'dimension',
+                JSON.stringify(values.dimension) // Convert dimension object to string
+            );
             formData.append('isbn', values.isbn);
           
             values.images.forEach((image) => formData.append('images', image));
@@ -224,6 +227,8 @@ const handleRemoveImage = async (index) => {
             }
         };
 
+
+
     
 
         const fetchSubjects = async () =>{
@@ -240,6 +245,14 @@ const handleRemoveImage = async (index) => {
         
         fetchSubjects();
     }, []);
+
+    const handleDimensionChange = (e) => {
+        const { name, value } = e.target;
+        formik.setFieldValue('dimension', {
+            ...formik?.values?.dimension,
+            [name]: value,
+        });
+    };
 
     return (
         <DashboardLayoutBasic>
@@ -370,7 +383,7 @@ const handleRemoveImage = async (index) => {
 
 
                             {/* dimension */}
-                            <div className='flex flex-col justify-start '>
+                            {/* <div className='flex flex-col justify-start '>
                                 <label htmlFor="dimension" className='text-start text-xl'>dimension</label>
                                 <input
                                     type="text"
@@ -382,7 +395,58 @@ const handleRemoveImage = async (index) => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
                                 {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
-                            </div>
+                            </div> */}
+
+<div className="flex flex-col flex flex-col justify-start mt-5">
+                <label className="text-start text-xl">Book Dimensions (in cm):</label>
+      <div className="flex gap-4">
+        <div className="flex flex-col">
+          <label htmlFor="length" className="text-md mb-1">Length</label>
+          <input
+            type="number"
+            id="length"
+            name="length"
+            onChange={handleDimensionChange}
+            value={formik.values?.dimension?.length}
+            className="border rounded px-2 py-1 w-20"
+            placeholder="cm"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="breadth" className="text-md mb-1">Breadth</label>
+          <input
+            type="number"
+            id="breadth"
+            name="breadth"
+            onChange={handleDimensionChange}
+            value={formik?.values?.dimension?.breadth}
+            className="border rounded px-2 py-1 w-20"
+            placeholder="cm"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="height" className="text-md mb-1">Height</label>
+          <input
+            type="number"
+            id="height"
+            name="height"
+            onChange={handleDimensionChange}
+            value={formik?.values?.dimension?.height}
+            className="border rounded px-2 py-1 w-20"
+            placeholder="cm"
+          />
+        </div>
+      </div>
+      {formik.errors.dimension?.length && (
+    <p className="text-sm text-red-500">{formik.errors.dimension.length}</p>
+)}
+{formik.errors.dimension?.breadth && (
+    <p className="text-sm text-red-500">{formik.errors.dimension.breadth}</p>
+)}
+{formik.errors.dimension?.height && (
+    <p className="text-sm text-red-500">{formik.errors.dimension.height}</p>
+)}
+ </div>
 
                             {/* Weight */}
                             <div className='flex flex-col justify-start '>

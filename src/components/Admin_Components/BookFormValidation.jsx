@@ -20,8 +20,17 @@ const BookFormvalidationSchema = Yup.object().shape({
   // height: Yup.string()
   //   .required('height is required'),
     
-  dimension: Yup.string()
-      .required('dimension is required'), 
+  dimension: Yup.object().shape({
+    length: Yup.number()
+      .required('Length is required')
+      .positive('Length must be positive'),
+    breadth: Yup.number()
+      .required('Breadth is required')
+      .positive('Breadth must be positive'),
+    height: Yup.number()
+      .required('Height is required')
+      .positive('Height must be positive'),
+  }),
   
   weight: Yup.string()
         .required('weight is required'), 
