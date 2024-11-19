@@ -72,7 +72,7 @@ const BookList = ({ searchTerm }) => {
             {filteredBooks.length > 0 ? (
               filteredBooks.reverse().map((item, index) => (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
-                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <th scope="row" className="px-6 py-4 font-medium text-gray-900  dark:text-white  whitespace-normal line-clamp-2">
                     {item?.title}
                   </th>
                   <td className="px-6 py-4">

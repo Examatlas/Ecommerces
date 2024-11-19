@@ -13,7 +13,6 @@ import pic3 from "../images/pic3.png";
 import SecondBanner from "./SecondBanner";
 import ThirdBanner from "./ThirdBanner";
 
-
 const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categoryData, setCategoryData] = useState([]);
@@ -28,7 +27,6 @@ const Book = () => {
   // Fetch all books, wishlist, and cart
   const fetchAllBooks = async () => {
     try {
-      // const response = await axios.get(`${API_BASE_URL}/book/getAllBooks`);
       const response = await axios.get(`${API_BASE_URL}/book/getAllBooks`);
       setCategoryData(response?.data?.books || []);
 
@@ -128,16 +126,13 @@ const Book = () => {
   }
 
   const handleBoxClick = (id) => {
-    navigate(`/bookdetail/${id}`);  
+    navigate(`/bookdetail/${id}`);
   };
 
   return (
     <>
-
       {/* Category Filter & Icons */}
       <div className="flex justify-between items-center px-8 mt-[80px]">
-
-        
         <div className="flex-shrink-0">
           <img src={logos} className=" w-20 ml-20" alt="Example Image" />
         </div>
@@ -155,93 +150,48 @@ const Book = () => {
         </div>
       </div>
 
-      {/* <div>
-        <img src="" className="border border-gray-500 mt-1 w-[1450px] h-[300px] m-5 ml-16" />
-      </div> */}
+     
       <Banner />
 
+      <h2 className="text-3xl font-bold text-start mt-10 ml-20 mb-5">Top 6 Books</h2>
+      <div className="flex justify-center gap-5 mt-10  mb-10">
 
-      {/* top exam category
-      <div className="ml-16">
-        <div className="flex justify-between items-center">
-          <h1 className="font-bold text-3xl">Top  Exam Category</h1>
-          {categoryData.length > 5 && (
-            <button
-              onClick={handleViewAll}
-              className="mt-0 mr-20 p-2 font-bold text-xl rounded"
+        {categoryData.length > 0 ? (
+          categoryData.slice(-6).reverse().map((dataItem) => ( 
+            <div
+              key={dataItem._id}
+              className="rounded overflow-hidden shadow-lg bg-white border w-[200px]" 
+              onClick={() => handleBoxClick(dataItem._id)}
             >
-              {showAll ? 'Show Less' : 'View All '}
-            </button>
-          )}
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-5 mt-7 mr-14 mb-10">
-          {categoryData.length > 0 ? (
-            (showAll ? categoryData : categoryData.slice(0, 6)).map((dataItem) => (
-              <div key={dataItem._id} className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4 border"
-                onClick={() => handleBoxClick(dataItem._id)}>
-                <div className="h-48 mb-4 flex justify-center items-center bg-gray-200">
-               
-                  {dataItem.images && dataItem.images.length > 0 ? (
-                    <img src={dataItem.images[0].url} alt={dataItem.title} />
-                  ) : (
-                    <p>No image available</p>
-                  )}
-                </div>
-                <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2 text-center">{dataItem.title}</div>
-                </div>
+              {/* Image container */}
+              <div className="w-[200px] h-auto flex justify-center items-center bg-gray-200 overflow-hidden">
+                {dataItem.images && dataItem.images.length > 0 ? (
+                  <img
+                    src={dataItem.images[0].url}
+                    alt={dataItem.title}
+                    className="w-full h-auto object-contain"
+                  />
+                ) : (
+                  <p className="text-xs text-center">No image available</p>
+                )}
               </div>
-            ))
-          ) : (
-            <p className="text-gray-500">No exam categories available.</p>
-          )}
-        </div>
-      </div> */}
+              {/* Text section */}
+              <div className="px-2 py-2">
+                <div className="font-medium text-sm text-center break-words">{dataItem.title}</div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No exam categories available.</p>
+        )}
+      </div>
 
-   {/* Top exam category */}
-<div className="ml-16 mt-10">
-  <div className="flex justify-between items-center">
-    <h1 className="font-bold text-3xl">Top 5 Books</h1>
-  </div>
-
-  <div className="flex justify-center gap-5 mt-10 mr-14 mb-10">
-    {categoryData.length > 0 ? (
-      categoryData.slice(-5).reverse().map((dataItem) => ( // Select the last 5 items
-        <div
-          key={dataItem._id}
-          className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4 border"
-          onClick={() => handleBoxClick(dataItem._id)}
-        >
-          <div className="h-48 mb-4 flex justify-center items-center bg-gray-200">
-            {dataItem.images && dataItem.images.length > 0 ? (
-              <img
-                src={dataItem.images[0].url}
-                alt={dataItem.title}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <p>No image available</p>
-            )}
-          </div>
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2 text-center">{dataItem.title}</div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <p className="text-gray-500">No exam categories available.</p>
-    )}
-  </div>
-</div>
 
 
       {/* Display filtered books */}
       <div className="flex justify-between items-center">
         <h1 className="ml-16 font-semibold text-3xl mb-10">Books for all competitive Exams!
         </h1>
-         
-      
 
         {filteredBooks.length > 4 && (
           <button
@@ -253,52 +203,59 @@ const Book = () => {
         )}
       </div>
 
-        {/* category dropdown */}
-        <div className="ml-14 mb-10">
-          <select
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            className="border-2 border-gray-300 p-3 rounded-lg w-full max-w-[590px] focus:outline-none focus:border-blue-500  "
-          >
-            <option value="">Select Category</option>
-            {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
-              <option key={index} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* category dropdown */}
+      <div className="ml-14 mb-10">
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="border-2 border-gray-300 p-3 rounded-lg w-full max-w-[590px] focus:outline-none focus:border-blue-500  "
+        >
+          <option value="">Select Category</option>
+          {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="flex flex-wrap justify-center gap-6">
         {filteredBooks.length > 0 ? (
           // (showAll ? categoryData : categoryData.slice(0, 6)).map((dataItem) => (
           (showEach ? filteredBooks : filteredBooks.slice(0, 8)).map((dataItem) => (
-            <div key={dataItem._id} className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4 border relative w-[350px] mb-10"
+            <div key={dataItem._id}
+              className="max-w-xs rounded overflow-hidden shadow-lg bg-white p-2  border relative w-[220px] mb-6"
             >
+              
               {/* Wishlist Icon */}
               <button
                 onClick={() => toggleWishlist(dataItem._id)}
-                className={`absolute top-2 right-2 w-7 h-7 mt-4 m-3 flex items-center justify-center rounded-full border-2 ${wishlist.includes(dataItem._id) ? "bg-red-500 border-red-500" : "bg-gray-200 border-gray-300"} transition duration-200`}
+                className={`absolute top-9 right-10 w-6 h-6 flex items-center justify-center  rounded-full border-2 ${wishlist.includes(dataItem._id) ? "bg-red-500 border-red-500" : "bg-gray-200 border-gray-300"
+                  } transition duration-200`}
               >
-                <FaHeart className={`text-md ${wishlist.includes(dataItem._id) ? "text-white" : "text-gray-500"}`} />
+                <FaHeart
+                  className={`text-sm ${wishlist.includes(dataItem._id) ? "text-white" : "text-gray-500"
+                    }`}
+                />
               </button>
 
-              {/* Image Section */}
-              <div className="h-40 mb-4 flex justify-center items-center bg-gray-200" >
-
+              <div className="w-[200px] h-auto flex justify-center items-center  overflow-hidden ">
                 {dataItem.images && dataItem.images.length > 0 ? (
-                  <img src={dataItem.images[0].url} alt={dataItem.title} />
+                  <img
+                    src={dataItem.images[0].url}
+                    alt={dataItem.title}
+                    className="w-full h-auto object-contain"
+                  />
                 ) : (
-                  <p>No image available</p>
+                  <p className="text-xs text-center">No image available</p>
                 )}
               </div>
 
               {/* Book Details */}
-              <div className="px-6 py-4" onClick={() => handleBoxClick(dataItem._id)}>
-                <div className="font-bold text-xl mb-2">{dataItem.title}</div>
+              <div className="px-6 " onClick={() => handleBoxClick(dataItem._id)}>
+                <div className="font-bold text-small overflow-hidden text-ellipsis whitespace-nowrap">{dataItem.title}</div>
                 <p className="text-gray-700 text-base"><strong>Author:</strong> {dataItem.author}</p>
-                {/* <p className="text-gray-700 text-base"><strong>Category:</strong> {dataItem.category}</p> */}
-                <p className="text-gray-700 text-base"><strong>Keyword:</strong> {dataItem.keyword}</p>
+                
 
                 <p className="text-gray-700 text-base">
                   <strong>MRP:</strong> &#x20B9;{dataItem.sellPrice} &nbsp;
@@ -311,24 +268,13 @@ const Book = () => {
                   )}
                 </p>
 
-                {dataItem.tags && dataItem.tags.length > 0 && (
-                  <div className="mt-4">
-                    <div className="flex flex-wrap mt-2">
-                      {dataItem.tags.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Add to Cart Button */}
               <div className="px-6 py-4 flex justify-center">
                 <button
                   onClick={() => addToCart(dataItem._id)}
-                  className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-700 font-semibold w-[300px]"
+                  className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-700 font-semibold w-[200px]"
                 >
                   Add to Cart
                 </button>
@@ -340,11 +286,8 @@ const Book = () => {
         )}
       </div>
 
-      {/* banner */}
-      {/* <div>
-        <img src={pic6} className="shadow-md mt-1 w-[1470px] h-[300px] m-5 ml-14" />
-      </div> */}
-      <SecondBanner/>
+     
+      <SecondBanner />
 
       {/* top exam preparation */}
       <div>
@@ -352,11 +295,8 @@ const Book = () => {
         <Exam />
       </div>
 
-      {/* banner */}
-      {/* <div>
-        <img src={pic3} className="shadow-md w-[1470px] h-[300px] m-5 ml-14 mt-10" />
-      </div> */}
-      <ThirdBanner/>
+     
+      <ThirdBanner />
 
 
     </>

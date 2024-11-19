@@ -28,10 +28,10 @@ const EditBook = () => {
         price: '',
         sellPrice: '',
         tags: [],
-        examName: '',
+      
         subject : "",
-        height: '',
-        width: '',
+        // height: '',
+        dimension : '',
         weight: '',
         isbn: '',
         images: [],
@@ -127,7 +127,7 @@ const EditBook = () => {
 
 const handleRemoveImage = async (index) => {
     const imageUrl = imagePreviews[index];
-    const filename = imageUrl.split('/').pop();  // Extract filename from URL
+    const filename = imageUrl.split('/').pop();  
   
     try {
       // Send delete request to the backend
@@ -159,9 +159,8 @@ const handleRemoveImage = async (index) => {
             sellPrice: bookData?.sellPrice,
             subject: bookData?.subject,
             tags: bookData?.tags || [],
-            examName : bookData?.examName,
-            height : bookData?.height,
-            width : bookData?.width,
+        
+            dimension : bookData?.dimension,
             weight : bookData?.weight,
             isbn : bookData?.isbn,
             images : [],
@@ -179,10 +178,10 @@ const handleRemoveImage = async (index) => {
             formData.append('sellPrice', values.sellPrice);
             formData.append('subject', values.subject);
             formData.append('tags', values.tags);
-            formData.append('height', values.height);
-            formData.append('width', values.width);
+            
+            formData.append('dimension', values.dimension);
             formData.append('isbn', values.isbn);
-            formData.append('examName', values.examName);
+          
             values.images.forEach((image) => formData.append('images', image));
 
             if (images.length > 0) {
@@ -210,7 +209,7 @@ const handleRemoveImage = async (index) => {
 
     
     const [categories, setCategories] = useState([]); 
-    const [exams, setExams] = useState([]); 
+    // const [exams, setExams] = useState([]); 
     const [subjects , setSubjects] = useState([])
 
     useEffect(() => {
@@ -225,16 +224,7 @@ const handleRemoveImage = async (index) => {
             }
         };
 
-        // Fetch exams when the component mounts
-        const fetchExams = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/exam/all`); 
-                setExams(Array.isArray(response.data.exams) ? response.data.exams : []);
-            } catch (error) {
-                console.error("Error fetching exams", error);
-                setExams([]);
-            }
-        };
+    
 
         const fetchSubjects = async () =>{
             try{
@@ -247,7 +237,7 @@ const handleRemoveImage = async (index) => {
         }
 
         fetchCategories();
-        fetchExams();
+        
         fetchSubjects();
     }, []);
 
@@ -379,54 +369,19 @@ const handleRemoveImage = async (index) => {
                             </div>
 
 
-                            {/* Exam Name Dropdown */}
-                            <div className='flex flex-col'>
-                                <label htmlFor="examName" className='text-start text-xl mt-5'>Exam Name</label>
-                                <select
-                                    name='examName'
-                                    id="examName"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.examName}
-                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
-                                >
-                                    <option value="" disabled>Select an exam</option>
-                                    {exams.map((exam) => (
-                                        <option key={exam._id} value={exam.examName}>
-                                            {exam.examName}
-                                        </option>
-                                    ))}
-                                </select>
-                                {formik.errors.examName && <p className='text-sm text-red-500 text-left'>{formik.errors.examName}</p>}
-                            </div>
-
-                            {/* Height */}
-                            <div className='flex flex-col justify-start mt-5 '>
-                                <label htmlFor="height" className='text-start text-xl'>Height</label>
-                                <input
-                                    type="text"
-                                    placeholder='Height'
-                                    name='height'
-                                    id="height"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.height}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {formik?.errors?.height && <p className='text-sm text-red-500 text-left'>{formik?.errors?.height}</p>}
-                            </div>
-
-                            {/* Width */}
+                            {/* dimension */}
                             <div className='flex flex-col justify-start '>
-                                <label htmlFor="width" className='text-start text-xl'>Width</label>
+                                <label htmlFor="dimension" className='text-start text-xl'>dimension</label>
                                 <input
                                     type="text"
-                                    placeholder='Width'
-                                    name='width'
-                                    id="width"
+                                    placeholder='length x breadth x height'
+                                    name='dimension'
+                                    id="dimension"
                                     onChange={formik?.handleChange}
-                                    value={formik.values.width}
+                                    value={formik.values.dimension}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {formik?.errors?.width && <p className='text-sm text-red-500 text-left'>{formik?.errors?.width}</p>}
+                                {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
                             </div>
 
                             {/* Weight */}

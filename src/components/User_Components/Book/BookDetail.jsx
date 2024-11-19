@@ -11,6 +11,7 @@ function BookDetails() {
   const [loading, setLoading] = useState(true);
   const [wishlist, setWishlist] = useState([]);
   const [mainImage, setMainImage] = useState(""); // State for the main image
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const navigate = useNavigate()
 
@@ -84,7 +85,7 @@ function BookDetails() {
   if (!book) return <p>Book not found!</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50  mb-20">
       <div className="flex w-3/4 bg-white shadow-lg rounded-lg overflow-hidden mt-[80px]">
         {/* Left Column - Book Image */}
         <div className="w-1/3 p-4 flex flex-col items-center">
@@ -116,19 +117,10 @@ function BookDetails() {
             <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
             <p className="text-gray-600 mb-4">{book.keyword}</p>
 
-            <div
+            {/* <div
               className="text-gray-700 mb-4"
               dangerouslySetInnerHTML={{ __html: book.content }} // Render HTML safely
-            ></div>
-
-            <div className="flex items-center space-x-4 mb-4">
-              <span className="text-xl font-semibold">Price: ₹{book.sellPrice} &nbsp;<strike>₹{book.price}</strike></span>
-              {book.price > 0 && (
-                <span className="text-green-600 ml-2">
-                  ({Math.round(((book.price - book.sellPrice) / book.price) * 100)}% OFF)
-                </span>
-              )}
-            </div>
+            ></div> */}
 
             <p className="text-gray-500 mb-2">
               <strong>Category:</strong> {book.category}
@@ -137,8 +129,8 @@ function BookDetails() {
               <strong>Author:</strong> {book.author}
             </p>
 
-            <div className="mt-4">
-              <h3 className="font-semibold mb-2">Tags:</h3>
+            <div className="mt-4 mb-5">
+              {/* <h3 className="font-semibold mb-2">Tags:</h3> */}
               <ul className="list-disc list-inside">
                 {book.tags.map((tag, index) => (
                   <li key={index} className="text-gray-600">
@@ -147,12 +139,46 @@ function BookDetails() {
                 ))}
               </ul>
             </div>
+
+            <div
+              className={isExpanded ? "" : "line-clamp-6"}
+              dangerouslySetInnerHTML={{ __html: book.content }}
+            ></div>
+
+            {/* Read More / Read Less Button */}
+            <button
+              className="text-blue-500 hover:underline mt-2"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? "Read Less" : "Read More"}
+            </button>
+
+            {/* <div className="flex items-center space-x-4 mb-4">
+              <span className="text-xl font-semibold">Price: ₹{book.sellPrice} &nbsp;<strike>₹{book.price}</strike></span>
+              {book.price > 0 && (
+                <span className="text-green-600 ml-2">
+                  ({Math.round(((book.price - book.sellPrice) / book.price) * 100)}% OFF)
+                </span>
+              )}
+            </div>
+
+            */}
           </div>
         </div>
 
         {/* Right Column - Cart Actions */}
         <div className="w-1/4 p-6 border-l flex flex-col justify-between">
           <div>
+            <div className="flex items-center space-x-4 mb-4">
+              <span className="text-small font-semibold whitespace-nowrap">Price: ₹{book.sellPrice} &nbsp;<strike>₹{book.price}</strike></span>
+              {book.price > 0 && (
+                <span className="text-green-600 ml-2">
+                  ({Math.round(((book.price - book.sellPrice) / book.price) * 100)}% OFF)
+                </span>
+              )}
+            </div>
+
+
             <button className="w-full bg-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-600"
               onClick={handleBuyNow}
             >
@@ -163,11 +189,11 @@ function BookDetails() {
             >
               Add to Wishlist
             </button>
-          </div>
 
-          <div className="mt-6 text-sm text-gray-500">
-            <p>Ships within 2-3 business days.</p>
-            <p>30-day return policy.</p>
+            <div className="mt-6 text-sm text-gray-500 text-center">
+              <p>Ships within 2-3 business days.</p>
+              <p>30-day return policy.</p>
+            </div>
           </div>
         </div>
       </div>

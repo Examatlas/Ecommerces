@@ -13,6 +13,8 @@ const Category = () => {
   const [page, setpage] = useState(1);
   const [totalPages, setTotalPages] = useState();
 
+  
+
   const handlePageChange = (pageNumber) => {
     setpage(pageNumber);
   };

@@ -1,108 +1,130 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialFacebook } from "react-icons/ti";
 import { RxTwitterLogo } from "react-icons/rx";
 import { RiYoutubeLine } from "react-icons/ri";
 import { FaLinkedinIn } from "react-icons/fa6";
+import API_BASE_URL from "./Config";
 // import ex2 from "./images/ex2.png"
+import axios from "axios"
+import {Link} from "react-router-dom";
+
 
 const Footer = () => {
+  
+  const [categories , setCategories] = useState([]);
+  
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/category/getCategory`); // Replace with your API endpoint
+      console.log("API Response:", response.data);
+      setCategories(response.data.data || []); // Extract the `data` array
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
   return (
     <footer className="text-white py-10 bg-slate-950 px-8">
       <div className="container mx-auto flex flex-col items-center ">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-6xl">
           <div>
-            {/* <h1 className="text-3xl font-bold text-white">ExamAtlas</h1> */}
-            {/* <img
-              src={ex2}
-              alt="Example Image"
-              className=" w-36 h-14"
-            /> */}
-            <h3 className="text-2xl font-bold mt-10">Crown Publications</h3>
-            <p>
-              2nd Floor, Plot No. 4, Crown Publication,
-              <br /> Ranchi,
-              <br /> India, 122003
-            </p>
-            <p>
-              Email:{" "}
-              <a href="mailto:support@ExamAtlas.com" className="text-blue-400">
-                support@Crown.com
-              </a>
-            </p>
-            <p>Toll Free: 1800 203 0577</p>
-            <p>Office Hours: 10 AM to 7 PM (all 7 days)</p>
+           
+            <h3 className="text-2xl font-bold mt-10">Top Categories</h3>
+            {categories.length > 0 ? (
+        <div className="mt-2">
+          {categories.map((category) => (
+            <div
+              key={category._id}
+              // className="p-4 border rounded-lg shadow hover:shadow-lg transition"
+            >
+              <h4 className="text-small font-semibold">{category.categoryName}</h4>
+             
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>Loading categories...</p>
+      )}
+           
           </div>
 
           <div>
-            <h3 className="text-xl font-bold md:mt-12">Company</h3>
+            <h3 className="text-xl font-bold md:mt-12 mb-5">Information</h3>
             <ul>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link to ="/aboutus" className="hover:text-blue-400 ">
                   About us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
-                  Careers{" "}
-                </a>
+                <Link to ="/contactus" className="hover:text-blue-400">
+                  Contact us
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
-                  Teach Online on ExamAtlas
-                </a>
+                <Link to="/condition" className="hover:text-blue-400">
+                   Terms & Conditions
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
-                  Media
-                </a>
+                <Link to="privacy" className="hover:text-blue-400">
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
-                  Sitemap
-                </a>
+                <Link to="/CancellationPolicy" className="hover:text-blue-400">
+                  Cancellation & Refund
+                </Link>
+              </li>
+              <li>
+                <Link to="/ShipmentProcessing" className="hover:text-blue-400">
+                  Shipping & Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/ShipmentProcessing" className="hover:text-blue-400">
+                  Return Policy : No Returns
+                </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-xl font-bold md:mt-12">Products</h3>
+            <h3 className="text-xl font-bold md:mt-12 mb-5">My Accounts</h3>
             <ul>
               <li>
-                <a href="#" className="hover:text-blue-400">
-                  Test Series
-                </a>
+                <Link to="/OrderHistory" className="hover:text-blue-400">
+                   Order History
+                </Link>
+              </li>
+              <li>
+                <Link to="/ecommerce/wishlist" className="hover:text-blue-400">
+                  Wishlist
+                </Link>
+              </li>
+              <li>
+                <Link to="/billingForm" className="hover:text-blue-400">
+                  Address
+                </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-blue-400">
-                  Live Tests and Quizzes
+                 Account Details
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-blue-400">
-                  ExamAtlas Pass
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400">
-                  Online Videos
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400">
-                  Practice
-                </a>
-              </li>
+             
             </ul>
           </div>
 
           <div>
             <h3 className="text-xl font-bold md:mt-12">Our App</h3>
             <div className="flex flex-wrap gap-4 mt-4">
-              <img
-                src="https://testbook.com/angular/assets/img/template-img/appstore.svg"
-                alt="App Store"
-              />
+             
               <img
                 src="https://testbook.com/angular/assets/img/template-img/playstore.svg"
                 alt="Play Store"
@@ -112,17 +134,17 @@ const Footer = () => {
             <p className="flex mt-4 text-2xl">
               <FaInstagram className="mr-3 hover:text-pink-500 cursor-pointer" />
               <TiSocialFacebook className="mr-3 hover:text-blue-500 cursor-pointer" />
-              <RxTwitterLogo className="mr-3 hover:text-gray-500 cursor-pointer" />
+            
               <RiYoutubeLine className="mr-3 hover:text-red-700 cursor-pointer" />
-              <FaLinkedinIn className="hover:text-blue-500 cursor-pointer" />
+          
             </p>
           </div>
         </div>
 
-        <hr className="mt-12 w-full max-w-6xl" />
+        <hr className="mt-5 w-full max-w-6xl" />
 
         <div className="mt-6 text-center">
-          <p>Copyright © 2014-2024 ExamAtlas Pvt. Ltd.: All rights reserved</p>
+          <p>Copyright © 2014-2024 ByteLab Pvt. Ltd.: All rights reserved</p>
           <div className="mt-4 space-x-4">
             <a href="#" className="hover:text-blue-400">
               User Policy

@@ -81,12 +81,10 @@ const AddBook = () => {
             author: '',
             category: '',
             price: '',
-            subject:'',
+            subject: '',
             sellPrice: '',
             tags: [],
-            examName: '',
-            height: '',
-            width: '',
+            dimension : '',
             weight: '',
             isbn: '',
             image: [],
@@ -103,19 +101,20 @@ const AddBook = () => {
                 formData.append('subject', values.subject);
                 formData.append('price', values.price);
                 formData.append('sellPrice', values.sellPrice);
-                formData.append('examName', values.examName);
-                formData.append('height', values.height);
-                formData.append('width', values.width);
+              
+                formData.append('dimension', values.dimension);
                 formData.append('weight', values.weight);
                 formData.append('isbn', values.isbn);
                 values.tags.forEach(tag => formData.append('tags', tag));
-                values.image.forEach(file => formData.append('images', file)); // Ensure key matches backend
+                values.image.forEach(file => formData.append('images', file));
 
-                const res = await axios.post(`${API_BASE_URL}/book/createBook`, formData, {
+                const res = await axios.post(`${API_BASE_URL}/book/createBook`, formData
+                    , {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
-                });
+                }
+            );
 
                 if (res?.data?.status) {
                     toast.success(res?.data?.message);
@@ -144,7 +143,7 @@ const AddBook = () => {
 
     const [categories, setCategories] = useState([]); // Category data
     const [exams, setExams] = useState([]); // Exam data
-    const [subjects , setSubjects] = useState([])
+    const [subjects, setSubjects] = useState([])
 
     useEffect(() => {
         // Fetch categories when the component mounts
@@ -158,30 +157,19 @@ const AddBook = () => {
             }
         };
 
-        // Fetch exams when the component mounts
-        const fetchExams = async () => {
+  
+        const fetchSubjects = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/exam/all`); // Replace with exam API endpoint
-                // Access the exams array within the response
-                setExams(Array.isArray(response.data.exams) ? response.data.exams : []);
-            } catch (error) {
-                console.error("Error fetching exams", error);
-                setExams([]);
-            }
-        };
-
-        const fetchSubjects = async ()=>{
-            try{
                 const response = await axios.get(`${API_BASE_URL}/subject/getSubject`);
                 setSubjects(Array.isArray(response.data.data) ? response.data.data : []);
-            }catch(error){
-                console.error("error fetching subjects",error);
+            } catch (error) {
+                console.error("error fetching subjects", error);
                 setSubjects([]);
             }
         }
 
         fetchCategories();
-        fetchExams();
+    
         fetchSubjects();
     }, []);
 
@@ -314,54 +302,20 @@ const AddBook = () => {
                             </div>
 
 
-                            {/* Exam Name Dropdown */}
-                            <div className='flex flex-col'>
-                                <label htmlFor="examName" className='text-start text-xl mt-5'>Exam Name</label>
-                                <select
-                                    name='examName'
-                                    id="examName"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.examName}
-                                    className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
-                                >
-                                    <option value="" disabled>Select an exam</option>
-                                    {exams.map((exam) => (
-                                        <option key={exam._id} value={exam.examName}>
-                                            {exam.examName}
-                                        </option>
-                                    ))}
-                                </select>
-                                {formik.errors.examName && <p className='text-sm text-red-500 text-left'>{formik.errors.examName}</p>}
-                            </div>
-
+                           
                             {/* Height */}
                             <div className='flex flex-col justify-start mt-5 '>
-                                <label htmlFor="height" className='text-start text-xl'>Height</label>
+                                <label htmlFor="dimension" className='text-start text-xl'>Dimension</label>
                                 <input
                                     type="text"
-                                    placeholder='Height'
-                                    name='height'
-                                    id="height"
+                                    placeholder='length x breadth x height'
+                                    name='dimension'
+                                    id="dimension"
                                     onChange={formik?.handleChange}
-                                    value={formik.values.height}
+                                    value={formik.values.dimension}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {formik?.errors?.height && <p className='text-sm text-red-500 text-left'>{formik?.errors?.height}</p>}
-                            </div>
-
-                            {/* Width */}
-                            <div className='flex flex-col justify-start '>
-                                <label htmlFor="width" className='text-start text-xl'>Width</label>
-                                <input
-                                    type="text"
-                                    placeholder='Width'
-                                    name='width'
-                                    id="width"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.width}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {formik?.errors?.width && <p className='text-sm text-red-500 text-left'>{formik?.errors?.width}</p>}
+                                {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
                             </div>
 
                             {/* Weight */}
@@ -411,6 +365,8 @@ const AddBook = () => {
                                 <p className='mt-56 md:mt-24'></p>
                                 {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
                             </div>
+
+
                             {/* tags */}
                             <div className='mb-4 flex flex-col'>
                                 {/* display tags */}
@@ -438,27 +394,27 @@ const AddBook = () => {
                             {/* image */}
 
                             <div className='flex flex-col justify-start my-4'>
-                            <label htmlFor="content" className='text-start text-xl'>Upload Images</label>
-                <input
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageChange}
-                    className="border p-2 w-full"
-                />
-                {formik.touched.image && formik.errors.image ? <div className="text-red-500">{formik.errors.image}</div> : null}
-            </div>
+                                <label htmlFor="content" className='text-start text-xl'>Upload Images</label>
+                                <input
+                                    type="file"
+                                    name="image"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleImageChange}
+                                    className="border p-2 w-full"
+                                />
+                                {formik.touched.image && formik.errors.image ? <div className="text-red-500">{formik.errors.image}</div> : null}
+                            </div>
 
-            {imagePreviews.length > 0 && (
-                <div className="mt-4">
-                    <div className="flex space-x-2">
-                        {imagePreviews.map((url, index) => (
-                            <img key={index} src={url} alt={`preview ${index}`} className="h-20 w-20 object-cover" />
-                        ))}
-                    </div>
-                </div>
-            )}
+                            {imagePreviews.length > 0 && (
+                                <div className="mt-4">
+                                    <div className="flex space-x-2">
+                                        {imagePreviews.map((url, index) => (
+                                            <img key={index} src={url} alt={`preview ${index}`} className="h-20 w-20 object-cover" />
+                                        ))}
+                                    </div>
+                                </div>
+                            )} 
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
                         </form>

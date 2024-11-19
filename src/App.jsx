@@ -40,7 +40,15 @@ import ExamList from "./components/Admin_Components/Exam/ExamList";
 import EditExam from "./components/Admin_Components/Exam/EditExam";
 import Banner2 from "./components/Admin_Components/Banner/Banner2";
 import Banner3 from "./components/Admin_Components/Banner/Banner3";
-import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
+import CreateBanner from "./components/Admin_Components/Banner/createBanner";
+import Aboutus from "./components/User_Components/Footer/Aboutus";
+import Contactus from "./components/User_Components/Footer/Contactus";
+import TermsAndConditions from "./components/User_Components/Footer/Condition";
+import PrivacyPolicy from "./components/User_Components/Footer/PrivacyPolicy ";
+import CancellationPolicy from "./components/User_Components/Footer/CancellationPolicy ";
+import ShipmentProcessing from "./components/User_Components/Footer/Shipment";
+
+// import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -78,10 +86,16 @@ function App() {
             <Route path="/ecommerce/wishlist" element={<Wishlist />} />
             <Route path="/ecommerce/cart" element={<Cart />} />
             <Route path="/billingForm" element={<BillingForm />} />
+            <Route path="/aboutus" element={<Aboutus/>} />
+            <Route path="/contactus" element={<Contactus/>} />
+            <Route path="/condition" element={<TermsAndConditions/>} />
+            <Route path="/privacy" element={<PrivacyPolicy/>}/>
+            <Route path="/CancellationPolicy" element={<CancellationPolicy/>}/>
+            <Route path="/ShipmentProcessing" element={<ShipmentProcessing/>}/>
 
             {/* Admin section */}
             <Route path="/admin" element={<Login />} />
-            <Route path="/admin/banner" element={<CreateBanner />}/>
+            <Route path="/admin/banner" element={<CreateBanner/>}/>
             <Route path="/admin/banner2" element={<Banner2/>}/>
             <Route path="/admin/banner3" element={<Banner3/>}/>
             <Route path="/admin/blog" element={<Blog/>} />
