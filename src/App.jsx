@@ -40,15 +40,16 @@ import ExamList from "./components/Admin_Components/Exam/ExamList";
 import EditExam from "./components/Admin_Components/Exam/EditExam";
 import Banner2 from "./components/Admin_Components/Banner/Banner2";
 import Banner3 from "./components/Admin_Components/Banner/Banner3";
-import CreateBanner from "./components/Admin_Components/Banner/createBanner";
+// import CreateBanner from "./components/Admin_Components/Banner/createBanner";
 import Aboutus from "./components/User_Components/Footer/Aboutus";
 import Contactus from "./components/User_Components/Footer/Contactus";
 import TermsAndConditions from "./components/User_Components/Footer/Condition";
 import PrivacyPolicy from "./components/User_Components/Footer/PrivacyPolicy ";
 import CancellationPolicy from "./components/User_Components/Footer/CancellationPolicy ";
 import ShipmentProcessing from "./components/User_Components/Footer/Shipment";
+import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
 
-// import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
+import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
 
 function Layout({ children }) {
   const location = useLocation();
