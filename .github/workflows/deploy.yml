@@ -41,7 +41,7 @@ jobs:
           npm install
           npm run build
         env: 
-            NODE_ENV: production
+            NODE_ENV: 'production'
             REACT_APP_BACKEND_BASE_URL: 'https://ecommerce-backend.crownpublications.in/api'
             GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 

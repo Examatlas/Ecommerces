@@ -66,7 +66,7 @@ function BookDetails() {
 
   const handleBuyNow = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/cart/add', {
+      const response = await axios.post(`${API_BASE_URL}/cart/add`, {
         userId,
         bookId
       });
