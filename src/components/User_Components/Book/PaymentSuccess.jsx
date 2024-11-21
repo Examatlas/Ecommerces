@@ -10,7 +10,7 @@ const PaymentSuccess = () => {
 
     return (
         <>
-            <div style={{ height: '100vh', display: 'flex', marginTop: "150px", alignItems: 'center', flexDirection: 'column' }}>
+            <div style={{ height: '100vh', display: 'flex', marginTop: "150px", alignItems: 'center', flexDirection: 'column' , marginBottom:"70px" }}>
                 <div style={{ display: 'flex', width: '100%', maxWidth: '600px' }}>
                     <div className='ml-[130px]'>
                         <h1 style={{ textTransform: 'uppercase', color: 'royalblue', fontWeight: "bold", fontSize: "20px",textAlign:"center" }}>Order Successful</h1>

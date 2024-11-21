@@ -47,7 +47,7 @@ const OrderHistory = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4 ">
+    <div className="max-w-6xl mx-auto p-4 mb-[200px] ">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 mt-[100px]">Your Order History</h2>
       {orders.length === 0 ? (
         <p className="text-center text-lg text-gray-600">No orders found.</p>

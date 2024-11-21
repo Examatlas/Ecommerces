@@ -48,6 +48,8 @@ import PrivacyPolicy from "./components/User_Components/Footer/PrivacyPolicy ";
 import CancellationPolicy from "./components/User_Components/Footer/CancellationPolicy ";
 import ShipmentProcessing from "./components/User_Components/Footer/Shipment";
 import CreateBanner from "./components/Admin_Components/Banner/CreateBanner";
+import BulkOrder from "./components/User_Components/BulkOrder";
+import Author from "./components/User_Components/Author";
 
 
 
@@ -79,7 +81,7 @@ function App() {
             <Route path="/paymentsuccess" element={<PaymentSuccess />} />
             <Route path="/OrderHistory" element={<OrderHistory />} />
             <Route path="/bookdetail/:id" element={<BookDetail />} />
-            <Route path="/books/:examName" element={<ExamBook/>}/>
+            <Route path="/books/:categoryName" element={<ExamBook/>}/>
             <Route path="/" element={<Book />} />
             <Route path="/user" element={<Book />} />
             <Route path="/blog" element={<UserBlog/>}/>
@@ -93,6 +95,8 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy/>}/>
             <Route path="/CancellationPolicy" element={<CancellationPolicy/>}/>
             <Route path="/ShipmentProcessing" element={<ShipmentProcessing/>}/>
+            <Route path="/bulkorder" element={<BulkOrder/>}/>
+            <Route path="/author" element={<Author/>}/>
 
             {/* Admin section */}
             <Route path="/admin" element={<Login />} />

@@ -110,7 +110,7 @@ const BillingForm = () => {
 
   const shippingCharge = () => {
     const subtotal = calculateSubtotal();
-    return subtotal >= 2000 ? 0 : subtotal < 1000 ? 100 : 150;
+    return subtotal < 399 ? 50 : 0;
   };
 
   // Calculate the total including shipping charge
@@ -320,6 +320,7 @@ const BillingForm = () => {
           <span>Shipping</span>
          <span>{shipping === 0 ? 'Free' : `₹${shipping}`}</span>
         </div>
+        <p className="text-sm text-gray-500">(shipping free above ₹399)</p>
         <hr className="my-4" />
         {/* Total */}
         <div className="flex justify-between font-semibold text-xl">

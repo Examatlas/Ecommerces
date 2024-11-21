@@ -26,7 +26,7 @@ const Contactus = () => {
         </section>
         <section>
           <h2 className="text-xl font-semibold">Email Us</h2>
-          <p>📧 support@crownpublications.in</p>
+          <p>📧 crownclassesrnc@gmail.com</p>
         </section>
       </div>
       {/* <div className="mt-10">

@@ -16,7 +16,7 @@ const EditBook = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    const [images, setImages] = useState([]); 
+    const [images, setImages] = useState([]);
     const [imageValidationError, setImageValidationError] = useState('');
 
     const [bookData, setBookData] = useState({
@@ -28,8 +28,9 @@ const EditBook = () => {
         price: '',
         sellPrice: '',
         tags: [],
-      
-        subject : "",
+        stock: "",
+        page: "",
+        subject: "",
         // height: '',
         dimension: { length: '', breadth: '', height: '' },
         weight: '',
@@ -39,7 +40,7 @@ const EditBook = () => {
 
     const navigate = useNavigate();
     const id = useParams();
-    
+
     const fetchBlogById = async (id) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/book/getBookById/${id}`);
@@ -48,9 +49,9 @@ const EditBook = () => {
             formik.setFieldValue('tags', response?.data?.book?.tags);
 
             if (book.images && book.images.length > 0) {
-                setImages(book.images);  
+                setImages(book.images);
                 formik.setFieldValue('image', book.images[0].url);
-                setImagePreviews(book.images.map(image => image.url));  
+                setImagePreviews(book.images.map(image => image.url));
             }
 
         } catch (error) {
@@ -113,35 +114,35 @@ const EditBook = () => {
     ];
 
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);  
-        const newImages = files.map(file => file);  
+        const files = Array.from(e.target.files);
+        const newImages = files.map(file => file);
         setImages(prevImages => [...prevImages, ...newImages]);
 
         const previews = files.map(file => URL.createObjectURL(file));
         setImagePreviews(prevPreviews => [...prevPreviews, ...previews]);
 
-        formik.setFieldValue('image', files);  
+        formik.setFieldValue('image', files);
     };
 
-    
 
-const handleRemoveImage = async (index) => {
-    const imageUrl = imagePreviews[index];
-    const filename = imageUrl.split('/').pop();  
-  
-    try {
-      // Send delete request to the backend
-      const response = await axios.delete(`${API_BASE_URL}/book/deleteImage/${filename}`);
-  
-      if (response.status === 200) {
-        // Remove the image from the preview state if delete was successful
-        setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
-      }
-    } catch (error) {
-      console.error('Error removing image:', error);
-    }
-  };
-  
+
+    const handleRemoveImage = async (index) => {
+        const imageUrl = imagePreviews[index];
+        const filename = imageUrl.split('/').pop();
+
+        try {
+            // Send delete request to the backend
+            const response = await axios.delete(`${API_BASE_URL}/book/deleteImage/${filename}`);
+
+            if (response.status === 200) {
+                // Remove the image from the preview state if delete was successful
+                setImagePreviews((prevImages) => prevImages.filter((_, idx) => idx !== index));
+            }
+        } catch (error) {
+            console.error('Error removing image:', error);
+        }
+    };
+
 
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
@@ -158,12 +159,14 @@ const handleRemoveImage = async (index) => {
             price: bookData?.price,
             sellPrice: bookData?.sellPrice,
             subject: bookData?.subject,
+            stock: bookData?.stock,
+            page: bookData?.page,
             tags: bookData?.tags || [],
-        
-            dimension : bookData?.dimension,
-            weight : bookData?.weight,
-            isbn : bookData?.isbn,
-            images : [],
+
+            dimension: bookData?.dimension,
+            weight: bookData?.weight,
+            isbn: bookData?.isbn,
+            images: [],
         },
         validationSchema: BookFormvalidationSchema,
 
@@ -177,26 +180,28 @@ const handleRemoveImage = async (index) => {
             formData.append('price', values.price);
             formData.append('sellPrice', values.sellPrice);
             formData.append('subject', values.subject);
+            formData.append('stock', values.stock);
+            formData.append('page', values.page);
             formData.append('tags', values.tags);
-            
+
             formData.append(
                 'dimension',
                 JSON.stringify(values.dimension) // Convert dimension object to string
             );
             formData.append('isbn', values.isbn);
-          
+
             values.images.forEach((image) => formData.append('images', image));
 
             if (images.length > 0) {
-                images.forEach(image => formData.append('images', image)); 
+                images.forEach(image => formData.append('images', image));
             }
 
             try {
-                const response  = await axios.put(`${API_BASE_URL}/book/updateBook/${id.id}`,formData,{
+                const response = await axios.put(`${API_BASE_URL}/book/updateBook/${id.id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
-                }); 
+                });
                 if (response?.data?.status === true) {
                     toast.success(response?.data?.message);
                     setTimeout(() => {
@@ -210,16 +215,16 @@ const handleRemoveImage = async (index) => {
         },
     });
 
-    
-    const [categories, setCategories] = useState([]); 
+
+    const [categories, setCategories] = useState([]);
     // const [exams, setExams] = useState([]); 
-    const [subjects , setSubjects] = useState([])
+    const [subjects, setSubjects] = useState([])
 
     useEffect(() => {
 
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/category/getCategory`); 
+                const response = await axios.get(`${API_BASE_URL}/category/getCategory`);
                 setCategories(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {
                 console.error("Error fetching categories", error);
@@ -228,21 +233,18 @@ const handleRemoveImage = async (index) => {
         };
 
 
-
-    
-
-        const fetchSubjects = async () =>{
-            try{
+        const fetchSubjects = async () => {
+            try {
                 const response = await axios.get(`${API_BASE_URL}/subject/getSubject`);
                 setSubjects(Array.isArray(response.data.data) ? response.data.data : []);
-            }catch(error){
-                console.error("error fetching subjects " , error);
+            } catch (error) {
+                console.error("error fetching subjects ", error);
                 setSubjects([]);
             }
         }
 
         fetchCategories();
-        
+
         fetchSubjects();
     }, []);
 
@@ -274,7 +276,7 @@ const handleRemoveImage = async (index) => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                            {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                                {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
                             {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -340,7 +342,38 @@ const handleRemoveImage = async (index) => {
 
                                 {formik?.errors?.author && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.author}</p>}
                             </div>
-                          
+
+
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="stock" className='text-start text-xl'>Is In stock</label>
+                                <input
+                                    type="text"
+                                    placeholder='Yes / No'
+                                    name='stock'
+                                    id="stock"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.stock}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.stock && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.stock}</p>}
+                            </div>
+
+
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="page" className='text-start text-xl'>Number of pages</label>
+                                <input
+                                    type="number"
+                                    placeholder='Number of pages'
+                                    name='page'
+                                    id="page"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.page}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.page && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.page}</p>}
+                            </div>
+
                             {/* Category Dropdown */}
                             <div className='flex flex-col'>
                                 <label htmlFor="category" className='text-start text-xl'>Category</label>
@@ -496,7 +529,7 @@ const handleRemoveImage = async (index) => {
                                 {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
                             </div>
 
-                            
+
                             {/* tags */}
                             <div className='mb-4 flex flex-col'>
                                 {/* display tags */}
@@ -522,53 +555,53 @@ const handleRemoveImage = async (index) => {
                                 {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
                             </div>
 
-                        {/* Image Upload */}
-                        <div className="my-4">
-                            <label htmlFor="image" className="text-start text-xl">
-                                Upload Image
-                            </label>
-                            <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                multiple
-                                className="block w-full text-lg border border-gray-500 rounded-md my-1 outline-blue-400"
-                            />
-                            {formik.errors.images && (
-                                <p className="text-sm text-red-500">{formik.errors.images}</p>
-                            )}
+                            {/* Image Upload */}
+                            <div className="my-4">
+                                <label htmlFor="image" className="text-start text-xl">
+                                    Upload Image
+                                </label>
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    multiple
+                                    className="block w-full text-lg border border-gray-500 rounded-md my-1 outline-blue-400"
+                                />
+                                {formik.errors.images && (
+                                    <p className="text-sm text-red-500">{formik.errors.images}</p>
+                                )}
 
-                       
-                            {imagePreviews.length > 0 && (
-                                <div className="mt-2 flex flex-wrap gap-4">
-                                    {imagePreviews.map((image, index) => (
-                                        <div key={index} className="relative">
-                                            <img
-                                                src={image}
-                                                alt={`Preview ${index}`}
-                                                className="w-32 h-32 object-cover rounded-md"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveImage(index)}
-                                                className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full"
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+
+                                {imagePreviews.length > 0 && (
+                                    <div className="mt-2 flex flex-wrap gap-4">
+                                        {imagePreviews.map((image, index) => (
+                                            <div key={index} className="relative">
+                                                <img
+                                                    src={image}
+                                                    alt={`Preview ${index}`}
+                                                    className="w-32 h-32 object-cover rounded-md"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveImage(index)}
+                                                    className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full"
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
                         </form>
                     </div>
                 </div>
             </div>
-      </DashboardLayoutBasic>
+        </DashboardLayoutBasic>
     );
 }
 
