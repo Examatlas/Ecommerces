@@ -83,6 +83,8 @@ const AddBook = () => {
             price: '',
             subject: '',
             sellPrice: '',
+            stock:'',
+            page:'',
             tags: [],
             dimension: { length: '', breadth: '', height: '' },
             weight: '',
@@ -101,7 +103,9 @@ const AddBook = () => {
                 formData.append('subject', values.subject);
                 formData.append('price', values.price);
                 formData.append('sellPrice', values.sellPrice);
-              
+                formData.append('stock', values.stock);
+                formData.append('page', values.page);
+
                 formData.append(
                     'dimension',
                     JSON.stringify(values.dimension) // Convert dimension object to string
@@ -113,11 +117,11 @@ const AddBook = () => {
 
                 const res = await axios.post(`${API_BASE_URL}/book/createBook`, formData
                     , {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            );
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }
+                );
 
                 if (res?.data?.status) {
                     toast.success(res?.data?.message);
@@ -160,7 +164,7 @@ const AddBook = () => {
             }
         };
 
-  
+
         const fetchSubjects = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/subject/getSubject`);
@@ -172,7 +176,7 @@ const AddBook = () => {
         }
 
         fetchCategories();
-    
+
         fetchSubjects();
     }, []);
 
@@ -272,6 +276,38 @@ const AddBook = () => {
                                 {formik?.errors?.author && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.author}</p>}
                             </div>
 
+                            {/* stock */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="stock" className='text-start text-xl'>Is In Stock</label>
+                                <input
+                                    type="text"
+                                    placeholder='Yes / No'
+                                    name='stock'
+                                    id="stock"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.stock}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.stock && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.stock}</p>}
+                            </div>
+
+                            {/* page */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="page" className='text-start text-xl'>Number of Page</label>
+                                <input
+                                    type="number"
+                                    placeholder='Number of page'
+                                    name='page'
+                                    id="page"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.page}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.page && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.page}</p>}
+                            </div>
+
                             {/* Category Dropdown */}
                             <div className='flex flex-col'>
                                 <label htmlFor="category" className='text-start text-xl'>Category</label>
@@ -295,7 +331,7 @@ const AddBook = () => {
 
                             {/* subject dropdown  */}
                             <div className='flex flex-col'>
-                                <label htmlFor="subject" className='text-start text-xl mt-5'>subject</label>
+                                <label htmlFor="subject" className='text-start text-xl mt-5'>Language</label>
                                 <select
                                     name='subject'
                                     id="subject"
@@ -303,7 +339,7 @@ const AddBook = () => {
                                     value={formik.values.subject}
                                     className='px-2 py-2 border border-gray-500 rounded-md outline-blue-400 text-lg'
                                 >
-                                    <option value="" disabled>Select a subject</option>
+                                    <option value="" disabled>Select a language</option>
                                     {subjects.map((subject) => (
                                         <option key={subject._id} value={subject.title}>
                                             {subject.title}
@@ -314,79 +350,64 @@ const AddBook = () => {
                             </div>
 
 
-                           
-                            {/* Height */}
-                            {/* <div className='flex flex-col justify-start mt-5 '>
-                                <label htmlFor="dimension" className='text-start text-xl'>Dimension</label>
-                                <input
-                                    type="text"
-                                    placeholder='length x breadth x height'
-                                    name='dimension'
-                                    id="dimension"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.dimension}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
-                            </div> */}
 
-                      {/* {dimensions}*/}
-                 <div className="flex flex-col flex flex-col justify-start mt-5">
-                <label className="text-start text-xl">Book Dimensions (in cm):</label>
-      <div className="flex gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="length" className="text-md mb-1">Length</label>
-          <input
-            type="number"
-            id="length"
-            name="length"
-            onChange={handleDimensionChange}
-            value={formik.values?.dimension?.length}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="breadth" className="text-md mb-1">Breadth</label>
-          <input
-            type="number"
-            id="breadth"
-            name="breadth"
-            onChange={handleDimensionChange}
-            value={formik?.values?.dimension?.breadth}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="height" className="text-md mb-1">Height</label>
-          <input
-            type="number"
-            id="height"
-            name="height"
-            onChange={handleDimensionChange}
-            value={formik?.values?.dimension?.height}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-      </div>
-      {formik.errors.dimension?.length && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.length}</p>
-)}
-{formik.errors.dimension?.breadth && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.breadth}</p>
-)}
-{formik.errors.dimension?.height && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.height}</p>
-)}
- </div>
+                            {/* {dimensions}*/}
+                            <div className=" flex flex-col justify-start mt-5 mb-5">
+                                <label className="text-start text-xl">Book Dimensions (in mm):</label>
+                                <div className="flex gap-4">
+                                    <div className="flex flex-col">
+                                        <label htmlFor="length" className="text-md mb-1">Length</label>
+                                        <input
+                                            type="number"
+                                            id="length"
+                                            name="length"
+                                            onChange={handleDimensionChange}
+                                            value={formik.values?.dimension?.length}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="mm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="breadth" className="text-md mb-1">Breadth</label>
+                                        <input
+                                            type="number"
+                                            id="breadth"
+                                            name="breadth"
+                                            onChange={handleDimensionChange}
+                                            value={formik?.values?.dimension?.breadth}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="mm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="height" className="text-md mb-1">Height</label>
+                                        <input
+                                            type="number"
+                                            id="height"
+                                            name="height"
+                                            onChange={handleDimensionChange}
+                                            value={formik?.values?.dimension?.height}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="mm"
+                                        />
+                                    </div>
+                                </div>
+                                {formik.errors.dimension?.length && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.length}</p>
+                                )}
+                                {formik.errors.dimension?.breadth && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.breadth}</p>
+                                )}
+                                {formik.errors.dimension?.height && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.height}</p>
+                                )}
+                            </div>
                             {/* Weight */}
                             <div className='flex flex-col justify-start '>
                                 <label htmlFor="weight" className='text-start text-xl'>Weight</label>
                                 <input
                                     type="text"
-                                    placeholder='Weight'
+                                    placeholder='Weight in gram'
                                     name='weight'
                                     id="weight"
                                     onChange={formik?.handleChange}
@@ -477,7 +498,7 @@ const AddBook = () => {
                                         ))}
                                     </div>
                                 </div>
-                            )} 
+                            )}
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
                         </form>

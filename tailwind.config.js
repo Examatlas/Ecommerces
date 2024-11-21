@@ -1,13 +1,28 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// /** @type {import('tailwindcss').Config} */
+// export default {
+//   content: [
+//     "./src/**/*.{js,jsx,ts,tsx}",
+//   ],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [
+//     require('@tailwindcss/line-clamp'),
+//   ],
+// }
+
+
+
+module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './src/**/*.{html,js,jsx,ts,tsx}',  // Adjust the paths according to your project
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customColor: '#00b5bc', // Add your custom color here
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-  ],
+  plugins: [],
 }
-

@@ -73,7 +73,7 @@ const Book = () => {
       }
     } catch (error) {
       console.error("Error in toggleWishlist:", error.response ? error.response.data : error.message);
-      toast.error("Error adding/removing item to/from wishlist");
+      toast.error("Please Login first !!");
     }
   };
 
@@ -100,7 +100,8 @@ const Book = () => {
       }
     } catch (error) {
       console.error("Error in addToCart:", error.response ? error.response.data : error.message);
-      toast.error("Error adding/removing item to/from cart");
+      // toast.error("Error adding/removing item to/from cart");
+      toast.error("Please Login first !!");
     }
   };
 
@@ -133,14 +134,14 @@ const Book = () => {
     <>
       {/* Category Filter & Icons */}
       <div className="flex justify-between items-center px-8 mt-[80px]">
-        <div className="flex-shrink-0">
+        {/* <div className="flex-shrink-0">
           <img src={logos} className=" w-20 ml-20" alt="Example Image" />
-        </div>
+        </div> */}
 
-        <h1 className="font-semibold text-3xl italic ml-80 ">The Infinite Universe of Literary Wonders and Enchantments</h1>
+        <h1 className="font-semibold text-3xl italic ml-[530px]  mt-10 mb-10 ">The Infinite Universe of Literary Wonders and Enchantments</h1>
 
         {/* Icons for Cart and Wishlist */}
-        <div className="flex items-center space-x-4 mr-12">
+        <div className="flex items-center space-x-4 mr-12 mt-10 mb-10">
           <div className="flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 cursor-pointer">
             <FaShoppingCart className="text-xl text-gray-500" onClick={goToCart} />
           </div>
@@ -222,7 +223,7 @@ const Book = () => {
       <div className="flex flex-wrap justify-center gap-6">
         {filteredBooks.length > 0 ? (
           // (showAll ? categoryData : categoryData.slice(0, 6)).map((dataItem) => (
-          (showEach ? filteredBooks : filteredBooks.slice(0, 8)).map((dataItem) => (
+          (showEach ? filteredBooks : filteredBooks.slice(0, 12)).map((dataItem) => (
             <div key={dataItem._id}
               className="max-w-xs rounded overflow-hidden shadow-lg bg-white p-2  border relative w-[220px] mb-6"
             >
