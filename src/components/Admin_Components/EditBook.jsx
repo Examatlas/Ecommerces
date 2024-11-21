@@ -397,7 +397,7 @@ const handleRemoveImage = async (index) => {
                                 {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
                             </div> */}
 
-<div className="flex flex-col flex flex-col justify-start mt-5">
+<div className="flex flex-col  justify-start mt-5">
                 <label className="text-start text-xl">Book Dimensions (in cm):</label>
       <div className="flex gap-4">
         <div className="flex flex-col">

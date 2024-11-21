@@ -331,7 +331,7 @@ const AddBook = () => {
                             </div> */}
 
                       {/* {dimensions}*/}
-                 <div className="flex flex-col flex flex-col justify-start mt-5">
+                 <div className="flex flex-col justify-start mt-5">
                 <label className="text-start text-xl">Book Dimensions (in cm):</label>
       <div className="flex gap-4">
         <div className="flex flex-col">
