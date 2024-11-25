@@ -188,8 +188,6 @@ const AddBook = () => {
         });
     };
 
-
-
     return (
         <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>

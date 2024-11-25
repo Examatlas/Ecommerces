@@ -91,12 +91,12 @@ const ExamBook = () => {
                 <p className="text-gray-500 mb-1">
                   <strong>Category:</strong> {book.category}
                 </p>
-                <p className="text-gray-500 mb-1">
+                {/* <p className="text-gray-500 mb-1">
                   <strong>Category:</strong> {book.categoryName}
-                </p>
+                </p> */}
 
                 {/* Tags Section */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4 mt-5">
                   {book.tags.map((tag, index) => (
                     <span
                       key={index}

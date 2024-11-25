@@ -7,17 +7,16 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import API_BASE_URL from "./Config";
 // import ex2 from "./images/ex2.png"
 import axios from "axios"
-import {Link} from "react-router-dom";
-
+import {Link ,useNavigate } from "react-router-dom";
 
 const Footer = () => {
-  
+  const navigate = useNavigate()
   const [categories , setCategories] = useState([]);
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // Adds a smooth scrolling effect
+      behavior: "smooth", 
     });
   };
   
@@ -35,6 +34,20 @@ useEffect(() => {
   fetchCategories();
 }, []);
 
+
+
+const handleCategoryClick = (categoryName) => {
+  navigate(`/books/${categoryName}`);
+};
+
+
+const handleScrollToTop = () =>{
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  })
+}
+
   return (
     <footer className="text-white py-10 bg-customColor px-8">
       <div className="container mx-auto flex flex-col items-center ">
@@ -47,10 +60,13 @@ useEffect(() => {
           {categories.map((category) => (
             <div
               key={category._id}
-              // className="p-4 border rounded-lg shadow hover:shadow-lg transition"
-            >
-              <h4 className="text-small font-semibold">{category.categoryName}</h4>
              
+            >
+              <h4 className="text-small font-semibold"  onClick = {() => {
+                handleCategoryClick(category.categoryName)
+                handleScrollToTop()
+              } }>{category.categoryName}</h4>
+              
             </div>
           ))}
         </div>

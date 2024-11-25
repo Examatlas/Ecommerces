@@ -183,6 +183,7 @@ const EditBook = () => {
             formData.append('stock', values.stock);
             formData.append('page', values.page);
             formData.append('tags', values.tags);
+            formData.append('weight', values.weight);
 
             formData.append(
                 'dimension',
@@ -415,71 +416,57 @@ const EditBook = () => {
                             </div>
 
 
-                            {/* dimension */}
-                            {/* <div className='flex flex-col justify-start '>
-                                <label htmlFor="dimension" className='text-start text-xl'>dimension</label>
-                                <input
-                                    type="text"
-                                    placeholder='length x breadth x height'
-                                    name='dimension'
-                                    id="dimension"
-                                    onChange={formik?.handleChange}
-                                    value={formik.values.dimension}
-                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
-                                />
-                                {formik?.errors?.dimension && <p className='text-sm text-red-500 text-left'>{formik?.errors?.dimension}</p>}
-                            </div> */}
 
-<div className="flex flex-col  justify-start mt-5">
-                <label className="text-start text-xl">Book Dimensions (in cm):</label>
-      <div className="flex gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="length" className="text-md mb-1">Length</label>
-          <input
-            type="number"
-            id="length"
-            name="length"
-            onChange={handleDimensionChange}
-            value={formik.values?.dimension?.length}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="breadth" className="text-md mb-1">Breadth</label>
-          <input
-            type="number"
-            id="breadth"
-            name="breadth"
-            onChange={handleDimensionChange}
-            value={formik?.values?.dimension?.breadth}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="height" className="text-md mb-1">Height</label>
-          <input
-            type="number"
-            id="height"
-            name="height"
-            onChange={handleDimensionChange}
-            value={formik?.values?.dimension?.height}
-            className="border rounded px-2 py-1 w-20"
-            placeholder="cm"
-          />
-        </div>
-      </div>
-      {formik.errors.dimension?.length && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.length}</p>
-)}
-{formik.errors.dimension?.breadth && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.breadth}</p>
-)}
-{formik.errors.dimension?.height && (
-    <p className="text-sm text-red-500">{formik.errors.dimension.height}</p>
-)}
- </div>
+                            <div className="flex flex-col  justify-start mt-5">
+                                <label className="text-start text-xl">Book Dimensions (in cm):</label>
+                                <div className="flex gap-4">
+                                    <div className="flex flex-col">
+                                        <label htmlFor="length" className="text-md mb-1">Length</label>
+                                        <input
+                                            type="number"
+                                            id="length"
+                                            name="length"
+                                            onChange={handleDimensionChange}
+                                            value={formik.values?.dimension?.length}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="cm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="breadth" className="text-md mb-1">Breadth</label>
+                                        <input
+                                            type="number"
+                                            id="breadth"
+                                            name="breadth"
+                                            onChange={handleDimensionChange}
+                                            value={formik?.values?.dimension?.breadth}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="cm"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="height" className="text-md mb-1">Height</label>
+                                        <input
+                                            type="number"
+                                            id="height"
+                                            name="height"
+                                            onChange={handleDimensionChange}
+                                            value={formik?.values?.dimension?.height}
+                                            className="border rounded px-2 py-1 w-20"
+                                            placeholder="cm"
+                                        />
+                                    </div>
+                                </div>
+                                {formik.errors.dimension?.length && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.length}</p>
+                                )}
+                                {formik.errors.dimension?.breadth && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.breadth}</p>
+                                )}
+                                {formik.errors.dimension?.height && (
+                                    <p className="text-sm text-red-500">{formik.errors.dimension.height}</p>
+                                )}
+                            </div>
 
                             {/* Weight */}
                             <div className='flex flex-col justify-start '>

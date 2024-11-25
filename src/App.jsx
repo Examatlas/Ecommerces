@@ -52,7 +52,6 @@ import BulkOrder from "./components/User_Components/BulkOrder";
 import Author from "./components/User_Components/Author";
 
 
-
 function Layout({ children }) {
   const location = useLocation();
   const isAdminRoute =
@@ -97,7 +96,7 @@ function App() {
             <Route path="/ShipmentProcessing" element={<ShipmentProcessing/>}/>
             <Route path="/bulkorder" element={<BulkOrder/>}/>
             <Route path="/author" element={<Author/>}/>
-
+           
             {/* Admin section */}
             <Route path="/admin" element={<Login />} />
             <Route path="/admin/banner" element={<CreateBanner/>}/>
@@ -120,7 +119,7 @@ function App() {
 
             <Route path="/Master/MasterCategory/Category" element={<Category/>} />
             <Route path="/Master/MasterCategory/Sub-Category" element={<SubCategory/>} />
-            <Route path="/Master/Subject" element={<Subject/>} />
+            <Route path="/Master/Language" element={<Subject/>} />
           
           </Routes>
         </Layout>
