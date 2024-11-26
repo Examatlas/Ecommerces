@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../User_Components/Config";
 
-const API_BASE_URL = "http://localhost:5000/api";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -67,7 +67,7 @@ const OrderHistory = () => {
         comment: "Please handle with care",
         reseller_name: "Best Reseller",
         company_name: "CROWN PUBLICATIONS",
-        billing_customer_name: `${order.billingDetail.firstName} ${order.billingDetail.lastName}`,
+        billing_customer_name: `${order.billingDetail.firstName} `,
         billing_last_name: order.billingDetail.lastName || "",
         billing_address: order.billingDetail.streetAddress,
         billing_address_2: order.billingDetail.address2 || "",
@@ -80,7 +80,7 @@ const OrderHistory = () => {
         billing_phone: order.billingDetail.phone,
         billing_alternate_phone: order.billingDetail.alternatePhone || "",
         shipping_is_billing: true,
-        shipping_customer_name: `${order.billingDetail.firstName} ${order.billingDetail.lastName}`,
+        shipping_customer_name: `${order.billingDetail.firstName}`,
         shipping_last_name: order.billingDetail.lastName || "",
         shipping_address: order.billingDetail.streetAddress,
         shipping_address_2: order.billingDetail.address2 || "",
