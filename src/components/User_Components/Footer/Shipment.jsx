@@ -11,7 +11,7 @@ const ShipmentProcessing = () => {
         </h1>
 
         <p className="text-lg text-gray-700 mb-4">
-          <strong>Last updated on Oct 7th 2022</strong>
+          <strong>Last updated on Nov 20 , 2024</strong>
         </p>
 
         <section className="mb-8">
@@ -34,10 +34,10 @@ const ShipmentProcessing = () => {
             If you have any questions regarding the shipment processing or delays, please contact us at:
           </p>
           <p className="text-lg text-gray-700 mb-4">
-            <strong>Email:</strong> support@crownpublications.in
+            <strong>Email:</strong> crownclassesrnc@gmail.com
           </p>
           <p className="text-lg text-gray-700 mb-4">
-            <strong>Phone:</strong> [Insert Phone Number]
+            <strong>Phone:</strong> 9153434753
           </p>
         </section>
       </div>

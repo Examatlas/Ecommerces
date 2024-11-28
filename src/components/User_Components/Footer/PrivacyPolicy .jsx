@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
           Privacy Policy
         </h1>
         <p className="text-lg text-gray-700 mb-4">
-          <strong>Effective Date:</strong> [Insert Date]
+          <strong>Effective Date:</strong> 20-11-2024
         </p>
         <p className="text-lg text-gray-700 mb-4">
           Welcome to Crown Publications (“Company,” “we,” “our,” “us”). Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website [crownpublications.in](http://crownpublications.in), use our services, or engage with us in other ways. Please read this policy carefully. By using our website and services, you agree to the collection and use of information in accordance with this policy.
@@ -92,13 +92,13 @@ const PrivacyPolicy = () => {
             If you have any questions about this Privacy Policy or how we handle your personal information, please contact us at:
           </p>
           <p className="text-lg text-gray-700 mb-4">
-            <strong>Email:</strong> support@crownpublications.in
+            <strong>Email:</strong> crownclassesrnc@gmail.com
           </p>
           <p className="text-lg text-gray-700 mb-4">
             <strong>Phone:</strong> [9153434753]
           </p>
           <p className="text-lg text-gray-700">
-            <strong>Website:</strong> [crownpublications.in](http://crownpublications.in)
+            <strong>Website:</strong> https://ecommerce.crownpublications.in/
           </p>
         </section>
       </div>

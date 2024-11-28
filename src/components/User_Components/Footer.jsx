@@ -7,12 +7,18 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import API_BASE_URL from "./Config";
 // import ex2 from "./images/ex2.png"
 import axios from "axios"
-import {Link} from "react-router-dom";
-
+import {Link ,useNavigate } from "react-router-dom";
 
 const Footer = () => {
-  
+  const navigate = useNavigate()
   const [categories , setCategories] = useState([]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", 
+    });
+  };
   
 useEffect(() => {
   const fetchCategories = async () => {
@@ -28,8 +34,22 @@ useEffect(() => {
   fetchCategories();
 }, []);
 
+
+
+const handleCategoryClick = (categoryName) => {
+  navigate(`/books/${categoryName}`);
+};
+
+
+const handleScrollToTop = () =>{
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  })
+}
+
   return (
-    <footer className="text-white py-10 bg-slate-950 px-8">
+    <footer className="text-white py-10 bg-customColor px-8">
       <div className="container mx-auto flex flex-col items-center ">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-6xl">
           <div>
@@ -40,10 +60,13 @@ useEffect(() => {
           {categories.map((category) => (
             <div
               key={category._id}
-              // className="p-4 border rounded-lg shadow hover:shadow-lg transition"
-            >
-              <h4 className="text-small font-semibold">{category.categoryName}</h4>
              
+            >
+              <h4 className="text-small font-semibold"  onClick = {() => {
+                handleCategoryClick(category.categoryName)
+                handleScrollToTop()
+              } }>{category.categoryName}</h4>
+              
             </div>
           ))}
         </div>
@@ -57,40 +80,36 @@ useEffect(() => {
             <h3 className="text-xl font-bold md:mt-12 mb-5">Information</h3>
             <ul>
               <li>
-                <Link to ="/aboutus" className="hover:text-blue-400 ">
+                <Link to ="/aboutus"   onClick={scrollToTop} className="hover:text-blue-900 ">
                   About us
                 </Link>
               </li>
               <li>
-                <Link to ="/contactus" className="hover:text-blue-400">
+                <Link to ="/contactus"  onClick={scrollToTop}  className="hover:text-blue-900">
                   Contact us
                 </Link>
               </li>
               <li>
-                <Link to="/condition" className="hover:text-blue-400">
+                <Link to="/condition"  onClick={scrollToTop}   className="hover:text-blue-900">
                    Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link to="privacy" className="hover:text-blue-400">
+                <Link to="privacy"  onClick={scrollToTop}   className="hover:text-blue-900">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/CancellationPolicy" className="hover:text-blue-400">
+                <Link to="/CancellationPolicy"  onClick={scrollToTop}  className="hover:text-blue-900">
                   Cancellation & Refund
                 </Link>
               </li>
               <li>
-                <Link to="/ShipmentProcessing" className="hover:text-blue-400">
+                <Link to="/ShipmentProcessing"  onClick={scrollToTop}  className="hover:text-blue-900">
                   Shipping & Delivery
                 </Link>
               </li>
-              <li>
-                <Link to="/ShipmentProcessing" className="hover:text-blue-400">
-                  Return Policy : No Returns
-                </Link>
-              </li>
+            
             </ul>
           </div>
 
@@ -98,22 +117,22 @@ useEffect(() => {
             <h3 className="text-xl font-bold md:mt-12 mb-5">My Accounts</h3>
             <ul>
               <li>
-                <Link to="/OrderHistory" className="hover:text-blue-400">
+                <Link to="/OrderHistory"  onClick={scrollToTop}  className="hover:text-blue-900">
                    Order History
                 </Link>
               </li>
               <li>
-                <Link to="/ecommerce/wishlist" className="hover:text-blue-400">
+                <Link to="/ecommerce/wishlist"  onClick={scrollToTop}  className="hover:text-blue-900">
                   Wishlist
                 </Link>
               </li>
               <li>
-                <Link to="/billingForm" className="hover:text-blue-400">
+                <Link to="/billingForm"  onClick={scrollToTop}  className="hover:text-blue-900">
                   Address
                 </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <a href="#"   onClick={scrollToTop}  className="hover:text-blue-900">
                  Account Details
                 </a>
               </li>
@@ -144,18 +163,8 @@ useEffect(() => {
         <hr className="mt-5 w-full max-w-6xl" />
 
         <div className="mt-6 text-center">
-          <p>Copyright © 2014-2024 ByteLab Pvt. Ltd.: All rights reserved</p>
-          <div className="mt-4 space-x-4">
-            <a href="#" className="hover:text-blue-400">
-              User Policy
-            </a>
-            <a href="#" className="hover:text-blue-400">
-              Terms
-            </a>
-            <a href="#" className="hover:text-blue-400">
-              Privacy
-            </a>
-          </div>
+          <p>Copyright © 2014-2024 Crown Publications : All rights reserved</p>
+          <p>Developed & Maintained By ByteLab</p>
         </div>
       </div>
     </footer>

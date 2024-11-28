@@ -73,7 +73,7 @@ const Book = () => {
       }
     } catch (error) {
       console.error("Error in toggleWishlist:", error.response ? error.response.data : error.message);
-      toast.error("Error adding/removing item to/from wishlist");
+      toast.error("Please Login first !!");
     }
   };
 
@@ -100,7 +100,8 @@ const Book = () => {
       }
     } catch (error) {
       console.error("Error in addToCart:", error.response ? error.response.data : error.message);
-      toast.error("Error adding/removing item to/from cart");
+      // toast.error("Error adding/removing item to/from cart");
+      toast.error("Please Login first !!");
     }
   };
 
@@ -132,15 +133,10 @@ const Book = () => {
   return (
     <>
       {/* Category Filter & Icons */}
-      <div className="flex justify-between items-center px-8 mt-[80px]">
-        <div className="flex-shrink-0">
-          <img src={logos} className=" w-20 ml-20" alt="Example Image" />
-        </div>
+      {/* <div className="flex justify-between items-center px-8 mt-[80px]">
 
-        <h1 className="font-semibold text-3xl italic ml-80 ">The Infinite Universe of Literary Wonders and Enchantments</h1>
-
-        {/* Icons for Cart and Wishlist */}
-        <div className="flex items-center space-x-4 mr-12">
+        <h1 className="font-semibold text-3xl italic ml-[530px]  mt-10 mb-10 ">The Infinite Universe of Literary Wonders and Enchantments</h1>
+        <div className="flex items-center space-x-4 mr-12 mt-10 mb-10">
           <div className="flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 cursor-pointer">
             <FaShoppingCart className="text-xl text-gray-500" onClick={goToCart} />
           </div>
@@ -148,12 +144,28 @@ const Book = () => {
             <FaHeart className="text-xl text-gray-500" onClick={goWishlist} />
           </div>
         </div>
-      </div>
+      </div> */}
 
-     
+<div className="flex flex-col lg:flex-row justify-between items-center px-4 lg:px-8 mt-8 lg:mt-[80px]">
+  <h1 className="text-xl lg:text-3xl font-semibold italic text-center lg:text-left mt-20 lg:mt-10 mb-4 lg:mb-10 lg:ml-[530px]">
+    The Infinite Universe of Literary Wonders and Enchantments
+  </h1>
+
+  {/* Icons for Cart and Wishlist */}
+  <div className="flex items-center justify-center space-x-4 mt-4 lg:mt-10 lg:mb-10 mb-2 mr-14">
+    <div className="flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 cursor-pointer">
+      <FaShoppingCart className="text-xl text-gray-500" onClick={goToCart} />
+    </div>
+    <div className="flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 cursor-pointer">
+      <FaHeart className="text-xl text-gray-500" onClick={goWishlist} />
+    </div>
+  </div>
+</div>
+
+
       <Banner />
 
-      <h2 className="text-3xl font-bold text-start mt-10 ml-20 mb-5">Top 6 Books</h2>
+      {/* <h2 className="text-3xl font-bold text-start mt-10 ml-20 mb-5">Top 6 Books</h2>
       <div className="flex justify-center gap-5 mt-10  mb-10">
 
         {categoryData.length > 0 ? (
@@ -163,7 +175,7 @@ const Book = () => {
               className="rounded overflow-hidden shadow-lg bg-white border w-[200px]" 
               onClick={() => handleBoxClick(dataItem._id)}
             >
-              {/* Image container */}
+             
               <div className="w-[200px] h-auto flex justify-center items-center bg-gray-200 overflow-hidden">
                 {dataItem.images && dataItem.images.length > 0 ? (
                   <img
@@ -175,7 +187,7 @@ const Book = () => {
                   <p className="text-xs text-center">No image available</p>
                 )}
               </div>
-              {/* Text section */}
+            
               <div className="px-2 py-2">
                 <div className="font-medium text-sm text-center break-words">{dataItem.title}</div>
               </div>
@@ -184,45 +196,116 @@ const Book = () => {
         ) : (
           <p className="text-gray-500">No exam categories available.</p>
         )}
+      </div> */}
+
+<h2 className="text-3xl font-bold text-start mt-10 ml-5 lg:ml-20 mb-5">
+  Top 6 Books
+</h2>
+<div className="flex flex-wrap justify-center gap-5 mt-10 mb-10 px-4 lg:px-0">
+  {categoryData.length > 0 ? (
+    categoryData.slice(-6).reverse().map((dataItem) => (
+      <div
+        key={dataItem._id}
+        className="rounded overflow-hidden shadow-lg bg-white border w-full sm:w-[200px]"
+        onClick={() => handleBoxClick(dataItem._id)}
+      >
+        {/* Image container */}
+        <div className="w-full h-auto flex justify-center items-center bg-gray-200 overflow-hidden">
+          {dataItem.images && dataItem.images.length > 0 ? (
+            <img
+              src={dataItem.images[0].url}
+              alt={dataItem.title}
+              className="w-full h-auto object-contain"
+            />
+          ) : (
+            <p className="text-xs text-center">No image available</p>
+          )}
+        </div>
+        {/* Text section */}
+        <div className="px-2 py-2">
+          <div className="font-medium text-sm text-center break-words">
+            {dataItem.title}
+          </div>
+        </div>
       </div>
+    ))
+  ) : (
+    <p className="text-gray-500">No exam categories available.</p>
+  )}
+</div>
 
+{/* 
+<div className="flex items-center justify-between mb-10 mx-16">
+ 
+  <div className="flex items-center">
+    <h1 className="font-semibold text-3xl">
+      Books for all competitive Exams!
+    </h1>
+    <div className="ml-10">
+      <select
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+        className="border-2 border-gray-300 mt-5 rounded-lg w-[350px] focus:outline-none focus:border-blue-500"
+      >
+        <option value="">Select Category</option>
+        {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
 
+  
+  {filteredBooks.length > 4 && (
+    <button
+      onClick={handleViewEach}
+      className="bg-blue-500 text-white p-2 font-bold text-lg rounded hover:bg-blue-400"
+    >
+      {showEach ? 'Show Less' : 'View All'}
+    </button>
+  )}
+</div> */}
 
-      {/* Display filtered books */}
-      <div className="flex justify-between items-center">
-        <h1 className="ml-16 font-semibold text-3xl mb-10">Books for all competitive Exams!
-        </h1>
+<div className="flex flex-wrap items-center justify-between mb-10 mx-4 md:mx-16">
+  {/* Title and Dropdown Group */}
+  <div className="flex flex-wrap items-center">
+    <h1 className="font-semibold text-2xl md:text-3xl text-center md:text-left">
+      Books for all competitive Exams!
+    </h1>
+    <div className="w-full md:w-auto mt-4 md:mt-0 md:ml-10">
+      <select
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+        className="border-2 border-gray-300 mt-5 rounded-lg w-full md:w-[350px] focus:outline-none focus:border-blue-500"
+      >
+        <option value="">Select Category</option>
+        {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
 
-        {filteredBooks.length > 4 && (
-          <button
-            onClick={handleViewEach}
-            className="mt-0 mr-20 p-2 font-bold text-xl rounded"
-          >
-            {showEach ? 'Show Less' : 'View All '}
-          </button>
-        )}
-      </div>
+  {/* Button */}
+  {filteredBooks.length > 4 && (
+    <button
+      onClick={handleViewEach}
+      className="w-full md:w-auto mt-4 md:mt-0 bg-blue-500 text-white p-2 font-bold text-lg rounded hover:bg-blue-400"
+    >
+      {showEach ? 'Show Less' : 'View All'}
+    </button>
+  )}
+</div>
 
-      {/* category dropdown */}
-      <div className="ml-14 mb-10">
-        <select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          className="border-2 border-gray-300 p-3 rounded-lg w-full max-w-[590px] focus:outline-none focus:border-blue-500  "
-        >
-          <option value="">Select Category</option>
-          {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
 
       <div className="flex flex-wrap justify-center gap-6">
         {filteredBooks.length > 0 ? (
           // (showAll ? categoryData : categoryData.slice(0, 6)).map((dataItem) => (
-          (showEach ? filteredBooks : filteredBooks.slice(0, 8)).map((dataItem) => (
+          (showEach ? filteredBooks : filteredBooks.slice(0, 12)).map((dataItem) => (
             <div key={dataItem._id}
               className="max-w-xs rounded overflow-hidden shadow-lg bg-white p-2  border relative w-[220px] mb-6"
             >
@@ -245,6 +328,7 @@ const Book = () => {
                     src={dataItem.images[0].url}
                     alt={dataItem.title}
                     className="w-full h-auto object-contain"
+                    onClick={() => handleBoxClick(dataItem._id)}
                   />
                 ) : (
                   <p className="text-xs text-center">No image available</p>
@@ -295,9 +379,7 @@ const Book = () => {
         <Exam />
       </div>
 
-     
       <ThirdBanner />
-
 
     </>
   );
@@ -305,3 +387,41 @@ const Book = () => {
 
 export default Book;
 
+
+
+
+
+
+
+
+
+      {/* Display filtered books */}
+      {/* <div className="flex justify-between items-center">
+        <h1 className="ml-16 font-semibold text-3xl mb-10">Books for all competitive Exams!
+        </h1>
+
+        {filteredBooks.length > 4 && (
+          <button
+            onClick={handleViewEach}
+            className="mt-0 mr-20 p-2 font-bold text-xl rounded"
+          >
+            {showEach ? 'Show Less' : 'View All '}
+          </button>
+        )}
+      </div>
+
+   
+      <div className="ml-14 mb-10">
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="border-2 border-gray-300 p-3 rounded-lg w-full max-w-[590px] focus:outline-none focus:border-blue-500  "
+        >
+          <option value="">Select Category</option>
+          {Array.from(new Set(categoryData.map((book) => book.category))).map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div> */}

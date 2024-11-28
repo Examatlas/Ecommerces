@@ -4,8 +4,8 @@ import API_BASE_URL from "../Config";
 import axios from "axios";
 import toast from "react-hot-toast";
 import UpdateSubjectModal from "./UpdateSubjectModal";
-import Pagination from "../../Admin_Components/utils/Pagination";
-import useDebounce from "../../Admin_Components/utils/Debounce";
+import Pagination from "../utils/Pagination";
+import useDebounce from "../utils/Debounce";
 
 const Subject = () => {
   const [subjectName, setSubjectName] = useState("");
@@ -100,14 +100,14 @@ const Subject = () => {
         {/* Form with input for subject */}
         <form>
           <label className="block text-xl font-semibold mb-6">
-            Enter Subject Name
+            Enter Language Name
           </label>
           <div className="flex gap-4 justify-center items-center">
             <input
             type="text"
             value={subjectName}
             onChange={handleInputChange}
-            placeholder="Type subject name here"
+            placeholder="Type language name here"
             className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
           />
           <button
@@ -137,7 +137,7 @@ const Subject = () => {
               <thead className="text-xs text-gray-700 uppercase bg-blue-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Subject Name
+                    Language Name
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Action
