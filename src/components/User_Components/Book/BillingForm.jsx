@@ -132,23 +132,24 @@ const BillingForm = () => {
     const token = localStorage.getItem('user_token');
 
  const REACT_APP_RAZORPAY_API_KEY= "rzp_test_Py5aXtaPQ5j9nu"
+//  const REACT_APP_RAZORPAY_API_KEY= "rzp_live_B3tlB0LBuRXlgF"
 
     const options = {
       key : REACT_APP_RAZORPAY_API_KEY ,
       amount: order.amount,
       currency: "INR",
-      name: "Crown Publication",
+      name: "Crown Publications",
       description: "A Book Store",
       image: ex2,
       order_id: order.id,
       callback_url: `${API_BASE_URL}/payment/paymentverification`,
       prefill: {
-        name: "Crown Publication",
-        email: "crownclassesrnc@gmail.com",
+        name: "Crown Publications",
+        email: "amitaryacp@gmail.com",
         contact: "6205435760"
       },
       notes: {
-        "address": "Ranchi crown publication"
+        "address": "Ranchi crown publications"
       },
       theme: {
         "color": "#121212"

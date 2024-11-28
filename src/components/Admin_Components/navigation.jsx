@@ -34,8 +34,8 @@ const NAVIGATION = [
   icon: < DashboardIcon />,
   children: [
     {
-      segment: 'Subject',
-      title: 'Subject',
+      segment: 'Language',
+      title: 'Language',
       icon: <DescriptionIcon />,
     },
     {

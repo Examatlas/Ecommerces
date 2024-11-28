@@ -2,3 +2,110 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+div[data-html] h2 {
+    @apply text-2xl font-bold;
+}
+
+/* styles.css */
+
+/* Headings */
+div[data-html] h1 {
+    @apply text-4xl font-bold mb-4; /* Large heading */
+}
+
+div[data-html] h2 {
+    @apply text-3xl font-semibold mb-3; /* Medium heading */
+}
+
+div[data-html] h3 {
+    @apply text-2xl font-medium mb-2; /* Smaller heading */
+}
+
+div[data-html] h4 {
+    @apply text-xl font-medium mb-2; /* Subheading */
+}
+
+div[data-html] h5 {
+    @apply text-lg font-medium mb-1; /* Smaller subheading */
+}
+
+div[data-html] h6 {
+    @apply text-base font-medium ; /* Smallest subheading */
+}
+
+/* Paragraphs */
+div[data-html] p {
+    @apply text-lg ; /* Regular paragraph */
+}
+
+/* Lists */
+div[data-html] ul {
+    @apply list-disc pl-5 ; /* Unordered list */
+}
+
+div[data-html] ol {
+    @apply list-decimal pl-5 ; /* Ordered list */
+}
+
+div[data-html] li {
+    @apply mb-1; /* List item */
+}
+
+/* Links */
+div[data-html] a {
+    @apply text-blue-500 hover:text-blue-700; /* Link styles */
+}
+
+/* Blockquotes */
+div[data-html] blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic ; /* Blockquote styles */
+}
+
+/* Images */
+div[data-html] img {
+    @apply max-w-full h-auto; /* Responsive images */
+}
+
+/* Tables */
+div[data-html] table {
+    @apply w-full border-collapse ; /* Table styles */
+}
+
+div[data-html] th {
+    @apply bg-gray-200 text-left p-2; /* Table header styles */
+}
+
+div[data-html] td {
+    @apply border p-2; /* Table cell styles */
+}
+
+/* Buttons */
+div[data-html] button {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700; /* Button styles */
+}
+
+/* Code Blocks */
+div[data-html] pre {
+    @apply bg-gray-100 p-4 rounded overflow-x-auto; /* Code block styles */
+}
+
+div[data-html] code {
+    @apply bg-gray-200 p-1 rounded; /* Inline code styles */
+}
+
+/* Horizontal Rule */
+div[data-html] hr {
+    @apply border-t border-gray-300 my-4; /* Horizontal rule styles */
+}
+
+/* Form Elements */
+div[data-html] input, select, textarea {
+    @apply border border-gray-300 p-2 rounded mb-4; /* Form input styles */
+}
+
+div[data-html] label {
+    @apply block mb-1; /* Label styles */
+}

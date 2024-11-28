@@ -5,12 +5,17 @@ import toast from "react-hot-toast";
 // import API_BASE_URL from "../config";
 import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../User_Components/Config";
+import SignupForm from "./SignupForm";
 
-const LoginForm = ({ onClose ,onLoginSuccess}) => {
+const LoginForm = ({ onClose, onLoginSuccess }) => {
   const [formData, setFormData] = useState({
     mobile: "",
     password: "",
   });
+
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  
 
   const navigate = useNavigate()
 
@@ -21,56 +26,65 @@ const LoginForm = ({ onClose ,onLoginSuccess}) => {
     });
   };
 
+  const toggleSignup = () => {
+    setIsSignupOpen(!isSignupOpen);
+    setIsLoginOpen(false);
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const{mobile,password} = formData
+    const { mobile, password } = formData
     console.log("Login submitted:", formData);
 
-  try{
-    const response = await axios.post(
-      `${API_BASE_URL}/user/loginUser`,
-      {mobile,password}
-    );
-    
-console.log(response.data)
-    const token = response.data.token;
-    const userId = response.data.userId;
 
-    localStorage.setItem('user_token',token)
-    localStorage.setItem('user_userId',userId)
 
-    onLoginSuccess();
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/user/loginUser`,
+        { mobile, password }
+      );
 
-    toast.success(response.data.message);
-    window.location.reload();
+      console.log(response.data)
+      const token = response.data.token;
+      const userId = response.data.userId;
 
-    setFormData({
-      mobile:"",
-      password:""
-    });
+      localStorage.setItem('user_token', token)
+      localStorage.setItem('user_userId', userId)
 
-    onClose()
+      onLoginSuccess();
 
-  }catch(error){
-    console.log(error.message)
-    toast.error(error.response?.data?.message)
+      toast.success(response.data.message);
+      window.location.reload();
+
+      setFormData({
+        mobile: "",
+        password: ""
+      });
+
+      onClose()
+
+    } catch (error) {
+      console.log(error.message)
+      toast.error(error.response?.data?.message)
+    }
   }
-}
 
-const handleEmail = () =>{
-  navigate("/emailbox")
-  onClose()
-}
+  const handleEmail = () => {
+    navigate("/emailbox")
+    onClose()
+  }
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-md shadow-lg w-96 h-[380px]  relative">
+      <div className="bg-white p-6 rounded-md shadow-lg w-96 h-[400px]  relative">
         <IoMdClose
           className="absolute top-5 right-5 text-gray-700 cursor-pointer"
           size={24}
           onClick={onClose}
         />
-        <h2 className="text-2xl font-semibold mb-4">Login</h2><br/>
+        <h2 className="text-2xl font-semibold mb-4 ">Login</h2><br />
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">
@@ -99,19 +113,34 @@ const handleEmail = () =>{
               required
               placeholder="enter password"
             />
-          </div><br/>
+          </div><br />
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-400 font-semibold"
+            
           >
             Login
           </button>
-          <p className="font-semibold text-center mt-4 cursor-pointer" onClick={handleEmail}>Forgot Password</p>
+          <div className="flex flex-row whitespace-nowrap mt-5">
+          <p >Not Registered ? <span className="underline text-blue-500 cursor-pointer" onClick={toggleSignup}>Signup</span> </p>
+          <p className="font-semibold text-center ml-10 cursor-pointer " onClick={handleEmail}>Forgot Password</p>
+          </div>
+         
         </form>
       </div>
+
+      {isSignupOpen && (
+        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-30">
+          <SignupForm onClose={toggleSignup} />
+        </div>
+      )}
+
     </div>
+
+
   );
 };
 
 export default LoginForm;
+
 

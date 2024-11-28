@@ -86,10 +86,14 @@ const Header = () => {
                     } fixed lg:relative flex lg:flex-row justify-center lg:justify-between items-center left-0 w-[100vw] lg:w-fit mr-5 h-[90vh] lg:h-auto bg-customColor font-semibold duration-500`}>
                     <div className="flex flex-col lg:flex-row justify-center lg:justify-end items-center gap-5 h-full">
                         <Link to={"/user"} className={`${pathname === "/book" ? "text-white font-bold" : ""} text-lg text-white lg:text-sm cursor-pointer`} onClick={toggleHambergerMenu}>HOME</Link>
-                        <Link to={"/blog"} className={`${pathname === "/blog" ? "text-white font-bold" : ""} text-lg lg:text-sm text-white cursor-pointer`}>BLOG</Link>
-                        <Link to={"/OrderHistory"} className={`${pathname === "/OrderHistory" ? "text-white font-bold" : ""} text-lg text-white lg:text-sm cursor-pointer`}>MY ORDER</Link>
-                        <Link to={"/bulkorder"} className="text-white">BULK ORDER</Link>
-                        <Link to={"/author"} className="text-white">JOIN AS AUTHOR</Link>
+
+                        <Link to={"/blog"} className={`${pathname === "/blog" ? "text-white font-bold" : ""} text-lg lg:text-sm text-white cursor-pointer` } onClick={toggleHambergerMenu}  >BLOG</Link>
+
+
+                        <Link to={"/OrderHistory"} className={`${pathname === "/OrderHistory" ? "text-white font-bold" : ""} text-lg text-white lg:text-sm cursor-pointer`} onClick={toggleHambergerMenu} >MY ORDER</Link>
+
+                        <Link to={"/bulkorder"} className={`${pathname === "/bulkorder" ? "text-white font-bold" : ""} text-lg text-white lg:text-sm cursor-pointer`} onClick={toggleHambergerMenu}>BULK ORDER</Link>
+                        <Link to={"/author"} className={`${pathname === "/author" ? "text-white font-bold" : ""} text-lg text-white lg:text-sm cursor-pointer`} onClick={toggleHambergerMenu} >JOIN AS AUTHOR</Link>
 
                         {isLoggedIn ? (
                             <>
@@ -115,13 +119,13 @@ const Header = () => {
                         ) : (
                             <>
                                 <p
-                                    className="px-4 py-2 flex bg-blue-500 text-white rounded-lg w-fit hover:bg-blue-400 cursor-pointer"
+                                    className="px-4 py-2 flex bg-blue-500 text-white rounded-lg w-fit hover:bg-blue-700 cursor-pointer"
                                     onClick={toggleSignup}
                                 >
                                     Register
                                 </p>
                                 <p
-                                    className="px-6 py-2 flex border border-blue-400 hover:bg-blue-200 rounded-lg w-fit text-black cursor-pointer"
+                                    className="px-6 py-2 flex border border-white text-white rounded-lg w-fit  cursor-pointer"
                                     onClick={toggleLogin}
                                 >
                                     Login

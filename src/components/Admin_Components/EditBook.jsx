@@ -183,6 +183,7 @@ const EditBook = () => {
             formData.append('stock', values.stock);
             formData.append('page', values.page);
             formData.append('tags', values.tags);
+            formData.append('weight', values.weight);
 
             formData.append(
                 'dimension',
@@ -413,6 +414,7 @@ const EditBook = () => {
                                 </select>
                                 {formik.errors.subject && <p className='text-sm text-red-500 text-left'>{formik.errors.subject}</p>}
                             </div>
+
 
 
                             <div className="flex flex-col  justify-start mt-5">
