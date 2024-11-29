@@ -66,7 +66,7 @@ function BookDetails() {
       }
     } catch (error) {
       console.error("Error in toggleWishlist:", error.response ? error.response.data : error.message);
-      toast.error("Error adding/removing item to/from wishlist");
+      toast.error("Please login first!!");
     }
   };
 
@@ -82,7 +82,7 @@ function BookDetails() {
         navigate("/ecommerce/cart");
       }
     } catch (error) {
-      toast.error('Failed to add item to cart.');
+      toast.error('Please login first!!');
       console.error('API Error:', error);
     }
   };
