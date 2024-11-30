@@ -132,7 +132,7 @@ const BillingForm = () => {
     const token = localStorage.getItem('user_token');
 
 //  const REACT_APP_RAZORPAY_API_KEY= "rzp_test_Py5aXtaPQ5j9nu"
- const REACT_APP_RAZORPAY_API_KEY= "rzp_live_B3tlB0LBuRXlgF"
+ const REACT_APP_RAZORPAY_API_KEY= process.env.VITE_RAZORPAY_API_KEY || "rzp_live_B3tlB0LBuRXlgF"
 
     const options = {
       key : REACT_APP_RAZORPAY_API_KEY ,
