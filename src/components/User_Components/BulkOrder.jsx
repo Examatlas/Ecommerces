@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import API_BASE_URL from "./Config";
+import api from "../User_Components/Api";
 
 const BulkOrder = () => {
   const [formData, setFormData] = useState({
@@ -54,7 +55,7 @@ const BulkOrder = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/bulkorder/createBulkOrder`, formData);
+      const response = await api.post(`/bulkorder/createBulkOrder`, formData);
       toast.success(response.data.message);
       setFormData({
         storeName: "",

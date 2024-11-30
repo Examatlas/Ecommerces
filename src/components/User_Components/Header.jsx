@@ -14,7 +14,7 @@ const Header = () => {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [toggleMenu, setToggleMenu] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isProfileOpen, setIsProfileOpen] = useState(false); // State to handle profile modal
+    const [isProfileOpen, setIsProfileOpen] = useState(false); 
 
     const navigate = useNavigate();
 

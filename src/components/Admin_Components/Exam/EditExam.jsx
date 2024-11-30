@@ -6,6 +6,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import API_BASE_URL from '../Config';
 import DashboardLayoutBasic from '../DashboardLayoutBasic';
+import api from "../../Admin_Components/Api"
 
 const EditExam = () => {
     const [imagePreview, setImagePreview] = useState('');
@@ -20,7 +21,7 @@ const EditExam = () => {
     // Fetch Exam by ID
     const fetchExamById = async (id) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/exam/getexambyid/${id}`);
+            const response = await api.get(`/exam/getexambyid/${id}`);
             const exam = response.data.exam;
             setExamData(exam);
             formik.setFieldValue('examName', exam.examName);
@@ -64,7 +65,7 @@ const EditExam = () => {
             if (values.image) formData.append('images', values.image);
 
             try {
-                const response = await axios.put(`${API_BASE_URL}/exam/update/${id}`, formData, {
+                const response = await api.put(`/exam/update/${id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },

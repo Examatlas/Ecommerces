@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast"
 import API_BASE_URL from "./Config";
+import api from "../User_Components/Api";
 
 const Author = () => {
   const [formData, setFormData] = useState({
@@ -31,8 +32,8 @@ const Author = () => {
     setError(null);
 
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/author/createAuthor`,
+      const response = await api.post(
+        `/author/createAuthor`,
         formData
       );
       toast.success("Author created successfully")

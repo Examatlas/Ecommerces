@@ -53,44 +53,7 @@ const Exam = () => {
   };
 
   return (
-    // <div className="relative">
-    //   <div className="flex gap-6 p-4 ml-10">
-    //     {visibleCategories.map((category) => (
-    //       <div
-    //         key={category._id}
-    //         className="border rounded-lg shadow-md p-4 flex flex-col items-center w-[350px]"
-    //         onClick={() => handleCategoryClick(category.categoryName)}
-    //       >
-           
-    //         <h2 className="mt-4 text-xl font-semibold">{category.categoryName}</h2>
-    //       </div>
-    //     ))}
-    //   </div>
-
-    //   {/* Left Arrow */}
-    //   <button
-    //     onClick={handlePrev}
-    //     disabled={currentIndex === 0}
-    //     className={`absolute top-1/2 left-2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full ${
-    //       currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
-    //     }`}
-    //   >
-    //     ❮
-    //   </button>
-
-    //   {/* Right Arrow */}
-    //   <button
-    //     onClick={handleNext}
-    //     disabled={currentIndex >= Math.ceil(categories.length / 4) - 1}
-    //     className={`absolute top-1/2 right-2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full ${
-    //       currentIndex >= Math.ceil(categories.length / 4) - 1
-    //         ? 'opacity-50 cursor-not-allowed'
-    //         : ''
-    //     }`}
-    //   >
-    //     ❯
-    //   </button>
-    // </div>
+    
 
     <div className="relative">
   <div className="flex gap-6 p-4 ml-10 flex-wrap justify-center">

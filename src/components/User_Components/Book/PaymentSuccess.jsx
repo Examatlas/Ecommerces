@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useSearchParams } from "react-router-dom";
 import OrderHistory from './OrderHistory';
 import RecentOrder from './RecentOrder';
-// import OrderTrack from "./OrderTrack";
 
 const PaymentSuccess = () => {
     const searchQuery = useSearchParams()[0];
@@ -21,10 +20,7 @@ const PaymentSuccess = () => {
                     </Link>
                 </div>
                 
-                {/* Uncomment to show order tracking */}
-                {/* <p className='text-xl text-blue-900 font-semibold mb-5'>Track your order</p> */}
-                {/* <OrderTrack /> */}
-
+            
                 <RecentOrder/>
             </div>
         </>

@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../Config';
 import Pagination from '../utils/Pagination';
+import api from "../../Admin_Components/Api"
 
 const ExamList = ({ searchTerm }) => {
   const [exams, setExams] = useState([]);
@@ -17,7 +18,7 @@ const ExamList = ({ searchTerm }) => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/exam/all?page=${page}&per_page=10);`);
+        const response = await api.get(`/exam/all?page=${page}&per_page=10);`);
         setExams(response.data.exams || []);
         setTotalPages(response?.data?.pagination?.totalPages);
         setpage(response?.data?.pagination?.currentPage);
@@ -39,7 +40,7 @@ const ExamList = ({ searchTerm }) => {
 
   const deleteExam = async (id) => {
     try {
-      await axios.delete(`${API_BASE_URL}/exam/delete/${id}`);
+      await api.delete(`/exam/delete/${id}`);
       toast.success('Exam deleted successfully');
       setExams(exams.filter((exam) => exam._id !== id));
     } catch (error) {

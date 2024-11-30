@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import API_BASE_URL from '../Config';
 import { examFormValidation } from './ExamFormValidation'; 
+import api from "../../Admin_Components/Api"
 
 const AddExam = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -28,7 +29,7 @@ const AddExam = () => {
       }
 
       try {
-        const res = await axios.post(`${API_BASE_URL}/exam/createexam`, formData, {
+        const res = await api.post(`/exam/createexam`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

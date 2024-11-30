@@ -136,7 +136,6 @@ const AddBook = () => {
         },
     });
 
-
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
         formik.setFieldValue("image", files);
@@ -346,7 +345,6 @@ const AddBook = () => {
                                 </select>
                                 {formik.errors.subject && <p className='text-sm text-red-500 text-left'>{formik.errors.subject}</p>}
                             </div>
-
 
 
                             {/* {dimensions}*/}

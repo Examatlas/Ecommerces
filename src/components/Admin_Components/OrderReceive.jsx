@@ -3,6 +3,7 @@ import DashboardLayoutBasic from './DashboardLayoutBasic';
 // import api from '../../Api/ApiConfig';
 import axios from 'axios';
 import API_BASE_URL from '../Admin_Components/Config';
+import api from "../Admin_Components/Api"
 
 const OrderReceive = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ const OrderReceive = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/payment/orders`);
+        const response = await api.get(`/payment/orders`);
         if (response.data.success) {
           setOrders(response.data.orders);
         } else {
