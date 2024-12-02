@@ -1,34 +1,32 @@
-import React from 'react';
+import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import OrderHistory from './OrderHistory';
-import RecentOrder from './RecentOrder';
-// import OrderTrack from "./OrderTrack";
+import RecentOrder from "./RecentOrder";
 
 const PaymentSuccess = () => {
-    const searchQuery = useSearchParams()[0];
-    const referenceNum = searchQuery.get("reference");
+  const searchQuery = useSearchParams()[0];
+  const referenceNum = searchQuery.get("reference");
 
-    return (
-        <>
-            <div style={{ height: '100vh', display: 'flex', marginTop: "150px", alignItems: 'center', flexDirection: 'column' , marginBottom:"70px" }}>
-                <div style={{ display: 'flex', width: '100%', maxWidth: '600px' }}>
-                    <div className='ml-[130px]'>
-                        <h1 style={{ textTransform: 'uppercase', color: 'royalblue', fontWeight: "bold", fontSize: "20px",textAlign:"center" }}>Order Successful</h1>
-                        <p className='mb-[10px] whitespace-nowrap'>Reference No. {referenceNum}</p>
-                    </div>
-                    <Link to={"/OrderHistory"}>
-                        <button className= 'relative ml-[420px] whitespace-nowrap p-2 rounded-md border border-blue-500 bg-blue-500 text-white font-semibold text-xl'>Order History</button>
-                    </Link>
-                </div>
-                
-                {/* Uncomment to show order tracking */}
-                {/* <p className='text-xl text-blue-900 font-semibold mb-5'>Track your order</p> */}
-                {/* <OrderTrack /> */}
+  return (
+    <div className="flex flex-col items-center mt-150 mb-6 px-4">
+      <div className="w-full max-w-lg text-center space-y-4 mb-6">
+        <br /> <br /> <br /> <br /> <br />
+        <h1 className="text-xl font-bold text-royalblue uppercase mt-100">Order Successful</h1>
+        <p className="text-gray-700">
+          Reference No.: <span className="font-semibold">{referenceNum}</span>
+        </p>
+        <Link to="/OrderHistory">
+          <button className="ml-100 px-4 py-2 bg-blue-500 text-white rounded-md text-sm font-semibold hover:bg-blue-600 transition">
+            View Order History
+          </button>
+        </Link>
+      </div>
 
-                <RecentOrder/>
-            </div>
-        </>
-    );
-}
+      {/* Recent Order Component */}
+      <div className="w-full">
+        <RecentOrder />
+      </div>
+    </div>
+  );
+};
 
 export default PaymentSuccess;
