@@ -290,10 +290,6 @@
 
 // export default UserList;
 
-
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_BASE_URL from "../../User_Components/Config";
@@ -314,8 +310,8 @@ const UserList = ({ calculateTotal, checkoutHandler }) => {
   const fetchAddresses = async (addressType) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/billing/billing/user/${userId}`,
+      const response = await api.get(
+        `/billing/billing/user/${userId}`,
         { params: { addressType } }
       );
       if (addressType === "shipping") {

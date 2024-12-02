@@ -338,9 +338,6 @@
 
 // export default BillingForm;
 
-
-
-
 import React, { useState, useEffect , useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
