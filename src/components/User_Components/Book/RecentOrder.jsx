@@ -65,7 +65,7 @@ const RecentOrder = () => {
           throw new Error("User ID not found in local storage.");
         }
 
-        const response = await api.get(`/payment/getOneOrderByUserId/${userId}`);
+        const response = await axios.get(`${API_BASE_URL}/payment/getOneOrderByUserId/${userId}`);
         if (response.data.success) {
           setOrders([response.data.order]);
         } else {

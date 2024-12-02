@@ -394,7 +394,7 @@ function BookDetails() {
     </div>
 
     {/* Center Column - Book Details */}
-    <div className="w-full sm:w-1/2 p-6 flex flex-col justify-between space-y-4">
+    <div className="w-full sm:w-1/2 p-6 flex flex-col justify-between space-y-1">
       <h1 className="text-2xl sm:text-3xl font-bold mb-2">{book.title}</h1>
       <p className="text-gray-600 text-sm sm:text-base">{book.keyword}</p>
       <p className="text-gray-500 text-sm sm:text-base">
@@ -411,6 +411,12 @@ function BookDetails() {
       </p>
       <p className="text-gray-500 text-sm sm:text-base">
         <strong>ISBN:</strong> {book.isbn}
+      </p>
+      <p className="text-gray-500 text-sm sm:text-base">
+        <strong>Edition:</strong> {book.edition}
+      </p>
+      <p className="text-gray-500 text-sm sm:text-base">
+        <strong>Year of Publication:</strong> {book.publication}
       </p>
       <p className="text-gray-500 text-sm sm:text-base">
         <strong>Stock:</strong> {book.stock}
