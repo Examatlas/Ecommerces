@@ -85,6 +85,8 @@ const AddBook = () => {
             sellPrice: '',
             stock:'',
             page:'',
+            edition:'',
+            publication:'',
             tags: [],
             dimension: { length: '', breadth: '', height: '' },
             weight: '',
@@ -105,6 +107,8 @@ const AddBook = () => {
                 formData.append('sellPrice', values.sellPrice);
                 formData.append('stock', values.stock);
                 formData.append('page', values.page);
+                formData.append('edition', values.edition);
+                formData.append('publication', values.publication);
 
                 formData.append(
                     'dimension',
@@ -272,6 +276,40 @@ const AddBook = () => {
 
                                 {formik?.errors?.author && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.author}</p>}
                             </div>
+
+
+                            {/* edition */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="edition" className='text-start text-xl'>Edition</label>
+                                <input
+                                    type="text"
+                                    placeholder='edition'
+                                    name='edition'
+                                    id="edition"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.edition}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.edition && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.edition}</p>}
+                            </div>
+
+
+                            {/* publication */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="publication" className='text-start text-xl'>Publication</label>
+                                <input
+                                    type="text"
+                                    placeholder='publication'
+                                    name='publication'
+                                    id="publication"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.publication}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.publication && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.publication}</p>}
+                            </div>
+
 
                             {/* stock */}
                             <div className='flex my-4 flex-col justify-start '>

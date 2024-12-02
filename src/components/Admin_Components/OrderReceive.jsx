@@ -18,7 +18,7 @@ const OrderReceive = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await api.get(`/payment/orders`);
+        const response = await axios.get(`${API_BASE_URL}/payment/orders`);
         if (response.data.success) {
           setOrders(response.data.orders);
         } else {
