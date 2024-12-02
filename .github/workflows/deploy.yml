@@ -3,7 +3,7 @@ name: Deploy React Vite App Ecommerces
 on:
   push:
     branches:
-      - main # Trigger deployment when code is pushed to the 'main' branch
+      - development # Trigger deployment when code is pushed to the 'development' branch
 env:
     CI: true
 
