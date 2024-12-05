@@ -5,7 +5,8 @@ const token = localStorage.getItem("Admin_token");
 console.log(token,"token")
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_BASE_URL || 'http://localhost:5000/api', // Replace with your actual base URL
+  // baseURL: import.meta.env.VITE_BACKEND_BASE_URL || 'http://localhost:5000/api', // Replace with your actual base URL
+  baseURL: 'https://ecommerce-backend.crownpublications.in/api', // Replace with your actual base URL
   headers: {
     "Content-Type": "application/json",
     Authorization: token ? `Bearer ${token}` : "", // Attach token if available
