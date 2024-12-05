@@ -16,6 +16,8 @@ const BookList = ({ searchTerm }) => {
   const fetchAllBooks = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/book/getAllBooks`);
+      console.log(response?.data?.data);
+      
       setBookData(response?.data?.data || []); // Ensure bookData is set as an array
     } catch (error) {
       console.log("Error when fetching books", error);
@@ -27,8 +29,8 @@ const BookList = ({ searchTerm }) => {
   }, []);
 
   // Filter books based on search term
-  const filteredBooks = bookData.filter(book => 
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBooks = bookData?.filter(book => 
+    book.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handlePageChange = (pageNumber) => {

@@ -29,8 +29,8 @@ const Book = () => {
   const fetchAllBooks = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/book/getAllBooks`);
-      setCategoryData(response?.data?.books || []);
-      // setCategoryData(response?.data.data || []);
+      // setCategoryData(response?.data?.books || []);
+      setCategoryData(response?.data.data || []);
 
       const storedWishlist = JSON.parse(localStorage.getItem('user_wishlist')) || [];
       setWishlist(storedWishlist);
