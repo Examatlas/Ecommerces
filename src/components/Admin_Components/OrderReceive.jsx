@@ -47,6 +47,8 @@ const OrderReceive = () => {
   };
 
   const showShipRocketOrder = (order) => {
+    console.log(order);
+    
     setSelectedOrderProgress(order);
     setModalShiprocketOrderVisible(true);
   };

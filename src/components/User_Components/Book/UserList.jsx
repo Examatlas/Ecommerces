@@ -295,7 +295,7 @@ import axios from "axios";
 import API_BASE_URL from "../../User_Components/Config";
 import api from "../../User_Components/Api";
 
-const UserList = ({ calculateTotal, checkoutHandler }) => {
+const UserList = ({ calculateTotal, checkoutHandler,confirmOrder }) => {
   const [shippingAddresses, setShippingAddresses] = useState([]);
   const [billingAddresses, setBillingAddresses] = useState([]);
   const [selectedShippingId, setSelectedShippingId] = useState(null);
@@ -447,6 +447,7 @@ const UserList = ({ calculateTotal, checkoutHandler }) => {
         >
           Proceed to Payment
         </button>
+       
       </div>
     </div>
   );

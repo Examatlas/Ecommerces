@@ -101,7 +101,7 @@
 //     }
 //   };
 
- 
+
 //   const calculateSubtotal = () => {
 //     return cartItems.reduce((total, { bookId, quantity }) => {
 //       return total + (bookId?.sellPrice || 0) * quantity;
@@ -316,7 +316,7 @@
 //           <span>₹{subtotal}</span>
 //         </div>
 //         <hr className="my-4" />
-      
+
 //         <div className="flex justify-between font-semibold">
 //           <span>Shipping</span>
 //          <span>{shipping === 0 ? 'Free' : `₹${shipping}`}</span>
@@ -338,7 +338,7 @@
 
 // export default BillingForm;
 
-import React, { useState, useEffect , useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import UserList from "./UserList";
@@ -403,7 +403,7 @@ const BillingForm = () => {
       try {
         // Sending the POST request to create billing detail
         const response = await api.post(
-        `/billing/createBillingDetail`,
+          `/billing/createBillingDetail`,
           { ...formData, userId } // Sending form data along with userId
         );
 
@@ -462,24 +462,25 @@ const BillingForm = () => {
   const shipping = shippingCharges(); // Get shipping charge
 
   const { user } = useContext(AuthContext);
- 
+
+
   // payment gateway
   const checkoutHandler = async (finalAmount, selectedShippingId, isSameAddress, selectedBillingId) => {
     console.log(billingDetailId)
     const isShippingBillingSame = true;
-    const shippingDetailId = isShippingBillingSame? billingDetailId : null;
+    const shippingDetailId = isShippingBillingSame ? billingDetailId : null;
 
     const { data: { order, prefill, notes } } = await axios.post(`${API_BASE_URL}/payment/checkout`,
-       { totalAmount:subtotal ,shippingCharges:shipping, taxAmount, discounts, finalAmount, paymentMethod, cartItems , userId , shippingDetailId:selectedShippingId, isShippingBillingSame:isSameAddress, billingDetailId:selectedBillingId}); 
+      { totalAmount: subtotal, shippingCharges: shipping, taxAmount, discounts, finalAmount, paymentMethod, cartItems, userId, shippingDetailId: selectedShippingId, isShippingBillingSame: isSameAddress, billingDetailId: selectedBillingId });
 
     const token = localStorage.getItem('user_token');
-console.log("after successful checkout: ", JSON.stringify(order));
-//  const REACT_APP_RAZORPAY_API_KEY= "rzp_test_Py5aXtaPQ5j9nu"
- const REACT_APP_RAZORPAY_API_KEY= import.meta.env.VITE_RAZORPAY_API_KEY
- // || "rzp_live_B3tlB0LBuRXlgF"
+    console.log("after successful checkout: ", JSON.stringify(order));
+    //  const REACT_APP_RAZORPAY_API_KEY= "rzp_test_Py5aXtaPQ5j9nu"
+    const REACT_APP_RAZORPAY_API_KEY = import.meta.env.VITE_RAZORPAY_API_KEY
+    // || "rzp_live_B3tlB0LBuRXlgF"
 
     const options = {
-      key : REACT_APP_RAZORPAY_API_KEY ,
+      key: REACT_APP_RAZORPAY_API_KEY,
       amount: order.finalAmount,
       currency: "INR",
       name: "Crown Publications",
@@ -506,8 +507,8 @@ console.log("after successful checkout: ", JSON.stringify(order));
       <div className="md:w-2/3 bg-gray-50 p-6 rounded-lg shadow-md mr-8">
         <h1 className="text-3xl font-semibold mb-6">Shipping Details</h1>
         <form onSubmit={handleSubmit}>
-                    {/* Address Type Dropdown */}
-                    <div className="mb-4">
+          {/* Address Type Dropdown */}
+          <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Address Type *</label>
             <select
               name="addressType"
@@ -664,41 +665,45 @@ console.log("after successful checkout: ", JSON.stringify(order));
         {/* Total */}
         <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
 
-{/* Subtotal */}
-<div className="flex justify-between mb-3">
-  <span className="text-gray-600">Subtotal</span>
-  <span className="font-semibold">₹{subtotal}</span>
-</div>
+        {/* Subtotal */}
+        <div className="flex justify-between mb-3">
+          <span className="text-gray-600">Subtotal</span>
+          <span className="font-semibold">₹{subtotal}</span>
+        </div>
 
-{/* Discount */}
-<div className="flex justify-between mb-3">
-  <span className="text-gray-600">Discount</span>
-  <span className="text-green-600">-₹{discounts}</span>
-</div>
+        {/* Discount */}
+        <div className="flex justify-between mb-3">
+          <span className="text-gray-600">Discount</span>
+          <span className="text-green-600">-₹{discounts}</span>
+        </div>
 
-{/* Tax */}
-<div className="flex justify-between mb-3">
-  <span className="text-gray-600">Tax (GST)</span>
-  <span>₹{taxAmount}</span>
-</div>
+        {/* Tax */}
+        <div className="flex justify-between mb-3">
+          <span className="text-gray-600">Tax (GST)</span>
+          <span>₹{taxAmount}</span>
+        </div>
 
-{/* Shipping Charges */}
-<div className="flex justify-between mb-3">
-  <span className="text-gray-600">Shipping Charges</span>
-  <span>{shippingCharges === 0 ? 'Free' : `₹${shippingCharges()}`}</span>
-</div>
-<p className="text-sm text-gray-500">(shipping free above ₹399)</p>
+        {/* Shipping Charges */}
+        <div className="flex justify-between mb-3">
+          <span className="text-gray-600">Shipping Charges</span>
+          <span>{shippingCharges === 0 ? 'Free' : `₹${shippingCharges()}`}</span>
+        </div>
+        <p className="text-sm text-gray-500">(shipping free above ₹399)</p>
 
-{/* Divider */}
-<hr className="my-4 border-gray-300" />
+        {/* Divider */}
+        <hr className="my-4 border-gray-300" />
 
-{/* Final Amount */}
-<div className="flex justify-between text-xl font-bold">
-  <span>Total Payable</span>
-  <span>₹{calculateTotal()}</span>
-</div>
+        {/* Final Amount */}
+        <div className="flex justify-between text-xl font-bold">
+          <span>Total Payable</span>
+          <span>₹{calculateTotal()}</span>
+        </div>
 
-        <UserList calculateTotal={calculateTotal} checkoutHandler={checkoutHandler} setBillingDetailId={setBillingDetailId}/>
+        <UserList
+          calculateTotal={calculateTotal}
+          checkoutHandler={checkoutHandler}
+          setBillingDetailId={setBillingDetailId}
+        />
 
       </div>
     </div>
