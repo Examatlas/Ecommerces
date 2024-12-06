@@ -68,6 +68,7 @@ function Layout({ children }) {
 }
 
 function App() {
+  console.log('testing')
   return (
     <AuthProvider>
       <Router>
